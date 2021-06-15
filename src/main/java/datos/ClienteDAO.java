@@ -22,7 +22,7 @@ public class ClienteDAO {
     //Regresa lista de objetos tipo cliente 
     //Crearemos objetos de tipo cliente
     public List<Cliente> seleccionar() {
-        private static final String SQL_SELECT = "SELECT idCliente, nombreCliente FROM cliente";
+        String SQL_SELECT = "SELECT idCliente, nombreCliente FROM cliente";
         Connection conn = null;
         PreparedStatement stmt = null; //Variable para trabajar con Querys
         ResultSet rs = null;
