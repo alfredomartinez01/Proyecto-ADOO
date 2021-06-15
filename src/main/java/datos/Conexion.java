@@ -17,7 +17,7 @@ public class Conexion {
   //JDBC_USER - Usuario de nuestro MySQL
    private static final String JDBC_USER = "root";
    //JDBC_PASSWORD - Contraseña de nuestro MySQL
-   private static final String JDBC_PASSWORD = "root123";
+   private static final String JDBC_PASSWORD = "root";
    
    //Conexion hacia la base de datos
     public static Connection getConnection() throws SQLException{
