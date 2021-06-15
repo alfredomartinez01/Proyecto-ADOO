@@ -17,11 +17,12 @@ import java.util.*;
  */
 public class ClienteDAO {
 
-    private static final String SQL_SELECT = "SELECT idCliente, nombreCliente FROM cliente";
+    
 
     //Regresa lista de objetos tipo cliente 
     //Crearemos objetos de tipo cliente
     public List<Cliente> seleccionar() {
+        private static final String SQL_SELECT = "SELECT idCliente, nombreCliente FROM cliente";
         Connection conn = null;
         PreparedStatement stmt = null; //Variable para trabajar con Querys
         ResultSet rs = null;
