@@ -1,4 +1,4 @@
-package Comun;
+package domain;
 
 public class Usuario {
     

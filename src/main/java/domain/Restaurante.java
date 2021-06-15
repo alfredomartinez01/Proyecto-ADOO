@@ -1,6 +1,4 @@
-package Restaurante;
-
-import Comun.Usuario;
+package domain;
 
 
 public class Restaurante extends Usuario{

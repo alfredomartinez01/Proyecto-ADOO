@@ -1,5 +1,6 @@
 package Restaurante;
 
+import domain.Restaurante;
 import java.awt.Color;
 import static java.awt.Frame.MAXIMIZED_BOTH;
 import javax.swing.table.DefaultTableModel;
