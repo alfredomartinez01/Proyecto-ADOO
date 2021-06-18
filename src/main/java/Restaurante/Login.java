@@ -1,6 +1,9 @@
 package Restaurante;
 
+import datos.RestauranteDAO;
+import domain.Restaurante;
 import java.awt.Color;
+import java.sql.SQLException;
 
 public class Login extends javax.swing.JFrame {
     public static int ancho_pantalla = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -15,15 +18,36 @@ public class Login extends javax.swing.JFrame {
         getContentPane().setBackground(Color.WHITE);
         this.setTitle("Iniciar sesión");
     }
-    private boolean checarContrasena(String user, String password) {
-       return true;
+    private int comprobarCredenciales(String user, String password) {
+        // Obtetiendo los datos del usuario
+        Restaurante restaurante = new Restaurante();
+        restaurante.setCorreo(user);
+        RestauranteDAO rest_management = new RestauranteDAO();
+                
+        try {
+            rest_management.select(restaurante);
+            if(restaurante.getCorreo().equals(user)){
+                if(restaurante.getContrasena().equals(password)){
+                    return 0; // Usuario y contraseñas correcetas
+                } else{
+                    return -1; // Contraseña incorrecta 
+                }
+            }
+            else{
+                return -2; // Usuario incorrecto
+            }
+        } catch (SQLException ex){
+            ex.printStackTrace(System.out);
+            return -3;
+        }
+        
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         Error = new javax.swing.JDialog();
-        jLabel3 = new javax.swing.JLabel();
+        message = new javax.swing.JLabel();
         lbl_bienvenido = new javax.swing.JLabel();
         text_user = new javax.swing.JTextField();
         lbl_usuario = new javax.swing.JLabel();
@@ -37,30 +61,31 @@ public class Login extends javax.swing.JFrame {
         Error.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         Error.setResizable(false);
 
-        jLabel3.setFont(new java.awt.Font("Microsoft New Tai Lue", 0, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel3.setText("Usuario o contraseña incorrecta, verifique.");
+        message.setFont(new java.awt.Font("Microsoft New Tai Lue", 0, 14)); // NOI18N
+        message.setForeground(new java.awt.Color(255, 0, 0));
+        message.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        message.setText("1");
+        message.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout ErrorLayout = new javax.swing.GroupLayout(Error.getContentPane());
         Error.getContentPane().setLayout(ErrorLayout);
         ErrorLayout.setHorizontalGroup(
             ErrorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ErrorLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel3)
-                .addGap(19, 19, 19))
+                .addContainerGap(15, Short.MAX_VALUE)
+                .addComponent(message, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24))
         );
         ErrorLayout.setVerticalGroup(
             ErrorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ErrorLayout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(jLabel3)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addGap(22, 22, 22)
+                .addComponent(message)
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
-        setPreferredSize(new java.awt.Dimension(1371, 768));
         setResizable(false);
 
         lbl_bienvenido.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 24)); // NOI18N
@@ -168,17 +193,36 @@ public class Login extends javax.swing.JFrame {
         
         char[] pass = text_pass.getPassword();
         String password = String.valueOf(pass);
-        
-        if (checarContrasena(user, password)){ // Contraseña correcta
-            MenuAdministrador menuAdmin= new MenuAdministrador(user);
-            menuAdmin.setVisible(true);
-            this.setVisible(false);
-            this.dispose();
-        }
-        else{ // En caso de que sea incorrecta
-            Error.setVisible(true);
-            Error.setSize(310, 90);
-            Error.setLocation(ancho_pantalla/2 - 160, alto_pantalla/2 - 45);
+        int resComprobacion = comprobarCredenciales(user, password);
+        switch (resComprobacion) {
+            case 0:
+                // Contraseña correcta
+                MenuAdministrador menuAdmin= new MenuAdministrador(user);
+                menuAdmin.setVisible(true);
+                this.setVisible(false);
+                this.dispose();
+                break;
+            case -1:
+                // En caso de que sea incorrecta
+                Error.setVisible(true);
+                Error.setSize(310, 90);
+                Error.setLocation(ancho_pantalla/2 - 160, alto_pantalla/2 - 45);
+                message.setText("Contraseña incorrecta");
+                break;
+            case -2:
+                // En caso de que no encuentre el usuario
+                Error.setVisible(true);
+                Error.setSize(310, 90);
+                Error.setLocation(ancho_pantalla/2 - 160, alto_pantalla/2 - 45);
+                message.setText("Usuario no encontrado");
+                break;
+            default:
+                // Error en sql
+                Error.setVisible(true);
+                Error.setSize(310, 90);
+                Error.setLocation(ancho_pantalla/2 - 160, alto_pantalla/2 - 45);
+                message.setText("Oh no, algo ha salido mal ):");
+                break;
         }
     }//GEN-LAST:event_AceptarActionPerformed
 
@@ -202,10 +246,10 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton Aceptar;
     private javax.swing.JDialog Error;
     private javax.swing.JButton Registrarse;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel lbl_bienvenido;
     private javax.swing.JLabel lbl_contrasena;
     private javax.swing.JLabel lbl_usuario;
+    private javax.swing.JLabel message;
     private javax.swing.JPasswordField text_pass;
     private javax.swing.JTextField text_user;
     // End of variables declaration//GEN-END:variables

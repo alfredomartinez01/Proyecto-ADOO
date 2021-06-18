@@ -1,20 +1,37 @@
 package Restaurante;
 
+import static Restaurante.DatosRegistro.diasSemana;
+import static Restaurante.Login.alto_pantalla;
+import static Restaurante.Login.ancho_pantalla;
+import datos.Conexion;
+import datos.MenuDAO;
+import datos.RestauranteDAO;
 import domain.Restaurante;
 import java.awt.Color;
 import static java.awt.Frame.MAXIMIZED_BOTH;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.text.BadLocationException;
 
 public class MenuAdministrador extends javax.swing.JFrame {
+
     private Restaurante restaurante = new Restaurante();
-    
+
     public MenuAdministrador(String user) {
         initComponents();
-        ajustarApariencia();      
-        lbl_bienvenido.setText("Bienvenido " + user + ", administrando " + restaurante.getNombre()+ ".");
+        ajustarApariencia();
+        consultarRestaurante(user);
         asignarDatos();
+        System.out.println(restaurante.getNombre());
+        lbl_bienvenido.setText("Bienvenido " + restaurante.getCorreo() + ", administrando " + restaurante.getNombre() + ".");
     }
-    public void ajustarApariencia(){
-        getContentPane().setBackground(Color.WHITE);        
+
+    public void ajustarApariencia() {
+        getContentPane().setBackground(Color.WHITE);
         this.setTitle("Administración");
         this.setExtendedState(MAXIMIZED_BOTH);
         getContentPane().setBackground(Color.WHITE);
@@ -24,25 +41,68 @@ public class MenuAdministrador extends javax.swing.JFrame {
         chck_jueves.setBackground(Color.WHITE);
         chck_viernes.setBackground(Color.WHITE);
         chck_sabado.setBackground(Color.WHITE);
-        chck_domingo.setBackground(Color.WHITE); 
+        chck_domingo.setBackground(Color.WHITE);
         chck_editable.setBackground(Color.WHITE);
-        
+
         Actualizar.setSelected(false);
     }
-    
-    public void asignarDatos(){
-        txt_nombre.setText(""+restaurante.getNombre());
-        txt_telefono.setText(""+restaurante.getTelefono());
-        txt_correo.setText(""+restaurante.getCorreo());
-        txt_direccion.setText(""+restaurante.getDireccion());
-        /* Seccion de asignación de horario*/
-        
-        
+
+    public void asignarDatos() {
+        txt_nombre.setText("" + restaurante.getNombre());
+        txt_telefono.setText("" + restaurante.getTelefono());
+        txt_correo.setText("" + restaurante.getCorreo());
+        txt_local.setText("" + restaurante.getLocal());
+
+        boolean[] diasRest = restaurante.getDias(); // dias que sí abre en booleano
+        String[][] horariosRest = restaurante.getHorarios(); // horarios de apertura y cierre
+        if (diasRest[0]) { // Si abren los lunes 
+            txt_Hlunes.setText(horariosRest[0][0].substring(0, 5) + horariosRest[0][1].substring(0, 5));
+            chck_lunes.setSelected(true);
+        } else{
+            txt_Hlunes.setText("");
+        }
+        if (diasRest[1]) { // Si abren los martes
+            txt_Hmartes.setText(horariosRest[1][0].substring(0, 5) + horariosRest[1][1].substring(0, 5));
+            chck_martes.setSelected(true);
+        } else {
+            txt_Hmartes.setText("");
+        }
+        if (diasRest[2]) { // Si abren los miércoles
+            txt_Hmiercoles.setText(horariosRest[2][0].substring(0, 5) + horariosRest[2][1].substring(0, 5));
+            chck_miercoles.setSelected(true);
+        } else {
+            txt_Hmiercoles.setText("");
+        }
+        if (diasRest[3]) { // Si abren los jueves
+            txt_Hjueves.setText(horariosRest[3][0].substring(0, 5) + horariosRest[3][1].substring(0, 5));
+            chck_jueves.setSelected(true);
+        } else {
+            txt_Hjueves.setText("");
+        }
+        if (diasRest[4]) { // Si abren los viernes
+            txt_Hviernes.setText(horariosRest[4][0].substring(0, 5) + horariosRest[4][1].substring(0, 5));
+            chck_viernes.setSelected(true);
+        } else {
+            txt_Hviernes.setText("");
+        }
+        if (diasRest[5]) { // Si abren los sabado
+            txt_Hsabado.setText(horariosRest[5][0].substring(0, 5) + horariosRest[5][1].substring(0, 5));
+            chck_sabado.setSelected(true);
+        } else {
+            txt_Hsabado.setText("");
+        }
+        if (diasRest[6]) { // Si abren los domingo
+            txt_Hdomingo.setText(horariosRest[6][0].substring(0, 5) + horariosRest[6][1].substring(0, 5));
+            chck_domingo.setSelected(true);
+        } else {
+            txt_Hdomingo.setText("");
+        }
+
         txt_nombre.setEditable(false);
         txt_telefono.setEditable(false);
         txt_correo.setEditable(false);
-        txt_direccion.setEditable(false);
-        
+        txt_local.setEditable(false);
+
         chck_lunes.setEnabled(false);
         chck_martes.setEnabled(false);
         chck_miercoles.setEnabled(false);
@@ -57,18 +117,36 @@ public class MenuAdministrador extends javax.swing.JFrame {
         txt_Hviernes.setEditable(false);
         txt_Hsabado.setEditable(false);
         txt_Hdomingo.setEditable(false);
-        
+
         Actualizar.setEnabled(false);
-        
+
     }
-    
-    public void consultarRestaurante(String user){
+
+    public void consultarRestaurante(String user) {
         /* Se manda llamar el método para obtener los datos de la base de datos sobre el restaurante*/
+        restaurante = new Restaurante();
+        restaurante.setCorreo(user);
+        RestauranteDAO rest_management = new RestauranteDAO();
+
+        try {
+            rest_management.select(restaurante);
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        }
+        /* Ahora obtenemos los horarios */
+        try {
+            rest_management.select_horario(restaurante);
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        }
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        Error = new javax.swing.JDialog();
+        message = new javax.swing.JLabel();
         lbl_bienvenido = new javax.swing.JLabel();
         chck_domingo = new javax.swing.JCheckBox();
         txt_Hdomingo = new javax.swing.JFormattedTextField();
@@ -76,7 +154,6 @@ public class MenuAdministrador extends javax.swing.JFrame {
         lbl_correo = new javax.swing.JLabel();
         txt_correo = new javax.swing.JTextField();
         lbl_correo1 = new javax.swing.JLabel();
-        txt_direccion = new javax.swing.JTextField();
         lbl_correo2 = new javax.swing.JLabel();
         chck_lunes = new javax.swing.JCheckBox();
         txt_Hlunes = new javax.swing.JFormattedTextField();
@@ -109,6 +186,38 @@ public class MenuAdministrador extends javax.swing.JFrame {
         lbl_instrucciones2 = new javax.swing.JLabel();
         ActualizarContrasena = new javax.swing.JButton();
         ActualizarContrasena1 = new javax.swing.JButton();
+        txt_local = new javax.swing.JFormattedTextField();
+
+        Error.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        Error.setAlwaysOnTop(true);
+        Error.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        Error.setResizable(false);
+        Error.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                ErrorWindowClosing(evt);
+            }
+        });
+
+        message.setFont(new java.awt.Font("Microsoft New Tai Lue", 0, 14)); // NOI18N
+        message.setForeground(new java.awt.Color(255, 0, 0));
+        message.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        javax.swing.GroupLayout ErrorLayout = new javax.swing.GroupLayout(Error.getContentPane());
+        Error.getContentPane().setLayout(ErrorLayout);
+        ErrorLayout.setHorizontalGroup(
+            ErrorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ErrorLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(message, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        ErrorLayout.setVerticalGroup(
+            ErrorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ErrorLayout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(message, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(29, Short.MAX_VALUE))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -146,17 +255,15 @@ public class MenuAdministrador extends javax.swing.JFrame {
         lbl_correo1.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         lbl_correo1.setText("Dirección");
 
-        txt_direccion.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        txt_direccion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_direccionActionPerformed(evt);
-            }
-        });
-
         lbl_correo2.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         lbl_correo2.setText("Horario");
 
         chck_lunes.setText("Lunes");
+        chck_lunes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chck_lunesActionPerformed(evt);
+            }
+        });
 
         try {
             txt_Hlunes.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##:## - ##:##")));
@@ -324,14 +431,24 @@ public class MenuAdministrador extends javax.swing.JFrame {
             }
         });
 
+        txt_local.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#"))));
+        txt_local.setToolTipText("");
+        txt_local.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        txt_local.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        txt_local.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_localActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(40, 40, 40)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbl_bienvenido, javax.swing.GroupLayout.PREFERRED_SIZE, 767, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(lbl_bienvenido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -377,7 +494,6 @@ public class MenuAdministrador extends javax.swing.JFrame {
                                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                     .addComponent(chck_editable))
                                                 .addComponent(txt_nombre, javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(txt_direccion, javax.swing.GroupLayout.Alignment.LEADING)
                                                 .addGroup(layout.createSequentialGroup()
                                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -389,7 +505,10 @@ public class MenuAdministrador extends javax.swing.JFrame {
                                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                         .addComponent(lbl_correo)
                                                         .addComponent(txt_correo, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                                .addComponent(lbl_correo1, javax.swing.GroupLayout.Alignment.LEADING)))
+                                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                    .addGap(10, 10, 10)
+                                                    .addComponent(lbl_correo1)))
+                                            .addComponent(txt_local, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(18, 18, 18)))
                                 .addComponent(lbl_instrucciones1)
                                 .addGroup(layout.createSequentialGroup()
@@ -450,8 +569,8 @@ public class MenuAdministrador extends javax.swing.JFrame {
                             .addComponent(lbl_contrasena1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txt_direccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_passAnterior, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txt_passAnterior, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_local, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addGroup(layout.createSequentialGroup()
@@ -497,13 +616,13 @@ public class MenuAdministrador extends javax.swing.JFrame {
                                         .addComponent(txt_Hdomingo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
                 .addGap(18, 18, 18)
                 .addComponent(Actualizar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
                 .addComponent(lbl_instrucciones1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(HistorialPedidos)
                     .addComponent(ActualizarMenu))
-                .addContainerGap(88, Short.MAX_VALUE))
+                .addContainerGap(89, Short.MAX_VALUE))
         );
 
         pack();
@@ -519,10 +638,6 @@ public class MenuAdministrador extends javax.swing.JFrame {
     private void txt_correoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_correoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_correoActionPerformed
-
-    private void txt_direccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_direccionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_direccionActionPerformed
 
     private void txt_HlunesPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txt_HlunesPropertyChange
 
@@ -541,7 +656,252 @@ public class MenuAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_passConfirmActionPerformed
 
     private void ActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarActionPerformed
-       
+        // Obtenemos los datos del formulario
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm"); // formateamos la fecha para que se ingrese en número  
+
+        String dato_nombre = "";
+        long dato_telefono = 0;
+        String dato_correo = "";
+        int dato_local = 0;
+        boolean[] diasAbiertos = {false, false, false, false, false, false, false};
+        String horarios[][] = {{"", ""}, {"", ""}, {"", ""}, {"", ""}, {"", ""}, {"", ""}, {"", ""}};
+        String dato_pass = "";
+
+        boolean errors = false; // Identifica si hubo algún error en la lectura de datos, si lo hubo, se vuelve true
+
+        try { // Nombre
+            dato_nombre = txt_nombre.getText();
+            dato_nombre = dato_nombre.toUpperCase(); // Mayúsculas todas para no tener problemas con mayúsculas/minúsculas
+            if (txt_nombre.getText().equals("")) { // Comprueba que la casilla del nombre no esté vacío
+                message.setText("Falta nombre o está mal");
+                errors = true;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            message.setText("Falta nombre o está mal");
+            errors = true;
+        }
+
+        try { // Telefono
+            dato_telefono = Long.valueOf(txt_telefono.getText());
+            if (txt_telefono.getText().equals("")) { // Comprueba que la casilla del teléfono no esté vacío
+                message.setText("Falta telefono o está mal");
+                errors = true;
+            }
+        } catch (NumberFormatException e) {
+            System.out.println(e);
+            errors = true;
+            message.setText("Falta telefono o está mal");
+        }
+
+        try { // Correo
+            dato_correo = txt_correo.getText();
+            // Patrón para validar el email
+            Pattern pattern = Pattern
+                    .compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                            + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+            Matcher mather = pattern.matcher(dato_correo);
+
+            if (!mather.find()) { //En caso de que no cumpla las condiciones para el correo
+                message.setText("Falta correo o está mal");
+                errors = true;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            errors = true;
+            message.setText("Falta correo o está mal");
+        }
+
+        try { // Local
+            if (txt_local.getText().equals("")) { // Comprueba que la casilla del local no esté vacío
+                message.setText("Falta local o está mal");
+                errors = true;
+            } else {
+                dato_local = Integer.parseInt(txt_local.getText());
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            message.setText("Falta local o está mal");
+            errors = true;
+        }
+
+        // Obtiene todos los dias con sus horarios
+        String hora_ap = "";
+        String hora_cie = "";
+        if (chck_lunes.isSelected()) {
+            try {
+                hora_ap = txt_Hlunes.getText(0, 5);
+                hora_cie = txt_Hlunes.getText(8, 5);
+                // Formateamos la hora para evitar errores
+                hora_ap = sdf.format(sdf.parse(hora_ap));
+                hora_cie = sdf.format(sdf.parse(hora_cie));
+
+                horarios[0][0] = hora_ap;
+                horarios[0][1] = hora_cie;
+                diasAbiertos[0] = true;
+            } catch (BadLocationException | ParseException ex) {
+                System.out.println(ex);
+                message.setText("Falta horario de lunes o está mal");
+                errors = true;
+            }
+        }
+        if (chck_martes.isSelected()) {
+            try {
+                hora_ap = txt_Hmartes.getText(0, 5);
+                hora_cie = txt_Hmartes.getText(8, 5);
+                // Formateamos la hora para evitar errores
+                hora_ap = sdf.format(sdf.parse(hora_ap));
+                hora_cie = sdf.format(sdf.parse(hora_cie));
+
+                horarios[1][0] = hora_ap;
+                horarios[1][1] = hora_cie;
+                diasAbiertos[1] = true;
+            } catch (BadLocationException | ParseException ex) {
+                System.out.println(ex);
+                message.setText("Falta horario de martes o está mal");
+                errors = true;
+            }
+        }
+        if (chck_miercoles.isSelected()) {
+            try {
+                hora_ap = txt_Hmiercoles.getText(0, 5);
+                hora_cie = txt_Hmiercoles.getText(8, 5);
+                // Formateamos la hora para evitar errores
+                hora_ap = sdf.format(sdf.parse(hora_ap));
+                hora_cie = sdf.format(sdf.parse(hora_cie));
+
+                horarios[2][0] = hora_ap;
+                horarios[2][1] = hora_cie;
+                diasAbiertos[2] = true;
+            } catch (BadLocationException | ParseException ex) {
+                System.out.println(ex);
+                message.setText("Falta horario de miércoles o está mal");
+                errors = true;
+            }
+        }
+        if (chck_jueves.isSelected()) {
+            try {
+                hora_ap = txt_Hjueves.getText(0, 5);
+                hora_cie = txt_Hjueves.getText(8, 5);
+                // Formateamos la hora para evitar errores
+                hora_ap = sdf.format(sdf.parse(hora_ap));
+                hora_cie = sdf.format(sdf.parse(hora_cie));
+
+                horarios[3][0] = hora_ap;
+                horarios[3][1] = hora_cie;
+                diasAbiertos[3] = true;
+            } catch (BadLocationException | ParseException ex) {
+                System.out.println(ex);
+                message.setText("Falta horario de jueves o está mal");
+                errors = true;
+            }
+        }
+        if (chck_viernes.isSelected()) {
+            try {
+                hora_ap = txt_Hviernes.getText(0, 5);
+                hora_cie = txt_Hviernes.getText(8, 5);
+                // Formateamos la hora para evitar errores
+                hora_ap = sdf.format(sdf.parse(hora_ap));
+                hora_cie = sdf.format(sdf.parse(hora_cie));
+
+                horarios[4][0] = hora_ap;
+                horarios[4][1] = hora_cie;
+                diasAbiertos[4] = true;
+            } catch (BadLocationException | ParseException ex) {
+                System.out.println(ex);
+                message.setText("Falta horario de viernes o está mal");
+                errors = true;
+            }
+        }
+        if (chck_sabado.isSelected()) {
+            try {
+                hora_ap = txt_Hsabado.getText(0, 5);
+                hora_cie = txt_Hsabado.getText(8, 5);
+                // Formateamos la hora para evitar errores
+                hora_ap = sdf.format(sdf.parse(hora_ap));
+                hora_cie = sdf.format(sdf.parse(hora_cie));
+
+                horarios[5][0] = hora_ap;
+                horarios[5][1] = hora_cie;
+                diasAbiertos[5] = true;
+            } catch (BadLocationException | ParseException ex) {
+                System.out.println(ex);
+                message.setText("Falta horario de sabado o está mal");
+                errors = true;
+            }
+        }
+        if (chck_domingo.isSelected()) {
+            try {
+                hora_ap = txt_Hdomingo.getText(0, 5);
+                hora_cie = txt_Hdomingo.getText(8, 5);
+                // Formateamos la hora para evitar errores
+                hora_ap = sdf.format(sdf.parse(hora_ap));
+                hora_cie = sdf.format(sdf.parse(hora_cie));
+
+                horarios[6][0] = hora_ap;
+                horarios[6][1] = hora_cie;
+                diasAbiertos[6] = true;
+            } catch (BadLocationException | ParseException ex) {
+                System.out.println(ex);
+                message.setText("Falta horario de domingo o está mal");
+                errors = true;
+            }
+        }
+
+        if (errors) { // Si hay algún error, mostrará la ventana con el error antes asignado
+            Error.setVisible(true);
+            Error.setSize(310, 90);
+            Error.setLocation(ancho_pantalla / 2 - 160, alto_pantalla / 2 - 45);
+        } else { // Intentará crear y bajar a la base de datos el restaurante
+            Restaurante nuevo_restaurante = new Restaurante(dato_nombre, dato_local, dato_telefono, dato_correo, restaurante.getContrasena(), diasAbiertos, horarios); //             Creamos el objeto restaurante
+            Connection conexion = null; // Creamos la conexión 
+
+            try {
+                conexion = Conexion.getConnection(); // Establecemos la conexión
+                if (conexion.getAutoCommit()) {
+                    conexion.setAutoCommit(false); // Quitamos el autocommit para la transacción
+                }
+
+                RestauranteDAO res_management = new RestauranteDAO(conexion); // Creamos el objeto para hacer los cambios en la base a través de la conexión
+                res_management.insertar(nuevo_restaurante); // Intentamos hacer la transacción para insertar al restaurante
+                res_management.select(nuevo_restaurante); // Buscamos los datos faltantes (id) que se acaba de insertar
+
+                /* Asignamos los horarios en las tablas */
+                boolean[] diasRest = nuevo_restaurante.getDias();
+                String[][] horariosRest = nuevo_restaurante.getHorarios();
+                for (int i = 0; i < 7; i++) {
+                    if (diasRest[i]) {
+                        res_management.insertar_horario(diasSemana[i], nuevo_restaurante.getId(), horariosRest[i][0], horariosRest[i][1]);
+                    }
+                }
+                MenuDAO menu_management = new MenuDAO(conexion); // Creamos el objeto para hacer los cambios en la base en menu
+                menu_management.insertar(nuevo_restaurante.getId());
+
+                conexion.commit(); // Intentamos hacer el commit de todos los queries 
+                System.out.println("Se ha hecho commit de la transaccion");
+                
+                // Volvemos a cargar la información                
+                consultarRestaurante(restaurante.getCorreo());
+                asignarDatos();
+                System.out.println(restaurante.getNombre());
+                lbl_bienvenido.setText("Bienvenido " + restaurante.getCorreo() + ", administrando " + restaurante.getNombre() + ".");
+                chck_editable.setSelected(false);
+                
+            } catch (SQLException ex) {
+                ex.printStackTrace(System.out);
+                message.setText("No se creo cliente correctamente");
+                Error.setVisible(true);
+                Error.setSize(310, 90);
+                Error.setLocation(ancho_pantalla / 2 - 160, alto_pantalla / 2 - 45);
+
+                System.out.println("Entramos al rollback");
+                try {
+                    conexion.rollback(); // Si hubo algún error
+                } catch (SQLException ex1) {
+                    ex1.printStackTrace(System.out);
+                }
+            }
+        }
     }//GEN-LAST:event_ActualizarActionPerformed
 
     private void txt_passAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_passAnteriorActionPerformed
@@ -549,11 +909,11 @@ public class MenuAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_passAnteriorActionPerformed
 
     private void chck_editableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chck_editableActionPerformed
-        if(chck_editable.isSelected()){
+        if (chck_editable.isSelected()) {
             txt_nombre.setEditable(true);
             txt_telefono.setEditable(true);
             txt_correo.setEditable(true);
-            txt_direccion.setEditable(true);
+            txt_local.setEditable(true);
 
             chck_lunes.setEnabled(true);
             chck_martes.setEnabled(true);
@@ -569,18 +929,17 @@ public class MenuAdministrador extends javax.swing.JFrame {
             txt_Hviernes.setEditable(true);
             txt_Hsabado.setEditable(true);
             txt_Hdomingo.setEditable(true);
-            
+
             Actualizar.setEnabled(true);
-        }
-        else{
+        } else {
             asignarDatos();
         }
-        
-        
+
+
     }//GEN-LAST:event_chck_editableActionPerformed
 
     private void HistorialPedidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HistorialPedidosActionPerformed
-        DespliegueHistorial historial= new DespliegueHistorial(restaurante);
+        DespliegueHistorial historial = new DespliegueHistorial(restaurante);
         historial.setVisible(true);
         this.setVisible(false);
         this.dispose();
@@ -604,11 +963,24 @@ public class MenuAdministrador extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_ActualizarContrasena1ActionPerformed
 
+    private void txt_localActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_localActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_localActionPerformed
+
+    private void chck_lunesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chck_lunesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chck_lunesActionPerformed
+
+    private void ErrorWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_ErrorWindowClosing
+        Error.setVisible(false);
+        Error.dispose();
+    }//GEN-LAST:event_ErrorWindowClosing
+
     public static void main(String args[]) {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MenuAdministrador("prueba").setVisible(true);
+                new MenuAdministrador("alfredomartinezruiz01@gmail.com").setVisible(true);
             }
         });
     }
@@ -618,6 +990,7 @@ public class MenuAdministrador extends javax.swing.JFrame {
     private javax.swing.JButton ActualizarContrasena;
     private javax.swing.JButton ActualizarContrasena1;
     private javax.swing.JButton ActualizarMenu;
+    private javax.swing.JDialog Error;
     private javax.swing.JButton HistorialPedidos;
     private javax.swing.JCheckBox chck_domingo;
     private javax.swing.JCheckBox chck_editable;
@@ -640,6 +1013,7 @@ public class MenuAdministrador extends javax.swing.JFrame {
     private javax.swing.JLabel lbl_nombre;
     private javax.swing.JLabel lbl_rpcontrasena;
     private javax.swing.JLabel lbl_telefono;
+    private javax.swing.JLabel message;
     private javax.swing.JFormattedTextField txt_Hdomingo;
     private javax.swing.JFormattedTextField txt_Hjueves;
     private javax.swing.JFormattedTextField txt_Hlunes;
@@ -648,7 +1022,7 @@ public class MenuAdministrador extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField txt_Hsabado;
     private javax.swing.JFormattedTextField txt_Hviernes;
     private javax.swing.JTextField txt_correo;
-    private javax.swing.JTextField txt_direccion;
+    private javax.swing.JFormattedTextField txt_local;
     private javax.swing.JTextField txt_nombre;
     private javax.swing.JPasswordField txt_pass;
     private javax.swing.JPasswordField txt_passAnterior;
