@@ -58,13 +58,39 @@ public class POSPanel extends JPanel {
 			}
 		}
 	}
-	
+	class metodoPago extends JDialog {
+         
+            JButton tarjeta = new JButton("Tarjeta");
+            JButton efectivo = new JButton("Efectivo");
+            
+            public metodoPago(String str){
+                this.setLayout(new GridLayout(0,2));
+                getContentPane().add(tarjeta);
+                getContentPane().add(efectivo);
+                setSize(300,300);
+                setVisible(true); 
+                
+                tarjeta.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        
+                    }     
+                });
+                
+                efectivo.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        
+                    }     
+                });
+            }
+        }
+        
 	public POSPanel() {
 		setLayout(null);
 		setBackground(Color.WHITE);
 		MenuBtn mbtn = new MenuBtn();
 		StrBtn sbtn = new StrBtn();
 		Screen sc = new Screen();
+                metodoPago mp = new metodoPago("Metodo de Pago");
 		
 		//금액란
 		tf.setSize(450, 70);
@@ -140,8 +166,14 @@ public class POSPanel extends JPanel {
 				}
 				tf.setText(String.valueOf(" Total : "+sum));
 				tf.setFont(new Font("Arial", Font.BOLD, 40));
+                                mp.setVisible(true);
+                             
 			}
 		});
+        
+        
+                
+                
 	}
 }
 
