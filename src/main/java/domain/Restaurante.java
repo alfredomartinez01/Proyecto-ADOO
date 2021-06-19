@@ -1,5 +1,8 @@
 package domain;
 
+import datos.RestauranteDAO;
+import java.sql.SQLException;
+
 public class Restaurante extends Usuario{
     private int id;
     private String nombre;
@@ -46,7 +49,17 @@ public class Restaurante extends Usuario{
     public void setTelefono(long telefono) {
         this.telefono = telefono;
     }
-
+    public int consultarRestaurante(){
+        RestauranteDAO rest_management = new RestauranteDAO();
+        try {
+            rest_management.select(this);
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+            return -1;
+        }
+        
+        return 0;
+    }
     public void setCorreo(String correo) {
         this.correo = correo;
     }

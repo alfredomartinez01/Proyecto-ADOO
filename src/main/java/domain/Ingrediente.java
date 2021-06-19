@@ -8,22 +8,26 @@ package domain;
 public class Ingrediente {
     private int idIngrediente;
     private String nombreIngrediente;
-    private float costoIngrediente;
-
+    private double costoIngrediente;
+    
+    public Ingrediente() {
+    }
     public Ingrediente(int idIngrediente) {
         this.idIngrediente = idIngrediente;
     }
 
-    public Ingrediente(String nombreIngrediente, float costoIngrediente) {
+    public Ingrediente(String nombreIngrediente, double costoIngrediente) {
         this.nombreIngrediente = nombreIngrediente;
         this.costoIngrediente = costoIngrediente;
     }
 
-    public Ingrediente(int idIngrediente, String nombreIngrediente, float costoIngrediente) {
+    public Ingrediente(int idIngrediente, String nombreIngrediente, double costoIngrediente) {
         this.idIngrediente = idIngrediente;
         this.nombreIngrediente = nombreIngrediente;
         this.costoIngrediente = costoIngrediente;
     }
+
+    
 
     public int getIdIngrediente() {
         return idIngrediente;
@@ -41,17 +45,17 @@ public class Ingrediente {
         this.nombreIngrediente = nombreIngrediente;
     }
 
-    public float getCostoIngrediente() {
+    public double getCostoIngrediente() {
         return costoIngrediente;
     }
 
-    public void setCostoIngrediente(float costoIngrediente) {
+    public void setCostoIngrediente(double costoIngrediente) {
         this.costoIngrediente = costoIngrediente;
     }
 
     @Override
     public String toString() {
-        return "Ingrediente{" + "idIngrediente=" + idIngrediente + ", nombreIngrediente=" + nombreIngrediente + ", costoIngrediente=" + costoIngrediente + '}';
+        return "{ID: " + idIngrediente + ", nombre: " + nombreIngrediente + ", costo: $" + String.format("%.2f", costoIngrediente) +"} ";
     }
     
         

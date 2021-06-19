@@ -5,6 +5,7 @@ import static Restaurante.Login.ancho_pantalla;
 import datos.Conexion;
 import datos.MenuDAO;
 import datos.RestauranteDAO;
+import domain.Menu;
 import domain.Restaurante;
 import java.awt.Color;
 import java.text.ParseException;
@@ -695,8 +696,10 @@ public class DatosRegistro extends javax.swing.JFrame {
                         res_management.insertar_horario(diasSemana[i], nuevo_restaurante.getId(), horariosRest[i][0], horariosRest[i][1]);                        
                     }
                 }
+                Menu menu = new Menu();
+                menu.setIdRestaurante(nuevo_restaurante.getId());
                 MenuDAO menu_management = new MenuDAO(conexion); // Creamos el objeto para hacer los cambios en la base en menu
-                menu_management.insertar(nuevo_restaurante.getId()); // Insertamos el nuevo menu adherido al restaurante
+                menu_management.insertar(menu); // Insertamos el nuevo menu adherido al restaurante
 
                 conexion.commit(); // Intentamos hacer el commit de todos los queries 
                 System.out.println("Se ha hecho commit de la transaccion");
