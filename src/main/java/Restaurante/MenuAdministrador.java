@@ -58,7 +58,7 @@ public class MenuAdministrador extends javax.swing.JFrame {
         if (diasRest[0]) { // Si abren los lunes 
             txt_Hlunes.setText(horariosRest[0][0].substring(0, 5) + horariosRest[0][1].substring(0, 5));
             chck_lunes.setSelected(true);
-        } else{
+        } else {
             txt_Hlunes.setText("");
         }
         if (diasRest[1]) { // Si abren los martes
@@ -179,7 +179,7 @@ public class MenuAdministrador extends javax.swing.JFrame {
         Actualizar = new javax.swing.JButton();
         chck_editable = new javax.swing.JCheckBox();
         lbl_contrasena1 = new javax.swing.JLabel();
-        txt_passAnterior = new javax.swing.JPasswordField();
+        txt_lastPass = new javax.swing.JPasswordField();
         lbl_instrucciones1 = new javax.swing.JLabel();
         HistorialPedidos = new javax.swing.JButton();
         ActualizarMenu = new javax.swing.JButton();
@@ -377,11 +377,11 @@ public class MenuAdministrador extends javax.swing.JFrame {
         lbl_contrasena1.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         lbl_contrasena1.setText("Contraseña anterior");
 
-        txt_passAnterior.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        txt_passAnterior.setName("Contra"); // NOI18N
-        txt_passAnterior.addActionListener(new java.awt.event.ActionListener() {
+        txt_lastPass.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        txt_lastPass.setName("Contra"); // NOI18N
+        txt_lastPass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_passAnteriorActionPerformed(evt);
+                txt_lastPassActionPerformed(evt);
             }
         });
 
@@ -528,7 +528,7 @@ public class MenuAdministrador extends javax.swing.JFrame {
                             .addComponent(lbl_contrasena1)
                             .addComponent(ActualizarContrasena1, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(ActualizarContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_passAnterior, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(txt_lastPass, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(155, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -569,7 +569,7 @@ public class MenuAdministrador extends javax.swing.JFrame {
                             .addComponent(lbl_contrasena1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txt_passAnterior, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_lastPass, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txt_local, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -861,35 +861,42 @@ public class MenuAdministrador extends javax.swing.JFrame {
                 if (conexion.getAutoCommit()) {
                     conexion.setAutoCommit(false); // Quitamos el autocommit para la transacción
                 }
-
+                nuevo_restaurante.setId(restaurante.getId());
                 RestauranteDAO res_management = new RestauranteDAO(conexion); // Creamos el objeto para hacer los cambios en la base a través de la conexión
-                res_management.insertar(nuevo_restaurante); // Intentamos hacer la transacción para insertar al restaurante
+                res_management.actualizar(nuevo_restaurante); // Intentamos hacer la transacción para insertar al restaurante
                 res_management.select(nuevo_restaurante); // Buscamos los datos faltantes (id) que se acaba de insertar
 
                 /* Asignamos los horarios en las tablas */
                 boolean[] diasRest = nuevo_restaurante.getDias();
                 String[][] horariosRest = nuevo_restaurante.getHorarios();
+
                 for (int i = 0; i < 7; i++) {
-                    if (diasRest[i]) {
-                        res_management.insertar_horario(diasSemana[i], nuevo_restaurante.getId(), horariosRest[i][0], horariosRest[i][1]);
+                    if (diasRest[i]) { // Si está seleccionado su checkbox
+                        if (res_management.select_horario(restaurante.getId()).getDias()[i]) { // Si el día se encuentra registrado en la base de datos
+                            res_management.actualizar_horario(diasSemana[i], nuevo_restaurante.getId(), horariosRest[i][0], horariosRest[i][1]);
+                        } else { // Entonces lo insterta
+                            res_management.insertar_horario(diasSemana[i], nuevo_restaurante.getId(), horariosRest[i][0], horariosRest[i][1]);
+                        }
+
+                    } else { // Si no está seleccionado su checkbox
+                        if (res_management.select_horario(restaurante.getId()).getDias()[i]) { // Si el día se encuentra registrado en la base de datos
+                            res_management.eliminar_horario(diasSemana[i], nuevo_restaurante.getId());
+                        }
                     }
                 }
-                MenuDAO menu_management = new MenuDAO(conexion); // Creamos el objeto para hacer los cambios en la base en menu
-                menu_management.insertar(nuevo_restaurante.getId());
-
                 conexion.commit(); // Intentamos hacer el commit de todos los queries 
                 System.out.println("Se ha hecho commit de la transaccion");
-                
+
                 // Volvemos a cargar la información                
-                consultarRestaurante(restaurante.getCorreo());
+                consultarRestaurante(nuevo_restaurante.getCorreo());
                 asignarDatos();
-                System.out.println(restaurante.getNombre());
-                lbl_bienvenido.setText("Bienvenido " + restaurante.getCorreo() + ", administrando " + restaurante.getNombre() + ".");
+                System.out.println(nuevo_restaurante.getNombre());
+                lbl_bienvenido.setText("Bienvenido " + nuevo_restaurante.getCorreo() + ", administrando " + nuevo_restaurante.getNombre() + ".");
                 chck_editable.setSelected(false);
-                
+
             } catch (SQLException ex) {
                 ex.printStackTrace(System.out);
-                message.setText("No se creo cliente correctamente");
+                message.setText("No se actualizó cliente correctamente");
                 Error.setVisible(true);
                 Error.setSize(310, 90);
                 Error.setLocation(ancho_pantalla / 2 - 160, alto_pantalla / 2 - 45);
@@ -904,9 +911,9 @@ public class MenuAdministrador extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_ActualizarActionPerformed
 
-    private void txt_passAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_passAnteriorActionPerformed
+    private void txt_lastPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_lastPassActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txt_passAnteriorActionPerformed
+    }//GEN-LAST:event_txt_lastPassActionPerformed
 
     private void chck_editableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chck_editableActionPerformed
         if (chck_editable.isSelected()) {
@@ -953,7 +960,75 @@ public class MenuAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_ActualizarMenuActionPerformed
 
     private void ActualizarContrasenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarContrasenaActionPerformed
-        // TODO add your handling code here:
+        // Obtenemos las contraseñas
+        char[] lastPass = txt_lastPass.getPassword();
+        String lastPassword = String.valueOf(lastPass);
+        
+        char[] pass = txt_pass.getPassword();
+        String password = String.valueOf(pass);
+        
+        char[] passConfirm = txt_passConfirm.getPassword();
+        String passwordConfirm = String.valueOf(passConfirm);
+        boolean errors = false;
+
+        if (!password.equals("")&& !lastPassword.equals("")) { // Checa que no esté vacío            
+            if (password.equals(passwordConfirm)) { // Comprueba que sean iguales
+                if (lastPassword.equals(restaurante.getContrasena())) { // Checa que sea la contraseña correcta
+                    // Creamos la conexión a la base y el restaurante con los datos a 
+                    Restaurante nuevo_restaurante = new Restaurante(restaurante.getNombre(), restaurante.getLocal(), restaurante.getTelefono(), restaurante.getCorreo(), password, restaurante.getDias(), restaurante.getHorarios());
+                    Connection conexion = null; // Creamos la conexión 
+                    try {
+                        conexion = Conexion.getConnection(); // Establecemos la conexión
+                        if (conexion.getAutoCommit()) {
+                            conexion.setAutoCommit(false); // Quitamos el autocommit para la transacción
+                        }
+                        nuevo_restaurante.setId(restaurante.getId());
+                        RestauranteDAO res_management = new RestauranteDAO(conexion); // Creamos el objeto para hacer los cambios en la base a través de la conexión
+                        res_management.actualizar(nuevo_restaurante); // Intentamos hacer la transacción para insertar al restaurante
+
+                        conexion.commit(); // Intentamos hacer el commit de todos los queries 
+                        System.out.println("Se ha hecho commit de la transaccion");
+
+                        // Volvemos a cargar la información                
+                        consultarRestaurante(nuevo_restaurante.getCorreo());
+
+                    } catch (SQLException ex) {
+                        ex.printStackTrace(System.out);
+                        message.setText("No se actualizó contraseña correctamente");
+
+                        System.out.println("Entramos al rollback");
+                        try {
+                            conexion.rollback(); // Si hubo algún error
+                        } catch (SQLException ex1) {
+                            ex1.printStackTrace(System.out);
+                        }
+                    }
+                } else {
+                    message.setText("La contraseña es incorrecta");
+                    errors = true;
+                }
+
+            } else {
+                message.setText("Las contraseñas deben ser iguales");
+                errors = true;
+            }
+        } else {
+            message.setText("Falta contraseña, no debe ser nula");
+            errors = true;
+        }
+        if (errors) {
+            Error.setVisible(true);
+            Error.setSize(310, 90);
+            Error.setLocation(ancho_pantalla / 2 - 160, alto_pantalla / 2 - 45);
+        } else{
+            message.setText("Contraseña actualizada correctamente");
+            Error.setVisible(true);
+            Error.setSize(310, 90);
+            Error.setLocation(ancho_pantalla / 2 - 160, alto_pantalla / 2 - 45);
+            txt_lastPass.setText("");
+            txt_pass.setText("");
+            txt_passConfirm.setText("");
+        }
     }//GEN-LAST:event_ActualizarContrasenaActionPerformed
 
     private void ActualizarContrasena1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarContrasena1ActionPerformed
@@ -980,7 +1055,7 @@ public class MenuAdministrador extends javax.swing.JFrame {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MenuAdministrador("alfredomartinezruiz01@gmail.com").setVisible(true);
+                new MenuAdministrador("aa@aa.aaa").setVisible(true);
             }
         });
     }
@@ -1022,10 +1097,10 @@ public class MenuAdministrador extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField txt_Hsabado;
     private javax.swing.JFormattedTextField txt_Hviernes;
     private javax.swing.JTextField txt_correo;
+    private javax.swing.JPasswordField txt_lastPass;
     private javax.swing.JFormattedTextField txt_local;
     private javax.swing.JTextField txt_nombre;
     private javax.swing.JPasswordField txt_pass;
-    private javax.swing.JPasswordField txt_passAnterior;
     private javax.swing.JPasswordField txt_passConfirm;
     private javax.swing.JFormattedTextField txt_telefono;
     // End of variables declaration//GEN-END:variables

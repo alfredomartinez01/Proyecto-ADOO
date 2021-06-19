@@ -186,7 +186,7 @@
                           <Component id="lbl_contrasena1" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="ActualizarContrasena1" alignment="0" min="-2" pref="332" max="-2" attributes="0"/>
                           <Component id="ActualizarContrasena" min="-2" pref="207" max="-2" attributes="0"/>
-                          <Component id="txt_passAnterior" min="-2" pref="332" max="-2" attributes="0"/>
+                          <Component id="txt_lastPass" min="-2" pref="332" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -237,7 +237,7 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="txt_passAnterior" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                          <Component id="txt_lastPass" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                           <Component id="txt_local" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                       </Group>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -580,7 +580,7 @@
         <Property name="text" type="java.lang.String" value="Contrase&#xf1;a anterior"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JPasswordField" name="txt_passAnterior">
+    <Component class="javax.swing.JPasswordField" name="txt_lastPass">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Arial" size="16" style="0"/>
@@ -588,7 +588,7 @@
         <Property name="name" type="java.lang.String" value="Contra" noResource="true"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txt_passAnteriorActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txt_lastPassActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lbl_instrucciones1">

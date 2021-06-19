@@ -1,16 +1,18 @@
 package Restaurante;
 
 import domain.Restaurante;
+import domain.Menu;
 import java.awt.Color;
 import static java.awt.Frame.MAXIMIZED_BOTH;
 import javax.swing.table.DefaultTableModel;
 
 public class Modificaciones extends javax.swing.JFrame {
     private Restaurante restaurante = new Restaurante();
+    private Menu menu = new Menu(restaurante);
     
     public Modificaciones(Restaurante restaurant) {
         this.restaurante = restaurant;
-        initComponents();        
+                initComponents();        
         ajustarApariencia();
         lbl_mensaje.setText("Mostrando platillos de "+restaurante.getNombre() + ".");
         tablaPlatillos();
@@ -258,6 +260,11 @@ public class Modificaciones extends javax.swing.JFrame {
         });
 
         AnadirIngrediente.setText("Añadir ingrediente");
+        AnadirIngrediente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AnadirIngredienteActionPerformed(evt);
+            }
+        });
 
         Volver.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         Volver.setText("Volver atrás");
@@ -665,6 +672,12 @@ public class Modificaciones extends javax.swing.JFrame {
     private void Volver3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Volver3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_Volver3ActionPerformed
+
+    private void AnadirIngredienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AnadirIngredienteActionPerformed
+        // Recogemos la información del platillo
+        
+        
+    }//GEN-LAST:event_AnadirIngredienteActionPerformed
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

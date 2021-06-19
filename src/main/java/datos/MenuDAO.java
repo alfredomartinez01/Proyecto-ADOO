@@ -45,7 +45,8 @@ public class MenuDAO {
             stmt_menu = conn.prepareStatement(SQL_INSERT_IN_MENU); // Preparamos el insert en restaurante
             stmt_menu.setString(1, String.valueOf(id));
 
-            System.out.println("ejecutando query:" + SQL_INSERT_IN_MENU);
+            System.out.println("-----------------------------------------------------------------");
+            System.out.println("ejecutando query:" + stmt_menu);
             rows = stmt_menu.executeUpdate();
             System.out.println("Registros afectados:" + rows);
         } 
