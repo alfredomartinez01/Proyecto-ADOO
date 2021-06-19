@@ -14,8 +14,7 @@ public class Cliente {
     private int idCliente;
     private String nombreCliente;
 
-    public Cliente() {
-    }
+    
     /*Este contructor lo utilizaremos para eliminar un dato de la tabla cliente
     debido a que basta con eliminar el id para eliminar un registro*/
     public Cliente(int idCliente) {
