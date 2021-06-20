@@ -107,7 +107,7 @@ public class Modificaciones extends javax.swing.JFrame {
                 int idP = Integer.valueOf(idPlat);
                 if (idP != -1) { // Busqueda por IDP, checamos que no esté vacío   
                     // Buscamos los datos del platillo en la lista
-
+                    menu.leerPlatillos();
                     for (Platillo plat : menu.getPlatillos()) {
                         if (plat.getIdPlatillo() == idP) {
                             plat_modificado.setComposicion(plat.getComposicion());
