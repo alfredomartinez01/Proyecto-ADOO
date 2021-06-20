@@ -103,8 +103,16 @@ public class Platillo {
         ingredientes.add(ingrediente);
     }
 
-    public void eliminarIngrediente(int id) {
-
+    public void eliminarIngrediente(Ingrediente ingrediente) {
+        ArrayList<Ingrediente> ingredientes_temp = new ArrayList<Ingrediente>();
+        for(Ingrediente ing: this.ingredientes ){            
+            // Si no coincide con el ingrediente
+            
+            if( !ingrediente.getNombreIngrediente().equals(ing) && ingrediente.getCostoIngrediente()!= ing.getCostoIngrediente()){
+                ingredientes_temp.add(ing);
+            }
+        }
+        this.ingredientes = ingredientes_temp;
     }
 
     public int escribirPlatillo() {
