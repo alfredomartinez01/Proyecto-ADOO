@@ -6,6 +6,8 @@ import javax.swing.*;
 import javax.swing.table.*;
 
 public class POSPanel extends JPanel {
+        JButton[] RBtn = new JButton[4];
+        String[] res = {"Chicken Lover","Burger Land","Mi Pizza","Donas Donuts"};
 	JButton[] MBtn = new JButton[16];
 	String[] menu = {
 			"Menu1","Menu2","Menu3","Menu4",
@@ -35,6 +37,17 @@ public class POSPanel extends JPanel {
 			add(new JScrollPane(table));
 		}
 	}
+        
+        class ResBtn extends JPanel{
+                ResBtn(){
+                        setLayout(new GridLayout(1,4,3,3));
+                        setBackground(Color.WHITE);
+                        for(int i=0;i<RBtn.length;i++) {
+                                RBtn[i]= new JButton(res[i]);
+                                add(RBtn[i]);
+                        }
+                }
+        }
 	
 	class MenuBtn extends JPanel{
 		MenuBtn(){
@@ -87,7 +100,8 @@ public class POSPanel extends JPanel {
 	public POSPanel() {
 		setLayout(null);
 		setBackground(Color.WHITE);
-		MenuBtn mbtn = new MenuBtn();
+		ResBtn rbtn = new ResBtn();
+                MenuBtn mbtn = new MenuBtn();
 		StrBtn sbtn = new StrBtn();
 		Screen sc = new Screen();
                 metodoPago mp = new metodoPago("Metodo de Pago");
@@ -100,6 +114,10 @@ public class POSPanel extends JPanel {
 		sc.setSize(500, 500);
 		sc.setLocation(25, 20);
 		add(sc);
+                
+                rbtn.setSize(400, 30);
+		rbtn.setLocation(530, 23);
+		add(rbtn);
 		
 		mbtn.setSize(400, 430);
 		mbtn.setLocation(530, 23);
@@ -108,6 +126,17 @@ public class POSPanel extends JPanel {
 		sbtn.setSize(400, 70);
 		sbtn.setLocation(530, 480);
 		add(sbtn);
+                
+                //Restaurantes
+                for(int i=0;i<RBtn.length;i++) {
+			final int index =i;
+			RBtn[i].addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					JButton MBtn = (JButton)e.getSource();
+				}
+			});
+		}
 		
 		//añadir menu
 		for(int i=0;i<MBtn.length;i++) {
