@@ -104,15 +104,15 @@ public class Platillo {
     }
 
     public void eliminarIngrediente(Ingrediente ingrediente) {
-        ArrayList<Ingrediente> ingredientes_temp = new ArrayList<Ingrediente>();
-        for(Ingrediente ing: this.ingredientes ){            
-            // Si no coincide con el ingrediente
-            
-            if( !ingrediente.getNombreIngrediente().equals(ing) && ingrediente.getCostoIngrediente()!= ing.getCostoIngrediente()){
-                ingredientes_temp.add(ing);
+        if (this.ingredientes.size() > 0) {
+            for (Ingrediente ing : this.ingredientes) {
+                // Si no coincide con el ingrediente
+                if (ingrediente.getNombreIngrediente().equals(ing.getNombreIngrediente()) && ingrediente.getCostoIngrediente() == ing.getCostoIngrediente()) {
+                    this.ingredientes.remove(ing);
+                }
             }
         }
-        this.ingredientes = ingredientes_temp;
+
     }
 
     public int escribirPlatillo() {
@@ -125,16 +125,115 @@ public class Platillo {
             }
             PlatilloDAO plat_management = new PlatilloDAO(conexion);
             plat_management.insertar(this);
-            
+
             IngredienteDAO ing_management = new IngredienteDAO(conexion);
-            for(Ingrediente ing: this.ingredientes){
+            for (Ingrediente ing : this.ingredientes) {
                 ing_management.insertar(ing);
                 // Obteniendo el id del ingrediente y platillo
                 plat_management.seleccionar_data(this);
                 ing_management.seleccionar_por_data(ing);
                 ing_management.insertar_en_agrega(this.idPlatillo, ing.getIdIngrediente());
-            }            
-            
+            }
+
+            conexion.commit(); // Intentamos hacer el commit de todos los queries 
+            System.out.println("Se ha hecho commit de la transaccion");
+
+            return 0;
+
+        } catch (SQLException ex) {
+
+            ex.printStackTrace(System.out);
+            System.out.println("Entramos al rollback");
+            try {
+                conexion.rollback(); // Si hubo algún error
+            } catch (SQLException ex1) {
+                ex1.printStackTrace(System.out);
+            }
+
+            return -1;
+        }
+    }
+
+    public int actualizarPlatillo() {
+        Connection conexion = null; // Creamos la conexión
+
+        try {
+            conexion = Conexion.getConnection(); // Establecemos la conexión
+            if (conexion.getAutoCommit()) {
+                conexion.setAutoCommit(false); // Quitamos el autocommit para la transacción
+            }
+            PlatilloDAO plat_management = new PlatilloDAO(conexion);
+            plat_management.actualizar(this);
+
+            // Comprobando los platillos que no estan en el menu ahora
+            IngredienteDAO ing_management = new IngredienteDAO(conexion);
+            ArrayList<Ingrediente> ing_en_db = ing_management.seleccionar_agrega(this.idPlatillo);
+
+            for (Ingrediente ing : this.ingredientes) {
+
+                for (Ingrediente ing_db : ing_en_db) {
+                    if (ing_db.getIdIngrediente() == ing.getIdIngrediente()) {
+                        ing_en_db.remove(ing_db);
+                        break;
+                    }
+
+                }
+
+            }
+            // Eliminando esos ingredientes eliminados
+            for (Ingrediente ing : ing_en_db) {
+                ing_management.eliminar(ing);
+            }
+
+            // Actualizando o insertando ingredientes
+            for (Ingrediente ing : this.ingredientes) {
+                if (ing.getIdIngrediente() != 0) {
+                    ing_management.actualizar(ing);
+                } else {
+                    ing_management.insertar(ing);
+                    // Obteniendo el id del ingrediente y platillo
+                    ing_management.seleccionar_por_data(ing);
+                    ing_management.insertar_en_agrega(this.idPlatillo, ing.getIdIngrediente());
+                }
+
+            }
+
+            conexion.commit(); // Intentamos hacer el commit de todos los queries 
+            System.out.println("Se ha hecho commit de la transaccion");
+
+            return 0;
+
+        } catch (SQLException ex) {
+
+            ex.printStackTrace(System.out);
+            System.out.println("Entramos al rollback");
+            try {
+                conexion.rollback(); // Si hubo algún error
+            } catch (SQLException ex1) {
+                ex1.printStackTrace(System.out);
+            }
+
+            return -1;
+        }
+    }
+
+    public int eliminarPlatillo() {
+        Connection conexion = null; // Creamos la conexión
+
+        try {
+            conexion = Conexion.getConnection(); // Establecemos la conexión
+            if (conexion.getAutoCommit()) {
+                conexion.setAutoCommit(false); // Quitamos el autocommit para la transacción
+            }
+            PlatilloDAO plat_management = new PlatilloDAO(conexion);
+            plat_management.eliminar(this);
+
+            IngredienteDAO ing_management = new IngredienteDAO(conexion);
+            for (Ingrediente ing : this.getIngredientes()) {
+                ing_management.eliminar(ing);
+                //System.out.println(ing);
+            }
+
             conexion.commit(); // Intentamos hacer el commit de todos los queries 
             System.out.println("Se ha hecho commit de la transaccion");
 

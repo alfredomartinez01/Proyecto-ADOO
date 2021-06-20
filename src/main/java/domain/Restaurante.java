@@ -49,16 +49,13 @@ public class Restaurante extends Usuario{
     public void setTelefono(long telefono) {
         this.telefono = telefono;
     }
-    public int consultarRestaurante(){
+    public void consultarRestaurante(){
         RestauranteDAO rest_management = new RestauranteDAO();
         try {
             rest_management.select(this);
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
-            return -1;
-        }
-        
-        return 0;
+        }        
     }
     public void setCorreo(String correo) {
         this.correo = correo;
@@ -100,8 +97,4 @@ public class Restaurante extends Usuario{
     public String[][] getHorarios() {
         return horarios;
     }    
-    private class Empleado{
-        private int idEmpleado;        
-        private String contrasenaEmpleado;
-    }
 }

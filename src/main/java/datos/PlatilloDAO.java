@@ -152,51 +152,48 @@ public class PlatilloDAO {
         return registros;
     }
 
-    public int actualizar(Platillo platillo) {
+    public int actualizar(Platillo platillo) throws SQLException {
         Connection conn = null;
         PreparedStatement stmt = null;
         int registros = 0;
         try {
-            conn = getConnection();
+            conn = this.conexionTransaccional != null ? this.conexionTransaccional : Conexion.getConnection(); // asigna la conn, si no es una transacción, entonces la crea, de otro modo usa la de la transacción
             stmt = conn.prepareStatement(SQL_UPDATE);
-            stmt.setInt(1, platillo.getIdClienteP());
+            stmt.setInt(1, platillo.getIdMenu());
             stmt.setString(2, platillo.getNombrePlatillo());
             stmt.setDouble(3, platillo.getCostoPlatillo());
             stmt.setString(4, platillo.getComposicion());
 
             stmt.setInt(5, platillo.getIdPlatillo());
+            System.out.println("-----------------------------------------------------------------");
+            System.out.println("ejecutando query:" + stmt);
             registros = stmt.executeUpdate();//actualiza base de datos, puede ejecutar sentencias , update, delete ,insert 
-        } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
         } finally {
-            try {
-                close(stmt);
-                close(conn);
-            } catch (SQLException ex) {
-                ex.printStackTrace(System.out);
-            }
+                Conexion.close(stmt);
+                if (this.conexionTransaccional == null) {
+                    Conexion.close(conn); // Si no es una transaccion entonces la cerramos
+                }            
         }
         return registros;
     }
 
-    public int eliminar(Platillo platillo) {
+    public int eliminar(Platillo platillo) throws SQLException {
         Connection conn = null;
         PreparedStatement stmt = null;
         int registros = 0;
         try {
-            conn = getConnection();
+            conn = this.conexionTransaccional != null ? this.conexionTransaccional : Conexion.getConnection(); // asigna la conn, si no es una transacción, entonces la crea, de otro modo usa la de la transacción
             stmt = conn.prepareStatement(SQL_DELETE);
             stmt.setInt(1, platillo.getIdPlatillo());
+            
+            System.out.println("-----------------------------------------------------------------");
+            System.out.println("ejecutando query:" + stmt);
             registros = stmt.executeUpdate();//actualiza base de datos, puede ejecutar sentencias , update, delete ,insert 
-        } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
         } finally {
-            try {
-                close(stmt);
-                close(conn);
-            } catch (SQLException ex) {
-                ex.printStackTrace(System.out);
-            }
+                Conexion.close(stmt);
+                if (this.conexionTransaccional == null) {
+                    Conexion.close(conn); // Si no es una transaccion entonces la cerramos
+                }            
         }
         return registros;
     }

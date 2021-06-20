@@ -110,16 +110,7 @@ public class Modificaciones extends javax.swing.JFrame {
                     menu.leerPlatillos();
                     for (Platillo plat : menu.getPlatillos()) {
                         if (plat.getIdPlatillo() == idP) {
-                            plat_modificado.setComposicion(plat.getComposicion());
-                            plat_modificado.setCostoPlatillo(plat.getCostoPlatillo());
-                            plat_modificado.setIdClienteP(plat.getIdClienteP());
-                            plat_modificado.setIdMenu(plat.getIdMenu());
-                            plat_modificado.setIdPlatillo(plat.getIdPlatillo());
-                            plat_modificado.setIngredientes(plat.getIngredientes());
-                            plat_modificado.setNombrePlatillo(plat.getNombrePlatillo());
-                            for(Ingrediente ing: plat.getIngredientes()){
-                                System.out.println(ing);
-                            }
+                            plat_modificado = plat;
                             break;
                         }
                     }
@@ -135,10 +126,27 @@ public class Modificaciones extends javax.swing.JFrame {
         jmi2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Eliminar.setVisible(true);
-                Eliminar.setSize(310, 170);
-                Eliminar.setLocation(ancho_pantalla / 2 - 160, alto_pantalla / 2 - 45);
-
+                // Limpiamoz actualizar
+                removerActualizarItems();
+                vaciarActualizarItems();
+                plat_temp = new Platillo();
+                ing_temp = new Ingrediente();
+                
+                // Obtenemos el id del platillo
+                int idPlat = Integer.valueOf(String.valueOf(tablaPlatillos.getValueAt(tablaPlatillos.getSelectedRow(), 0)));
+                // Busamos el platillo en el menu
+                for (Platillo plat : menu.getPlatillos()) {
+                    if (plat.getIdPlatillo() == idPlat) {
+                        plat_temp = plat;
+                        break;
+                    }
+                }
+                System.out.println(idPlat);
+                if (idPlat != 0) {
+                    EliminarPlatillo.setVisible(true);
+                    EliminarPlatillo.setSize(310, 170);
+                    EliminarPlatillo.setLocation(ancho_pantalla / 2 - 160, alto_pantalla / 2 - 45);
+                }
             }
         });
         pM.add(jmi1);// se agregan las opciones al contenedor
@@ -236,6 +244,10 @@ public class Modificaciones extends javax.swing.JFrame {
         message1 = new javax.swing.JLabel();
         btnSi1 = new javax.swing.JButton();
         btnNo1 = new javax.swing.JButton();
+        EliminarPlatillo = new javax.swing.JDialog();
+        message2 = new javax.swing.JLabel();
+        btnSiEliminar = new javax.swing.JButton();
+        btnNo2 = new javax.swing.JButton();
         lbl_mensaje = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaPlatillos = new javax.swing.JTable();
@@ -293,6 +305,13 @@ public class Modificaciones extends javax.swing.JFrame {
                 .addContainerGap(29, Short.MAX_VALUE))
         );
 
+        Eliminar.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        Eliminar.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                EliminarWindowClosing(evt);
+            }
+        });
+
         message1.setFont(new java.awt.Font("Microsoft New Tai Lue", 0, 14)); // NOI18N
         message1.setForeground(new java.awt.Color(255, 0, 0));
         message1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -334,6 +353,56 @@ public class Modificaciones extends javax.swing.JFrame {
                 .addGroup(EliminarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnSi1)
                     .addComponent(btnNo1)))
+        );
+
+        EliminarPlatillo.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        EliminarPlatillo.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                EliminarPlatilloWindowClosing(evt);
+            }
+        });
+
+        message2.setFont(new java.awt.Font("Microsoft New Tai Lue", 0, 14)); // NOI18N
+        message2.setForeground(new java.awt.Color(255, 0, 0));
+        message2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        message2.setText("¿Está seguro?");
+
+        btnSiEliminar.setText("SÍ");
+        btnSiEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSiEliminarActionPerformed(evt);
+            }
+        });
+
+        btnNo2.setText("NO");
+        btnNo2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNo2ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout EliminarPlatilloLayout = new javax.swing.GroupLayout(EliminarPlatillo.getContentPane());
+        EliminarPlatillo.getContentPane().setLayout(EliminarPlatilloLayout);
+        EliminarPlatilloLayout.setHorizontalGroup(
+            EliminarPlatilloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(EliminarPlatilloLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(message2, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(EliminarPlatilloLayout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addComponent(btnSiEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(81, 81, 81)
+                .addComponent(btnNo2, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        EliminarPlatilloLayout.setVerticalGroup(
+            EliminarPlatilloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(EliminarPlatilloLayout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(message2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(EliminarPlatilloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnSiEliminar)
+                    .addComponent(btnNo2)))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -597,7 +666,6 @@ public class Modificaciones extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(txt_id)
                                 .addGap(2, 2, 2)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lbl_composicion)
                             .addComponent(lbl_precio))
@@ -698,7 +766,43 @@ public class Modificaciones extends javax.swing.JFrame {
     }//GEN-LAST:event_AnadirPlatilloActionPerformed
 
     private void ActualizarPlatilloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarPlatilloActionPerformed
-        // TODO add your handling code here:
+        // Recogemos los datos del formulario        
+
+        if (!(!txt_nombre.getText().equals("") && !txt_precioI.getText().equals("") && !txt_composicion.getText().equals(""))) {
+            message.setText("Actualizar platillo: debe llenar todos los campos");
+        } else {
+            // Vamos asignar sus datos
+            String nombre = txt_nombre.getText();
+            double precio = Double.parseDouble(txt_precioI.getText().replace(",", ""));
+            String precioIng = String.format("%.2f", precio);
+            precio = Double.parseDouble(precioIng);
+            String composicion = txt_composicion.getText();
+
+            plat_temp.setNombrePlatillo(nombre);
+            plat_temp.setCostoPlatillo(precio);
+            plat_temp.setComposicion(composicion);
+            plat_temp.setIdMenu(menu.getIdMenu());
+
+            // Intentamos hacer la transacción
+            if (plat_temp.actualizarPlatillo() == 0) {
+                message.setText("Actualizar platillo: Actualizado correctamente");
+                txt_nombre.setText("");
+                txt_precioI.setText("");
+                txt_composicion.setText("");
+                plat_temp = new Platillo();
+                tablaIngredientes();
+                tablaPlatillos();
+            } else {
+                message.setText("Actualizar platillo: Oh no, algo salió mal :(");
+            }
+        }
+        Error.setVisible(true);
+        Error.setSize(400, 90);
+        Error.setLocation(ancho_pantalla / 2 - 200, alto_pantalla / 2 - 45);
+        removerActualizarItems();
+        vaciarActualizarItems();
+        plat_temp = new Platillo();
+        ing_temp = new Ingrediente();
     }//GEN-LAST:event_ActualizarPlatilloActionPerformed
 
     private void AnadirIngredienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AnadirIngredienteActionPerformed
@@ -724,7 +828,7 @@ public class Modificaciones extends javax.swing.JFrame {
             Error.setLocation(ancho_pantalla / 2 - 200, alto_pantalla / 2 - 45);
         } else {
 
-            plat_temp.agregarIngrediente(nuevo_ingrediente);            
+            plat_temp.agregarIngrediente(nuevo_ingrediente);
             tablaIngredientes();
             txt_nombreAnadirIngrediente.setText("");
             txt_precioAnadirIngrediente.setText("");
@@ -762,6 +866,38 @@ public class Modificaciones extends javax.swing.JFrame {
     private void txt_precioIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_precioIActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_precioIActionPerformed
+
+    private void btnSiEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiEliminarActionPerformed
+        plat_temp.eliminarPlatillo();
+        plat_temp = new Platillo();
+        EliminarPlatillo.setVisible(false);
+        EliminarPlatillo.dispose();
+        vaciarActualizarItems();
+        tablaIngredientes();
+        tablaPlatillos();
+    }//GEN-LAST:event_btnSiEliminarActionPerformed
+
+    private void btnNo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNo2ActionPerformed
+        plat_temp = new Platillo();
+        EliminarPlatillo.setVisible(false);
+        EliminarPlatillo.dispose();
+        vaciarActualizarItems();
+        tablaIngredientes();
+    }//GEN-LAST:event_btnNo2ActionPerformed
+
+    private void EliminarWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_EliminarWindowClosing
+        ing_temp = new Ingrediente();
+        Eliminar.setVisible(false);
+        Eliminar.dispose();
+    }//GEN-LAST:event_EliminarWindowClosing
+
+    private void EliminarPlatilloWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_EliminarPlatilloWindowClosing
+        plat_temp = new Platillo();
+        EliminarPlatillo.setVisible(false);
+        EliminarPlatillo.dispose();
+        vaciarActualizarItems();
+        tablaIngredientes();
+    }//GEN-LAST:event_EliminarPlatilloWindowClosing
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -800,10 +936,13 @@ public class Modificaciones extends javax.swing.JFrame {
     private javax.swing.JButton AnadirPlatillo;
     private javax.swing.JButton CancelarActualizacion;
     private javax.swing.JDialog Eliminar;
+    private javax.swing.JDialog EliminarPlatillo;
     private javax.swing.JDialog Error;
     private javax.swing.JButton Volver;
     private javax.swing.JButton btnNo1;
+    private javax.swing.JButton btnNo2;
     private javax.swing.JButton btnSi1;
+    private javax.swing.JButton btnSiEliminar;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lbl_composicion;
@@ -818,6 +957,7 @@ public class Modificaciones extends javax.swing.JFrame {
     private javax.swing.JLabel lbl_precio1;
     private javax.swing.JLabel message;
     private javax.swing.JLabel message1;
+    private javax.swing.JLabel message2;
     private javax.swing.JTable tablaIngredientes;
     private javax.swing.JTable tablaPlatillos;
     private javax.swing.JTextField txt_composicion;

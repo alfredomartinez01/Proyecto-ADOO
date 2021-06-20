@@ -13,6 +13,7 @@ public class IngredienteDAO {
     private static final String SQL_SELECT_BY_DATA = "select * from ingrediente where (nombreIngrediente = ? and costoIngrediente = ?)";
     private static final String SQL_INSERT = "INSERT INTO ingrediente (nombreIngrediente, costoIngrediente)  VALUES(?, ?)";
     private static final String SQL_INSERT_IN_AGREGA = "INSERT INTO agrega (idPlatillo, idIngrediente)  VALUES(?, ?)";
+    private static final String SQL_SELECT_FROM_AGREGA = "select * from agrega where idPlatillo = ?";
 
     /*En VALUES se pone ? en represantacion a cada valor que se quiere editar, se pondran mas  ? seguido 
     de comas si existen mas columnas en la tabla(?,?,?)*/
@@ -175,7 +176,39 @@ public class IngredienteDAO {
         return registros;
     }
 
-    public int actualizar(Ingrediente ingrediente) {
+    public ArrayList<Ingrediente> seleccionar_agrega(int idPlatillo) throws SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null; //Variable para trabajar con Querys
+        ResultSet rs = null;
+        Ingrediente ingrediente = null;// Cada renglon se convertira en un objeto tipo Ingrediente
+        ArrayList<Ingrediente> ingredientes = new ArrayList<>();
+
+        try {
+            conn = this.conexionTransaccional != null ? this.conexionTransaccional : Conexion.getConnection(); // asigna la conn, si no es una transacción, entonces la crea, de otro modo usa la de la transacción
+            stmt = conn.prepareStatement(SQL_SELECT_FROM_AGREGA);//Mandamos la instruccion SELECT
+            stmt.setInt(1, idPlatillo);
+
+            System.out.println("-----------------------------------------------------------------");
+            System.out.println("ejecutando query:" + stmt);
+            rs = stmt.executeQuery();//Se ejecuta la instruccion dada
+            while (rs.next()) {
+                int idIngrediente = rs.getInt("idIngrediente");
+
+                ingrediente = new Ingrediente(idIngrediente);//Convertimos informacion de base de datos a objetos java
+
+                ingredientes.add(ingrediente);//Agregamos a la lista
+            }
+        } finally {
+            Conexion.close(stmt);
+            if (this.conexionTransaccional == null) {
+                Conexion.close(conn); // Si no es una transaccion entonces la cerramos
+            }
+        }
+
+        return ingredientes;
+    }
+
+    public int actualizar(Ingrediente ingrediente) throws SQLException {
         Connection conn = null;
         PreparedStatement stmt = null;
         int registros = 0;
@@ -184,39 +217,36 @@ public class IngredienteDAO {
             stmt = conn.prepareStatement(SQL_UPDATE);
             stmt.setString(1, ingrediente.getNombreIngrediente());
             stmt.setDouble(2, ingrediente.getCostoIngrediente());
-
             stmt.setInt(3, ingrediente.getIdIngrediente());
+
+            System.out.println("-----------------------------------------------------------------");
+            System.out.println("ejecutando query:" + stmt);
             registros = stmt.executeUpdate();//actualiza base de datos, puede ejecutar sentencias , update, delete ,insert 
-        } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
         } finally {
-            try {
-                close(stmt);
-                close(conn);
-            } catch (SQLException ex) {
-                ex.printStackTrace(System.out);
+            Conexion.close(stmt);
+            if (this.conexionTransaccional == null) {
+                Conexion.close(conn); // Si no es una transaccion entonces la cerramos
             }
         }
         return registros;
     }
 
-    public int eliminar(Ingrediente ingrediente) {
+    public int eliminar(Ingrediente ingrediente) throws SQLException {
         Connection conn = null;
         PreparedStatement stmt = null;
         int registros = 0;
         try {
-            conn = getConnection();
+            conn = this.conexionTransaccional != null ? this.conexionTransaccional : Conexion.getConnection(); // asigna la conn, si no es una transacción, entonces la crea, de otro modo usa la de la transacción
             stmt = conn.prepareStatement(SQL_DELETE);
             stmt.setInt(1, ingrediente.getIdIngrediente());
+
+            System.out.println("-----------------------------------------------------------------");
+            System.out.println("ejecutando query:" + stmt);
             registros = stmt.executeUpdate();//actualiza base de datos, puede ejecutar sentencias , update, delete ,insert 
-        } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
         } finally {
-            try {
-                close(stmt);
-                close(conn);
-            } catch (SQLException ex) {
-                ex.printStackTrace(System.out);
+            Conexion.close(stmt);
+            if (this.conexionTransaccional == null) {
+                Conexion.close(conn); // Si no es una transaccion entonces la cerramos
             }
         }
         return registros;
