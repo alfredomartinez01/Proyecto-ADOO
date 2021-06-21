@@ -3,15 +3,21 @@ import static Cliente.Bienvenida.alto_pantalla;
 import static Cliente.Bienvenida.ancho_pantalla;
 import java.awt.Color;
 import static java.awt.Frame.MAXIMIZED_BOTH;
+import java.awt.GridLayout;
+import javax.swing.JButton;
+import javax.swing.JPanel;
 
 public class MenuCliente extends javax.swing.JFrame {
-
     
     public MenuCliente() {
         initComponents();
         ajustarApariencia();
         pnlPlatillos.setVisible(false);
         pnlMenuCliente.setVisible(false);
+        btnRes2.setVisible(false);
+        btnRes3.setVisible(false);
+        btnRes4.setVisible(false);
+        btnRes5.setVisible(false);
     }
 
     public void ajustarApariencia() {
@@ -22,6 +28,7 @@ public class MenuCliente extends javax.swing.JFrame {
         pnlRestaurantes.setBackground(Color.decode("#3B3455"));
         pnlPlatillos.setBackground(Color.decode("#A4A3A6"));
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -29,6 +36,10 @@ public class MenuCliente extends javax.swing.JFrame {
         pnlRestaurantes = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         btnRes1 = new javax.swing.JButton();
+        btnRes2 = new javax.swing.JButton();
+        btnRes3 = new javax.swing.JButton();
+        btnRes4 = new javax.swing.JButton();
+        btnRes5 = new javax.swing.JButton();
         pnlPlatillos = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         btnPlatillo1 = new javax.swing.JButton();
@@ -65,6 +76,46 @@ public class MenuCliente extends javax.swing.JFrame {
             }
         });
 
+        btnRes2.setBackground(new java.awt.Color(255, 255, 255));
+        btnRes2.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        btnRes2.setForeground(new java.awt.Color(59, 52, 85));
+        btnRes2.setText("Res2");
+        btnRes2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRes2ActionPerformed(evt);
+            }
+        });
+
+        btnRes3.setBackground(new java.awt.Color(255, 255, 255));
+        btnRes3.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        btnRes3.setForeground(new java.awt.Color(59, 52, 85));
+        btnRes3.setText("Res3");
+        btnRes3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRes3ActionPerformed(evt);
+            }
+        });
+
+        btnRes4.setBackground(new java.awt.Color(255, 255, 255));
+        btnRes4.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        btnRes4.setForeground(new java.awt.Color(59, 52, 85));
+        btnRes4.setText("Res4");
+        btnRes4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRes4ActionPerformed(evt);
+            }
+        });
+
+        btnRes5.setBackground(new java.awt.Color(255, 255, 255));
+        btnRes5.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        btnRes5.setForeground(new java.awt.Color(59, 52, 85));
+        btnRes5.setText("Res5");
+        btnRes5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRes5ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlRestaurantesLayout = new javax.swing.GroupLayout(pnlRestaurantes);
         pnlRestaurantes.setLayout(pnlRestaurantesLayout);
         pnlRestaurantesLayout.setHorizontalGroup(
@@ -76,7 +127,12 @@ public class MenuCliente extends javax.swing.JFrame {
                         .addComponent(jLabel3))
                     .addGroup(pnlRestaurantesLayout.createSequentialGroup()
                         .addGap(65, 65, 65)
-                        .addComponent(btnRes1)))
+                        .addGroup(pnlRestaurantesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnRes2)
+                            .addComponent(btnRes1)
+                            .addComponent(btnRes3)
+                            .addComponent(btnRes4)
+                            .addComponent(btnRes5))))
                 .addContainerGap(40, Short.MAX_VALUE))
         );
         pnlRestaurantesLayout.setVerticalGroup(
@@ -86,6 +142,14 @@ public class MenuCliente extends javax.swing.JFrame {
                 .addComponent(jLabel3)
                 .addGap(28, 28, 28)
                 .addComponent(btnRes1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnRes2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnRes3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnRes4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnRes5)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -311,6 +375,22 @@ public class MenuCliente extends javax.swing.JFrame {
         pnlMenuCliente.setVisible(true);
     }//GEN-LAST:event_btnPlatillo1ActionPerformed
 
+    private void btnRes2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRes2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnRes2ActionPerformed
+
+    private void btnRes3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRes3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnRes3ActionPerformed
+
+    private void btnRes4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRes4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnRes4ActionPerformed
+
+    private void btnRes5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRes5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnRes5ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -353,6 +433,10 @@ public class MenuCliente extends javax.swing.JFrame {
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnPlatillo1;
     private javax.swing.JButton btnRes1;
+    private javax.swing.JButton btnRes2;
+    private javax.swing.JButton btnRes3;
+    private javax.swing.JButton btnRes4;
+    private javax.swing.JButton btnRes5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
