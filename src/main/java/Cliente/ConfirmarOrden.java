@@ -32,6 +32,17 @@ public class ConfirmarOrden extends javax.swing.JFrame {
             public nombre(){
                 f = new JFrame(); 
                 String name = JOptionPane.showInputDialog(f,"Ingresa tu nombre"); 
+                
+                if(name != ""){
+                    this.setVisible(false);
+                    FormaPago pago = new FormaPago();
+                    pago.setVisible(true);
+                }
+                else{
+                    this.setVisible(false);
+                    MenuCliente mCliente = new MenuCliente();
+                    mCliente.setVisible(true);
+                }
             }
                  
         }

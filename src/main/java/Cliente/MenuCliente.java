@@ -11,6 +11,7 @@ public class MenuCliente extends javax.swing.JFrame {
     
     public MenuCliente() {
         initComponents();
+        //agregarBotones();
         ajustarApariencia();
         pnlPlatillos.setVisible(false);
         pnlMenuCliente.setVisible(false);
@@ -28,7 +29,25 @@ public class MenuCliente extends javax.swing.JFrame {
         pnlRestaurantes.setBackground(Color.decode("#3B3455"));
         pnlPlatillos.setBackground(Color.decode("#A4A3A6"));
     }
-
+    
+    /*class ResBtn extends JPanel{
+        ResBtn(){
+                JButton[] RBtn = new JButton[4];
+                String[] res = {"Chicken Lover","Burger Land","Mi Pizza","Donas Donuts"};
+                
+                pnlRestaurantes.setLayout(new FreeDesing());
+                for(int i=0;i<RBtn.length;i++) {
+                        RBtn[i]= new JButton(res[i]);
+                        add(RBtn[i]);
+                }
+        }
+    }
+    
+    public void agregarBotones(){
+        ResBtn rbtn = new ResBtn();
+        rbtn.setSize(400, 30);
+        pnlRestaurantes.add(rbtn);
+    }*/
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -364,7 +383,9 @@ public class MenuCliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContinuarActionPerformed
-        // TODO add your handling code here:
+        this.setVisible(false);
+        ConfirmarOrden confirm = new ConfirmarOrden();
+        confirm.setVisible(true);
     }//GEN-LAST:event_btnContinuarActionPerformed
 
     private void btnRes1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRes1ActionPerformed
