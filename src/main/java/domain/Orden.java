@@ -3,23 +3,21 @@ package domain;
 import java.util.ArrayList;
 import java.util.Date;
 enum ESTADOS{
-    REALIZADA,
-    RECIBIDA,
-    LISTA,
-    RECOGIDA,
+    REALIZADA, // Cuando el cliente la hace
+    RECIBIDA, // Cuando el restaurante la recibe
+    LISTA, // Cuando está terminada de preparar
+    RECOGIDA, // Cuando fue recogida
 }
 public class Orden {
    private int numero;
    
-   private ArrayList<Platillo> platillos = null; // Lista de platillos de cada menu
+   private ArrayList<Platillo> platillos = new ArrayList<Platillo>(); // Lista de platillos de cada menu
    private String estado;
    
    private int idOrden;
    private int idClienteO;
    private String fecha;
    private String hora;
-   private int fecha1;
-   private long hora1;
 
     public Orden() {
     }
@@ -35,9 +33,7 @@ public class Orden {
         this.idClienteO = idClienteO;
         this.fecha = fecha;
         this.hora = hora;
-    }
-    
-    
+    }    
 
     public Orden(int idOrden) {
         this.idOrden = idOrden;
@@ -75,7 +71,40 @@ public class Orden {
         this.hora = hora;
     }
     
+    
     //-------------------------------------------
+
+    public int getNumero() {
+        return numero;
+    }
+
+    public void setNumero(int numero) {
+        this.numero = numero;
+    }
+
+    public ArrayList<Platillo> getPlatillos() {
+        return platillos;
+    }
+
+    public void setPlatillos(ArrayList<Platillo> platillos) {
+        this.platillos = platillos;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public int getIdClienteO() {
+        return idClienteO;
+    }
+
+    public void setIdClienteO(int idClienteO) {
+        this.idClienteO = idClienteO;
+    }
     
     
 
@@ -87,8 +116,8 @@ public class Orden {
    public void Orden(){
        
    }
-   public void agregarPlatillo(){
-       
+   public void agregarPlatillo(Platillo plat){
+       this.platillos.add(plat);
    }
    public void eliminarPlatillo(){
        

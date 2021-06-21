@@ -8,10 +8,10 @@ import java.util.*;
 public class PlatilloDAO {
 
     private Connection conexionTransaccional; // Para transacciones
-    private static final String SQL_SELECT = "SELECT * FROM platillo";
-    private static final String SQL_SELECT_BY_IDMENU = "SELECT * FROM platillo where idMenu = ?";
-    private static final String SQL_SELECT_BY_DATA = "select * from platillo where (nombrePlatillo = ? and costoPlatillo = ? and composicion = ?)";
-    private static final String SQL_INSERT = "INSERT INTO platillo (idMenu,nombrePlatillo,costoPlatillo,composicion)  VALUES(?, ?, ?, ?) ";
+    private static final String SQL_SELECT = "SELECT * FROM platillo where tipo = 0";
+    private static final String SQL_SELECT_BY_IDMENU = "SELECT * FROM platillo where idMenu = ? and tipo = 0";
+    private static final String SQL_SELECT_BY_DATA = "select * from platillo where (nombrePlatillo = ? and costoPlatillo = ? and composicion = ?) and tipo = 0";
+    private static final String SQL_INSERT = "INSERT INTO platillo (idMenu,nombrePlatillo,costoPlatillo,composicion, tipo)  VALUES(?, ?, ?, ?, ?) ";
     /*En VALUES se pone ? en represantacion a cada valor que se quiere editar, se pondran mas  ? seguido 
     de comas si existen mas columnas en la tabla(?,?,?)*/
     private static final String SQL_UPDATE = "UPDATE  platillo SET idMenu = ?, nombrePlatillo = ?, costoPlatillo = ?, composicion = ?  WHERE idPlatillo = ? ";
@@ -139,6 +139,7 @@ public class PlatilloDAO {
             stmt.setString(2, platillo.getNombrePlatillo());
             stmt.setDouble(3, platillo.getCostoPlatillo());
             stmt.setString(4, platillo.getComposicion());
+            stmt.setInt(5, platillo.getTipo());
             
             System.out.println("-----------------------------------------------------------------");
             System.out.println("ejecutando query:" + stmt);

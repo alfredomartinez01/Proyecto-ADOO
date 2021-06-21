@@ -66,7 +66,7 @@ public class IngredienteDAO {
         return ingredientes;
     }
 
-    public ArrayList<Ingrediente> seleccionar_por_id(int id) {
+    public ArrayList<Ingrediente> seleccionar_por_idPlatillo(int id) throws SQLException {
         Connection conn = null;
         PreparedStatement stmt = null; //Variable para trabajar con Querys
         ResultSet rs = null;
@@ -90,15 +90,10 @@ public class IngredienteDAO {
 
                 ingredientes.add(ingrediente);//Agregamos a la lista
             }
-        } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
-        } finally {
-            try {
-                close(rs);
-                close(stmt);
-                close(conn);
-            } catch (SQLException ex) {
-                ex.printStackTrace(System.out);
+        }finally {
+            Conexion.close(stmt);
+            if (this.conexionTransaccional == null) {
+                Conexion.close(conn); // Si no es una transaccion entonces la cerramos
             }
         }
 

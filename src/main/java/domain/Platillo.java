@@ -14,11 +14,11 @@ import java.util.logging.Logger;
 public class Platillo {
 
     private int idPlatillo;
-    private int idClienteP;
     private int idMenu;
     private String nombrePlatillo;
     private double costoPlatillo;
     private String composicion;
+    private int tipo;
     private ArrayList<Ingrediente> ingredientes = new ArrayList<Ingrediente>();
 
     public Platillo() {
@@ -26,37 +26,35 @@ public class Platillo {
 
     public Platillo(int idPlatillo, int idClienteP, String nombrePlatillo, double costoPlatillo, String composicion) {
         this.idPlatillo = idPlatillo;
-        this.idClienteP = idClienteP;
         this.nombrePlatillo = nombrePlatillo;
         this.costoPlatillo = costoPlatillo;
         this.composicion = composicion;
     }
 
     public Platillo(int idClienteP, String nombrePlatillo, double costoPlatillo, String composicion) {
-        this.idClienteP = idClienteP;
         this.nombrePlatillo = nombrePlatillo;
         this.costoPlatillo = costoPlatillo;
         this.composicion = composicion;
     }
-
+    
     public Platillo(int idPlatillo) {
         this.idPlatillo = idPlatillo;
     }
-
+    public void copiar(Platillo plat){
+        this.composicion = plat.composicion;
+        this.costoPlatillo = plat.costoPlatillo;
+        this.idMenu = plat.idMenu;
+        this.idPlatillo = plat.idPlatillo;
+        this.ingredientes = plat.ingredientes;
+        this.nombrePlatillo = plat.nombrePlatillo;
+        this.tipo = plat.tipo;
+    }
     public int getIdPlatillo() {
         return idPlatillo;
     }
 
     public void setIdPlatillo(int idPlatillo) {
         this.idPlatillo = idPlatillo;
-    }
-
-    public int getIdClienteP() {
-        return idClienteP;
-    }
-
-    public void setIdClienteP(int idClienteP) {
-        this.idClienteP = idClienteP;
     }
 
     public String getNombrePlatillo() {
@@ -87,6 +85,10 @@ public class Platillo {
         return idMenu;
     }
 
+    public int getTipo() {
+        return tipo;
+    }
+
     public void setIdMenu(int idMenu) {
         this.idMenu = idMenu;
     }
@@ -96,7 +98,10 @@ public class Platillo {
     }
 
     public void setIngredientes(ArrayList<Ingrediente> ingredientes) {
-        this.ingredientes = ingredientes;
+        this.ingredientes = new ArrayList<Ingrediente>();
+        for(Ingrediente ing: ingredientes){
+            this.ingredientes.add(ing.get());
+        }
     }
 
     public void agregarIngrediente(Ingrediente ingrediente) {
