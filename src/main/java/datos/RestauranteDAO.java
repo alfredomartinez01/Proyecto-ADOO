@@ -23,6 +23,7 @@ import java.util.List;
 public class RestauranteDAO {
 
     private Connection conexionTransaccional;
+    private String SQL_SELECT_RESTAURANTES = "select * from restaurante";
     private String SQL_INSERT_IN_RESTAURANTE = "insert into restaurante(nombreRest, local, telefono, nombreUsuario, contrasena) values(?, ?, ?, ?, ?)";
     private String SQL_UPDATE_RESTAURANTE = "update restaurante set nombreRest = ?, local = ?, telefono = ?, nombreUsuario = ?, contrasena = ? where idRestaurante = ?;";
     private String SQL_SELECT_FROM_RESTAURANTE = "select * from restaurante where ( (local = ? and nombreRest = ?) or (nombreUsuario = ?) or (idRestaurante = ?) )";
@@ -97,6 +98,42 @@ public class RestauranteDAO {
         }
         return rows;
     }
+    
+    // Para seleccionar todos los restaurantes
+    public ArrayList<Restaurante> select_all() throws SQLException {
+        Connection conn = null;
+        PreparedStatement stmt_menu = null;
+        ResultSet rs = null;
+        ArrayList<Restaurante> restaurantes = new ArrayList<Restaurante>();
+        Restaurante restaurante_aux = new Restaurante();
+        try {
+            conn = this.conexionTransaccional != null ? this.conexionTransaccional : Conexion.getConnection(); // asigna la conn, si no es una transacción, entonces la crea, de otro modo usa la de la transacción
+
+            stmt_menu = conn.prepareStatement(SQL_SELECT_RESTAURANTES); // Preparamos el insert en restaurante
+
+            System.out.println("-----------------------------------------------------------------");
+            System.out.println("ejecutando query:" + stmt_menu);
+            rs = stmt_menu.executeQuery();
+
+            while (rs.next()) {
+                restaurante_aux.setId(rs.getInt("idRestaurante"));
+                restaurante_aux.setNombre(rs.getString("nombreRest"));
+                restaurante_aux.setLocal(rs.getInt("local"));
+                restaurante_aux.setTelefono(rs.getLong("telefono"));
+
+                restaurantes.add(restaurante_aux);
+                restaurante_aux = new Restaurante();
+            }
+        } finally {
+            Conexion.close(stmt_menu);
+            Conexion.close(rs);
+            if (this.conexionTransaccional == null) {
+                Conexion.close(conn); // Si no es una transaccion entonces la cerramos
+            }
+        }
+        return restaurantes;
+    }
+    
     /* Registramos los datos actualizados del restaurante en restaurante*/
     public int actualizar(Restaurante restaurante) throws SQLException {
         Connection conn = null;

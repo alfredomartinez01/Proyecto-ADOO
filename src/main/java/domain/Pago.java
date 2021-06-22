@@ -12,8 +12,9 @@ package domain;
 public class Pago {
     private int idPago;
     private int idClienteP;
+    private int idCliente;
     private double montoTotal;
-    private int noCuenta;
+    private String noCuenta;
     private int cvv;
     private String fechaCad;
     private String tipo;
@@ -21,7 +22,7 @@ public class Pago {
     public Pago() {
     }
 
-    public Pago(int idPago, int idClienteP, double montoTotal, int noCuenta, int cvv, String fechaCad, String tipo) {
+    public Pago(int idPago, int idClienteP, double montoTotal, String noCuenta, int cvv, String fechaCad, String tipo) {
         this.idPago = idPago;
         this.idClienteP = idClienteP;
         this.montoTotal = montoTotal;
@@ -39,6 +40,14 @@ public class Pago {
         this.idPago = idPago;
     }
 
+    public int getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(int idCliente) {
+        this.idCliente = idCliente;
+    }
+    
     public int getIdClienteP() {
         return idClienteP;
     }
@@ -55,11 +64,11 @@ public class Pago {
         this.montoTotal = montoTotal;
     }
 
-    public int getNoCuenta() {
+    public String getNoCuenta() {
         return noCuenta;
     }
 
-    public void setNoCuenta(int noCuenta) {
+    public void setNoCuenta(String noCuenta) {
         this.noCuenta = noCuenta;
     }
 
@@ -94,7 +103,7 @@ public class Pago {
         this.tipo = tipo;
     }
 
-    public Pago(int idClienteP, double montoTotal, int noCuenta, int cvv, String fechaCad, String tipo) {
+    public Pago(int idClienteP, double montoTotal, String noCuenta, int cvv, String fechaCad, String tipo) {
         this.idClienteP = idClienteP;
         this.montoTotal = montoTotal;
         this.noCuenta = noCuenta;

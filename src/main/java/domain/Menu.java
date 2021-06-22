@@ -61,7 +61,7 @@ public class Menu {
     public int getIdRestaurante() {
         return idRestaurante;
     }
-    public int leerPlatillos(){ // Lee los platillos del restaurante de la base de datos
+    public int leerPlatillos() throws SQLException{ // Lee los platillos del restaurante de la base de datos
         PlatilloDAO plat_management = new PlatilloDAO();
         try {
             this.platillos = plat_management.seleccionar_por(idMenu);
@@ -70,7 +70,7 @@ public class Menu {
         }
         for(Platillo plat: platillos){
             IngredienteDAO ing_management = new IngredienteDAO();
-            plat.setIngredientes(ing_management.seleccionar_por_id(plat.getIdPlatillo()));
+            plat.setIngredientes(ing_management.seleccionar_por_idPlatillo(plat.getIdPlatillo()));
         }
         return 0;
     }

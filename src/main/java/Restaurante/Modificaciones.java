@@ -10,6 +10,9 @@ import java.awt.Color;
 import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.table.DefaultTableModel;
@@ -44,7 +47,11 @@ public class Modificaciones extends javax.swing.JFrame {
 
     private void tablaPlatillos() { // Muestra la tabla normal
         DefaultTableModel model = (DefaultTableModel) tablaPlatillos.getModel();
-        menu.leerPlatillos();
+        try {
+            menu.leerPlatillos();
+        } catch (SQLException ex) {
+            Logger.getLogger(Modificaciones.class.getName()).log(Level.SEVERE, null, ex);
+        }
         // Borra la tabla anterior
         int index = 0;
         while (index < model.getRowCount()) {
@@ -105,7 +112,8 @@ public class Modificaciones extends javax.swing.JFrame {
 
                 String idPlat = String.valueOf(tablaPlatillos.getValueAt(tablaPlatillos.getSelectedRow(), 0));
                 int idP = Integer.valueOf(idPlat);
-                if (idP != -1) { // Busqueda por IDP, checamos que no esté vacío   
+                if (idP != -1) { try {
+                    // Busqueda por IDP, checamos que no esté vacío
                     // Buscamos los datos del platillo en la lista
                     menu.leerPlatillos();
                     for (Platillo plat : menu.getPlatillos()) {
@@ -119,6 +127,9 @@ public class Modificaciones extends javax.swing.JFrame {
                     plat_temp = plat_modificado;
                     llenarActualizarItems();
                     tablaIngredientes();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Modificaciones.class.getName()).log(Level.SEVERE, null, ex);
+                    }
 
                 }
             }

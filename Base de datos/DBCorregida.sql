@@ -52,7 +52,7 @@ CREATE TABLE `cliente` (
   `idCliente` int(11) NOT NULL AUTO_INCREMENT,
   `nombreCliente` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`idCliente`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -77,7 +77,7 @@ CREATE TABLE `contiene` (
   PRIMARY KEY (`idPlatillo`,`idOrden`),
   KEY `idOrden_idx` (`idOrden`),
   CONSTRAINT `idOrden_contiene` FOREIGN KEY (`idOrden`) REFERENCES `orden` (`idOrden`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `idPlatillo_contiene` FOREIGN KEY (`idPlatillo`) REFERENCES `platillo` (`idPlatillo`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `idPlatillo_contiene` FOREIGN KEY (`idPlatillo`) REFERENCES `platillo` (`idPlatillo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -127,9 +127,9 @@ DROP TABLE IF EXISTS `ingrediente`;
 CREATE TABLE `ingrediente` (
   `idIngrediente` int(11) NOT NULL AUTO_INCREMENT,
   `nombreIngrediente` varchar(60) DEFAULT NULL,
-  `costoIngrediente` decimal(10,0) NOT NULL,
+  `costoIngrediente` decimal(10,2) DEFAULT NULL,
   PRIMARY KEY (`idIngrediente`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -149,12 +149,12 @@ DROP TABLE IF EXISTS `menu`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `menu` (
-  `idMenu` int(11) NOT NULL,
+  `idMenu` int(11) NOT NULL AUTO_INCREMENT,
   `idRestaurante` int(11) NOT NULL,
   PRIMARY KEY (`idMenu`),
   KEY `idRestaurante_idx` (`idRestaurante`),
   CONSTRAINT `idRestaurante` FOREIGN KEY (`idRestaurante`) REFERENCES `restaurante` (`idRestaurante`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -176,13 +176,14 @@ DROP TABLE IF EXISTS `orden`;
 CREATE TABLE `orden` (
   `idOrden` int(11) NOT NULL AUTO_INCREMENT,
   `idCliente` int(11) NOT NULL,
-  `fecha` date NOT NULL,
-  `hora` time NOT NULL,
+  `fecha` varchar(11) NOT NULL,
+  `hora` varchar(10) NOT NULL,
+  `estado` varchar(45) NOT NULL,
   PRIMARY KEY (`idOrden`),
   KEY `idOrden_idx` (`idOrden`),
   KEY `idCliente` (`idCliente`),
   CONSTRAINT `idCliente` FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`idCliente`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -204,15 +205,15 @@ DROP TABLE IF EXISTS `pago`;
 CREATE TABLE `pago` (
   `idPago` int(11) NOT NULL AUTO_INCREMENT,
   `idCliente` int(11) NOT NULL,
-  `montoTotal` decimal(10,0) NOT NULL,
-  `noCuenta` int(18) DEFAULT NULL,
-  `cvv` int(4) DEFAULT NULL,
-  `fechaCad` date DEFAULT NULL,
-  `tipo` tinyint(4) NOT NULL,
+  `montoTotal` decimal(10,2) DEFAULT NULL,
+  `noCuenta` varchar(18) DEFAULT NULL,
+  `cvv` int(11) DEFAULT NULL,
+  `fechaCad` varchar(5) DEFAULT NULL,
+  `tipo` varchar(10) NOT NULL,
   PRIMARY KEY (`idPago`,`idCliente`),
   KEY `idCliente_idx` (`idCliente`),
   CONSTRAINT `idCliente_pago` FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`idCliente`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -235,12 +236,13 @@ CREATE TABLE `platillo` (
   `idPlatillo` int(11) NOT NULL AUTO_INCREMENT,
   `idMenu` int(11) NOT NULL,
   `nombrePlatillo` varchar(45) DEFAULT NULL,
-  `costoPlatillo` decimal(10,0) NOT NULL,
+  `costoPlatillo` decimal(10,2) DEFAULT NULL,
   `composicion` varchar(100) DEFAULT NULL,
+  `tipo` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`idPlatillo`),
   KEY `idMenu_idx` (`idMenu`),
   CONSTRAINT `idMenu` FOREIGN KEY (`idMenu`) REFERENCES `menu` (`idMenu`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=359 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -263,11 +265,11 @@ CREATE TABLE `restaurante` (
   `idRestaurante` int(11) NOT NULL AUTO_INCREMENT,
   `nombreRest` varchar(45) DEFAULT NULL,
   `local` int(11) DEFAULT NULL,
-  `telefono` int(10) DEFAULT NULL,
+  `telefono` bigint(20) DEFAULT NULL,
   `nombreUsuario` varchar(45) DEFAULT NULL,
   `contrasena` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`idRestaurante`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=114 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -288,4 +290,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-06-14  1:31:11
+-- Dump completed on 2021-06-22 17:59:16

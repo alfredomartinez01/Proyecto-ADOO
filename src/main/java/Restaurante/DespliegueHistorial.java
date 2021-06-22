@@ -38,8 +38,9 @@ public class DespliegueHistorial extends javax.swing.JFrame {
 
     private void tablaPedidos() { // Muestra la tabla normal
         DefaultTableModel model = (DefaultTableModel) tablaPedidos.getModel();
-        List<Orden> ordenes = ordenDao.seleccionar();
+        List<Orden> ordenes = ordenDao.seleccionar();        
         List<Pago> pagos = pagoDao.seleccionar();
+        
         // Borra la tabla anterior
         int index = 0;
         while (index < model.getRowCount()) {
@@ -250,7 +251,7 @@ public class DespliegueHistorial extends javax.swing.JFrame {
         }
     });
 
-    Timer table_timer = new Timer(100, new ActionListener() { // Encargado de mostrar la tabla normal
+    Timer table_timer = new Timer(1000, new ActionListener() { // Encargado de mostrar la tabla normal
         public void actionPerformed(ActionEvent e) {
             tablaPedidos();
         }
