@@ -4,12 +4,12 @@ public class Pago {
     private int idPago;
     private int idCliente;
     private double montoTotal;
-    private int noCuenta;
+    private String noCuenta;
     private int cvv;
     private String fechaCad;
     private int tipo;
 
-    public Pago(int idPago, int idCliente, double montoTotal, int noCuenta, int cvv, String fechaCad, int tipo) {
+    public Pago(int idPago, int idCliente, double montoTotal, String noCuenta, int cvv, String fechaCad, int tipo) {
         this.idPago = idPago;
         this.idCliente = idCliente;
         this.montoTotal = montoTotal;
@@ -22,7 +22,7 @@ public class Pago {
     public Pago() {
     }
 
-    public Pago(int idCliente, double montoTotal, int noCuenta, int cvv, String fechaCad, int tipo) {
+    public Pago(int idCliente, double montoTotal, String noCuenta, int cvv, String fechaCad, int tipo) {
         this.idCliente = idCliente;
         this.montoTotal = montoTotal;
         this.noCuenta = noCuenta;
@@ -56,11 +56,11 @@ public class Pago {
         this.montoTotal = montoTotal;
     }
 
-    public int getNoCuenta() {
+    public String getNoCuenta() {
         return noCuenta;
     }
 
-    public void setNoCuenta(int noCuenta) {
+    public void setNoCuenta(String noCuenta) {
         this.noCuenta = noCuenta;
     }
 
