@@ -1,51 +1,71 @@
 package Restaurante;
 
+import static Restaurante.Login.*;
+import datos.OrdenDAO;
+import datos.PagoDAO;
+import domain.Orden;
+import domain.Pago;
 import domain.Restaurante;
 import java.awt.Color;
 import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
+import java.util.List;
 import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 
 public class DespliegueHistorial extends javax.swing.JFrame {
+
     private Restaurante restaurante = new Restaurante();
-    
+    private OrdenDAO ordenDao = new OrdenDAO();
+    private PagoDAO pagoDao = new PagoDAO();
+    public int noOrden ;
+
     public DespliegueHistorial(Restaurante restaurant) {
         this.restaurante = restaurant;
         initComponents();
-        ajustarApariencia();  
+        ajustarApariencia();
         timer.start();
         table_timer.start();
     }
-    public void ajustarApariencia(){        
+
+    public void ajustarApariencia() {
         this.setTitle("Historial de pedidos");
         this.setExtendedState(MAXIMIZED_BOTH);
         getContentPane().setBackground(Color.WHITE);
     }
-    
-    private void tabla(){ // Muestra la tabla normal
-        DefaultTableModel model=(DefaultTableModel) tablaPedidos.getModel();
-        
+
+    private void tablaPedidos() { // Muestra la tabla normal
+        DefaultTableModel model = (DefaultTableModel) tablaPedidos.getModel();
+        List<Orden> ordenes = ordenDao.seleccionar();
+        List<Pago> pagos = pagoDao.seleccionar();
         // Borra la tabla anterior
         int index = 0;
-        while(index < model.getRowCount()){
-                model.removeRow(index); 
+        while (index < model.getRowCount()) {
+            model.removeRow(index);
         }
-        model=(DefaultTableModel) tablaPedidos.getModel(); // Crea el modelo de la tabla a partir del actual
-        Object[] fila = new Object[8]; // Crea el objeto de celdas para agregar
-                    fila[0] = "1";
-                    fila[1] = "1";
-                    fila[2] = "1";
-                    fila[3] = "1";
-                    model.addRow(fila); // Agrega la fila al modelo de la tabla
-                    tablaPedidos.setModel(model); // Reasigna el modelo pero ahora con los nuevos datos 
-                
+        model = (DefaultTableModel) tablaPedidos.getModel(); // Crea el modelo de la tabla a partir del actual
+        Object[] fila = new Object[5]; // Crea el objeto de celdas para agregar
+
+        for (Orden orden : ordenes) {
+            for (Pago pago : pagos) {
+                if (orden.getIdCliente() == pago.getIdClienteP()) {
+                    fila[0] = orden.getIdOrden();
+                    fila[1] = orden.getFecha();
+                    fila[2] = pago.getTipo();
+                    fila[3] = pago.getMontoTotal();
+                    fila[4] = orden.getEstado();
+                    model.addRow(fila);
+                }
+            }
+        }
+
+        tablaPedidos.setModel(model);
+        
+
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -61,7 +81,6 @@ public class DespliegueHistorial extends javax.swing.JFrame {
         Volver = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1371, 768));
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -108,6 +127,11 @@ public class DespliegueHistorial extends javax.swing.JFrame {
         jLabel1.setText("No. Orden");
 
         txt_orden.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#"))));
+        txt_orden.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_ordenActionPerformed(evt);
+            }
+        });
 
         Actualizar.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         Actualizar.setText("Consultar");
@@ -177,42 +201,61 @@ public class DespliegueHistorial extends javax.swing.JFrame {
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         timer.stop();
         table_timer.stop();
-        MenuAdministrador menuAdmin= new MenuAdministrador(restaurante.getCorreo());
+        MenuAdministrador menuAdmin = new MenuAdministrador(restaurante.getCorreo());
         menuAdmin.setVisible(true);
         this.setVisible(false);
         this.dispose();
     }//GEN-LAST:event_formWindowClosing
 
     private void ActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarActionPerformed
-        timer.stop();
-        table_timer.stop();
-        DetallesPedido detalles = new DetallesPedido(restaurante, txt_orden.getText());
-        detalles.setVisible(true);
-        this.setVisible(false);
-        this.dispose();
+        
+            timer.stop();
+            table_timer.stop();
+            DetallesPedido detalles = new DetallesPedido(restaurante, txt_orden.getText());
+            detalles.setVisible(true);
+            this.setVisible(false);
+            this.dispose();
+            
+            
+            
+        
+        
     }//GEN-LAST:event_ActualizarActionPerformed
 
     private void VolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VolverActionPerformed
         timer.stop();
         table_timer.stop();
-        MenuAdministrador menuAdmin= new MenuAdministrador(restaurante.getCorreo());
+        MenuAdministrador menuAdmin = new MenuAdministrador(restaurante.getCorreo());
         menuAdmin.setVisible(true);
         this.setVisible(false);
         this.dispose();
     }//GEN-LAST:event_VolverActionPerformed
-    
-    Timer timer = new Timer (1000, new ActionListener (){ // Encargado de actualizar la hora
-            public void actionPerformed(ActionEvent e) {
-               fecha_label.setText("Fecha: " + new Date());
-            }           
+
+    private void txt_ordenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_ordenActionPerformed
+        // TODO add your handling code here:
+        List<Orden> ordenes = ordenDao.seleccionar();
+       
+        System.out.println("valor historial" + txt_orden.getText());
+        for (Orden orden : ordenes) {
+            if(orden.getIdCliente()==noOrden){
+                noOrden = orden.getIdCliente();
+            }
+        }
+        
+    }//GEN-LAST:event_txt_ordenActionPerformed
+
+    Timer timer = new Timer(1000, new ActionListener() { // Encargado de actualizar la hora
+        public void actionPerformed(ActionEvent e) {
+            fecha_label.setText("Fecha: " + new Date());
+        }
     });
-    
-    Timer table_timer = new Timer (100, new ActionListener (){ // Encargado de mostrar la tabla normal
-            public void actionPerformed(ActionEvent e) {
-               tabla();
-            }           
+
+    Timer table_timer = new Timer(100, new ActionListener() { // Encargado de mostrar la tabla normal
+        public void actionPerformed(ActionEvent e) {
+            tablaPedidos();
+        }
     });
-    
+
     public static void main(String args[]) {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -221,7 +264,8 @@ public class DespliegueHistorial extends javax.swing.JFrame {
             }
         });
     }
-
+    private javax.swing.JLabel message;
+    private javax.swing.JDialog Error;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Actualizar;
     private javax.swing.JButton Volver;

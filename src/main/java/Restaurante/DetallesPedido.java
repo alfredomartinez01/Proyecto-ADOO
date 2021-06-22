@@ -1,17 +1,28 @@
 package Restaurante;
 
+import datos.OrdenDAO;
+import datos.PagoDAO;
+import datos.PlatilloDAO;
+import domain.Orden;
+import domain.Platillo;
 import domain.Restaurante;
 import java.awt.Color;
 import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
+import java.util.List;
 import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
+import Restaurante.DespliegueHistorial;
 
 public class DetallesPedido extends javax.swing.JFrame {
     
     private Restaurante restaurante = new Restaurante();
+    private OrdenDAO ordenDao = new OrdenDAO();
+    private PlatilloDAO platilloDao = new PlatilloDAO();
+    public String x;
+    
     
     public DetallesPedido(Restaurante restaurant, String no_orden) {
         this.restaurante = restaurant;
@@ -20,7 +31,11 @@ public class DetallesPedido extends javax.swing.JFrame {
         asignarDatos();
         lbl_mensaje.setText("Mostrando detalles de la orden " + no_orden + ".");
         timer.start();
-    }
+        
+        
+    }    
+    
+    
     public void ajustarApariencia(){      
         this.setTitle("Detalles de orden");
         this.setExtendedState(MAXIMIZED_BOTH);
@@ -28,24 +43,50 @@ public class DetallesPedido extends javax.swing.JFrame {
     }
     public void asignarDatos(){
         /* Asignamos los platillos y toda la información de la orden*/  
-        tabla();
-    }
-    private void tabla(){ // Muestra la tabla normal
-        DefaultTableModel model=(DefaultTableModel) tablaPlatillos.getModel();
+        tablaPlatillos();
         
+        
+    }
+    
+    private void tablaPlatillos(){ // Muestra la tabla normal
+        DefaultTableModel model = (DefaultTableModel) tablaPlatillos.getModel();
+        List<Orden> contiene = ordenDao.seleccionar_contiene();
+        List<Platillo> platillos = platilloDao.seleccionar();
+        
+        int o = 0;
         // Borra la tabla anterior
         int index = 0;
-        while(index < model.getRowCount()){
-                model.removeRow(index); 
+        while (index < model.getRowCount()) {
+            model.removeRow(index);
         }
-        model=(DefaultTableModel) tablaPlatillos.getModel(); // Crea el modelo de la tabla a partir del actual
-        Object[] fila = new Object[8]; // Crea el objeto de celdas para agregar
-                    fila[0] = "1";
-                    fila[1] = "1";
-                    fila[2] = "1";
-                    fila[3] = "1";
-                    model.addRow(fila); // Agrega la fila al modelo de la tabla
-                    tablaPlatillos.setModel(model); // Reasigna el modelo pero ahora con los nuevos datos 
+        model = (DefaultTableModel) tablaPlatillos.getModel(); // Crea el modelo de la tabla a partir del actual
+        Object[] fila = new Object[4]; // Crea el objeto de celdas para agregar
+        
+        
+        
+        for (Orden orden : contiene){
+            if(orden.getIdOrden()== 12){
+                for (Platillo platillo : platillos){
+                    o = platillo.getIdPlatillo();
+                }
+            }
+        }
+            
+            for (Platillo platillo1 : platillos) {
+                
+                if (platillo1.getIdPlatillo() == o) {
+                    fila[0] = platillo1.getIdPlatillo();
+                    fila[1] = platillo1.getNombrePlatillo();
+                    fila[2] = platillo1.getCostoPlatillo();
+                    fila[3] = platillo1.getComposicion();
+                   
+                    model.addRow(fila);
+                }
+                
+            }
+        
+
+        tablaPlatillos.setModel(model); 
                 
     }
 
@@ -85,14 +126,14 @@ public class DetallesPedido extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Nombre", "Precio", "Composición", "Lista de ingredientes"
+                "ID", "Nombre", "Precio", "Composición"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                true, false, false, false, false
+                true, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -131,6 +172,11 @@ public class DetallesPedido extends javax.swing.JFrame {
 
         Estados.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         Estados.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Orden realizada", "Orden recibida", "Preparando orden", "Orden lista parar recoger" }));
+        Estados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EstadosActionPerformed(evt);
+            }
+        });
 
         Volver.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         Volver.setText("Volver atrás");
@@ -223,9 +269,14 @@ public class DetallesPedido extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_VolverActionPerformed
 
+    
     private void ActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ActualizarActionPerformed
+
+    private void EstadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EstadosActionPerformed
+        //////////
+    }//GEN-LAST:event_EstadosActionPerformed
     Timer timer = new Timer (1000, new ActionListener (){ // Encargado de actualizar la hora
             public void actionPerformed(ActionEvent e) {
                fecha_label.setText("Fecha: " + new Date());
