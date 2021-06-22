@@ -1,8 +1,10 @@
 package Cliente;
+
 import static Cliente.Bienvenida.alto_pantalla;
 import static Cliente.Bienvenida.ancho_pantalla;
 import domain.Cliente;
 import domain.Ingrediente;
+import domain.Menu;
 import domain.Orden;
 import domain.Platillo;
 import java.awt.Color;
@@ -17,17 +19,20 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class ConfirmarOrden extends javax.swing.JFrame {
+
     private Orden orden_temp = new Orden();
-    
+    private Menu menu_temp = new Menu();
+
     public ConfirmarOrden() {
         initComponents();
         ajustarApariencia();
     }
-    
-    public ConfirmarOrden(Orden o) {
+
+    public ConfirmarOrden(Orden o, Menu menu) {
         initComponents();
         ajustarApariencia();
         orden_temp = o;
+        menu_temp = menu;
         llenarTablaPlatillos();
     }
 
@@ -36,37 +41,36 @@ public class ConfirmarOrden extends javax.swing.JFrame {
         this.setTitle("Confirmación de orden");
         this.setExtendedState(MAXIMIZED_BOTH);
         getContentPane().setBackground(Color.decode("#3B3455"));
-        tblOrdenC.setSize(ancho_pantalla,alto_pantalla);
+        tblOrdenC.setSize(ancho_pantalla, alto_pantalla);
     }
-    
-    public void llenarTablaPlatillos() {           
+
+    public void llenarTablaPlatillos() {
         // Muestra la tabla normal
-            DefaultTableModel model = (DefaultTableModel) tblOrdenC.getModel();
-            // Borra la tabla anterior
-            int index = 0;
-            while (index < model.getRowCount()) {
-                model.removeRow(index);
+        DefaultTableModel model = (DefaultTableModel) tblOrdenC.getModel();
+        // Borra la tabla anterior
+        int index = 0;
+        while (index < model.getRowCount()) {
+            model.removeRow(index);
+        }
+        model = (DefaultTableModel) tblOrdenC.getModel(); // Crea el modelo de la tabla a partir del actual
+        Object[] fila = new Object[5]; // Crea el objeto de celdas para agregar
+        int noPlat = 0;
+        for (Platillo plat : orden_temp.getPlatillos()) {
+            //tablaPlatillos.setRowHeight(noPlat, 30);
+            fila[0] = plat.getNombrePlatillo();
+            fila[1] = plat.getComposicion();
+            fila[2] = plat.getCostoPlatillo();
+            String ingredientes = "";
+            for (Ingrediente ing : plat.getIngredientes()) {
+                ingredientes += ing;
             }
-            model = (DefaultTableModel) tblOrdenC.getModel(); // Crea el modelo de la tabla a partir del actual
-            Object[] fila = new Object[5]; // Crea el objeto de celdas para agregar
-            int noPlat = 0;
-            for (Platillo plat : orden_temp.getPlatillos()) {
-                //tablaPlatillos.setRowHeight(noPlat, 30);
-                fila[0] = plat.getNombrePlatillo();
-                fila[1] = plat.getComposicion();
-                fila[2] = plat.getCostoPlatillo();
-                String ingredientes = "";
-                for (Ingrediente ing : plat.getIngredientes()) {
-                    ingredientes += ing;
-                }
-                fila[3] = ingredientes;
-                model.addRow(fila); // Agrega la fila al modelo de la tabla
-                noPlat++;
-            }
-            tblOrdenC.setModel(model); // Reasigna el modelo pero ahora con los nuevos datos 
-    }     
- 
-    
+            fila[3] = ingredientes;
+            model.addRow(fila); // Agrega la fila al modelo de la tabla
+            noPlat++;
+        }
+        tblOrdenC.setModel(model); // Reasigna el modelo pero ahora con los nuevos datos 
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -108,6 +112,9 @@ public class ConfirmarOrden extends javax.swing.JFrame {
             }
         });
         jScrollPane2.setViewportView(tblOrdenC);
+        if (tblOrdenC.getColumnModel().getColumnCount() > 0) {
+            tblOrdenC.getColumnModel().getColumn(3).setMinWidth(300);
+        }
 
         btnConfirmar.setBackground(new java.awt.Color(153, 255, 255));
         btnConfirmar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
@@ -136,15 +143,13 @@ public class ConfirmarOrden extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnCancelar)
+                        .addGap(53, 53, 53)
+                        .addComponent(btnConfirmar))
                     .addComponent(jLabel1)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 683, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(43, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(53, 53, 53)
-                .addComponent(btnCancelar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnConfirmar)
-                .addGap(100, 100, 100))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -165,13 +170,13 @@ public class ConfirmarOrden extends javax.swing.JFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         this.setVisible(false);
-        MenuCliente mCliente = new MenuCliente(orden_temp);
+        MenuCliente mCliente = new MenuCliente(orden_temp, menu_temp);
         mCliente.setVisible(true);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
         this.setVisible(false);
-        FormaPago pago = new FormaPago(orden_temp);
+        FormaPago pago = new FormaPago(orden_temp, menu_temp);
         pago.setVisible(true);
     }//GEN-LAST:event_btnConfirmarActionPerformed
 

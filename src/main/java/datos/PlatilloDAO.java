@@ -65,35 +65,34 @@ public class PlatilloDAO {
 
         return platillos;
     }
-    
+
     /*Obtener ultimo id de platillo*/
-        public int lastIDPlatillo() {
-            Connection conn = null;
-            PreparedStatement stmt = null; //Variable para trabajar con Querys
-            ResultSet rs = null;
-            int idPlat = 0;// Cada renglon se convertira en un objeto tipo cliente
+    public int lastIDPlatillo() throws SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null; //Variable para trabajar con Querys
+        ResultSet rs = null;
+        int idPlat = 0;// Cada renglon se convertira en un objeto tipo cliente
 
-            try {
-                conn = getConnection();//Conexion activa hacia la base de datos
-                stmt = conn.prepareStatement(SQL_SELECT_MAX_PLATILLO);//Mandamos la instruccion SELECT
-                rs = stmt.executeQuery();//Se ejecuta la instruccion dada
-                rs.next();
-                    idPlat = rs.getInt("ultimoIDPlatillo");
-            } catch (SQLException ex) {
-                ex.printStackTrace(System.out);
-            } finally {
-                try {
-                    close(rs);
-                    close(stmt);
-                    close(conn);
-                } catch (SQLException ex) {
-                    ex.printStackTrace(System.out);
-                }
+        try {
+            conn = this.conexionTransaccional != null ? this.conexionTransaccional : Conexion.getConnection(); // asigna la conn, si no es una transacción, entonces la crea, de otro modo usa la de la transacción
+            stmt = conn.prepareStatement(SQL_SELECT_MAX_PLATILLO);//Mandamos la instruccion SELECT
+
+            System.out.println("-----------------------------------------------------------------");
+            System.out.println("ejecutando query:" + stmt);
+            rs = stmt.executeQuery();//Se ejecuta la instruccion dada
+            rs.next();
+            idPlat = rs.getInt("ultimoIDPlatillo");
+        } finally {
+            Conexion.close(stmt);
+            Conexion.close(rs);
+            if (this.conexionTransaccional == null) {
+                Conexion.close(conn); // Si no es una transaccion entonces la cerramos
             }
-
-            return idPlat;
         }
-    
+
+        return idPlat;
+    }
+
     public ArrayList<Platillo> seleccionar_por(int idmenu) throws SQLException {
         Connection conn = null;
         PreparedStatement stmt = null; //Variable para trabajar con Querys
@@ -105,7 +104,7 @@ public class PlatilloDAO {
             conn = getConnection();//Conexion activa hacia la base de datos
             stmt = conn.prepareStatement(SQL_SELECT_BY_IDMENU);//Mandamos la instruccion SELECT
             stmt.setInt(1, idmenu);
-            
+
             System.out.println("-----------------------------------------------------------------");
             System.out.println("ejecutando query:" + stmt);
             rs = stmt.executeQuery();//Se ejecuta la instruccion dada
@@ -120,14 +119,15 @@ public class PlatilloDAO {
                 platillos.add(platillo);//Agregamos a la lista
             }
         } finally {
-                Conexion.close(stmt);
-                Conexion.close(rs);                
-                if (this.conexionTransaccional == null) {
-                    Conexion.close(conn); // Si no es una transaccion entonces la cerramos
-                }            
+            Conexion.close(stmt);
+            Conexion.close(rs);
+            if (this.conexionTransaccional == null) {
+                Conexion.close(conn); // Si no es una transaccion entonces la cerramos
+            }
         }
         return platillos;
     }
+
     public void seleccionar_data(Platillo plat) throws SQLException {
         Connection conn = null;
         PreparedStatement stmt = null; //Variable para trabajar con Querys
@@ -139,7 +139,7 @@ public class PlatilloDAO {
             stmt.setString(1, plat.getNombrePlatillo());
             stmt.setDouble(2, plat.getCostoPlatillo());
             stmt.setString(3, plat.getComposicion());
-            
+
             System.out.println("-----------------------------------------------------------------");
             System.out.println("ejecutando query:" + stmt);
             rs = stmt.executeQuery();//Se ejecuta la instruccion dada
@@ -149,16 +149,17 @@ public class PlatilloDAO {
                 plat.setNombrePlatillo(rs.getString("nombrePlatillo"));
                 plat.setCostoPlatillo(rs.getDouble("costoPlatillo"));
                 plat.setComposicion(rs.getString("composicion"));
-                
+
             }
         } finally {
-                Conexion.close(stmt);
-                Conexion.close(rs);                
-                if (this.conexionTransaccional == null) {
-                    Conexion.close(conn); // Si no es una transaccion entonces la cerramos
-                }            
+            Conexion.close(stmt);
+            Conexion.close(rs);
+            if (this.conexionTransaccional == null) {
+                Conexion.close(conn); // Si no es una transaccion entonces la cerramos
+            }
         }
     }
+
     public int insertar(Platillo platillo) throws SQLException {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -171,20 +172,19 @@ public class PlatilloDAO {
             stmt.setDouble(3, platillo.getCostoPlatillo());
             stmt.setString(4, platillo.getComposicion());
             stmt.setInt(5, platillo.getTipo());
-            
+
             System.out.println("-----------------------------------------------------------------");
             System.out.println("ejecutando query:" + stmt);
             registros = stmt.executeUpdate();//actualiza base de datos, puede ejecutar sentencias , update, delete ,insert 
         } finally {
-                Conexion.close(stmt);
-                if (this.conexionTransaccional == null) {
-                    Conexion.close(conn); // Si no es una transaccion entonces la cerramos
-                }            
+            Conexion.close(stmt);
+            if (this.conexionTransaccional == null) {
+                Conexion.close(conn); // Si no es una transaccion entonces la cerramos
+            }
         }
         return registros;
     }
-    
-    
+
     public int insertar_en_contiene(int idPlat, int idOrden) throws SQLException {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -224,10 +224,10 @@ public class PlatilloDAO {
             System.out.println("ejecutando query:" + stmt);
             registros = stmt.executeUpdate();//actualiza base de datos, puede ejecutar sentencias , update, delete ,insert 
         } finally {
-                Conexion.close(stmt);
-                if (this.conexionTransaccional == null) {
-                    Conexion.close(conn); // Si no es una transaccion entonces la cerramos
-                }            
+            Conexion.close(stmt);
+            if (this.conexionTransaccional == null) {
+                Conexion.close(conn); // Si no es una transaccion entonces la cerramos
+            }
         }
         return registros;
     }
@@ -240,15 +240,15 @@ public class PlatilloDAO {
             conn = this.conexionTransaccional != null ? this.conexionTransaccional : Conexion.getConnection(); // asigna la conn, si no es una transacción, entonces la crea, de otro modo usa la de la transacción
             stmt = conn.prepareStatement(SQL_DELETE);
             stmt.setInt(1, platillo.getIdPlatillo());
-            
+
             System.out.println("-----------------------------------------------------------------");
             System.out.println("ejecutando query:" + stmt);
             registros = stmt.executeUpdate();//actualiza base de datos, puede ejecutar sentencias , update, delete ,insert 
         } finally {
-                Conexion.close(stmt);
-                if (this.conexionTransaccional == null) {
-                    Conexion.close(conn); // Si no es una transaccion entonces la cerramos
-                }            
+            Conexion.close(stmt);
+            if (this.conexionTransaccional == null) {
+                Conexion.close(conn); // Si no es una transaccion entonces la cerramos
+            }
         }
         return registros;
     }

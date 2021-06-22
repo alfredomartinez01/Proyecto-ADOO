@@ -1,4 +1,5 @@
 package Cliente;
+
 import static Cliente.Bienvenida.alto_pantalla;
 import static Cliente.Bienvenida.ancho_pantalla;
 import datos.ClienteDAO;
@@ -9,6 +10,7 @@ import datos.PlatilloDAO;
 import datos.IngredienteDAO;
 import domain.Cliente;
 import domain.Ingrediente;
+import domain.Menu;
 import domain.Orden;
 import domain.Pago;
 import domain.Platillo;
@@ -24,35 +26,37 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class FormaPago extends javax.swing.JFrame {
+
     private Cliente cli = new Cliente();
     private int idCli;
     private Orden orden_temp = null;
+    private Menu menu_temp = new Menu();
     private int idOrden;
     private Pago pago = new Pago();
     private Double montoTotal;
     private PagoDAO pagoD = new PagoDAO();
-    
+
     public FormaPago() {
         initComponents();
         ajustarApariencia();
         pnlGracias.setVisible(false);
         pnlTarjeta.setVisible(false);
         pnlMetodoPago.setVisible(false);
-        
+
     }
-    
-    public FormaPago(Orden orden) {
+
+    public FormaPago(Orden orden, Menu menu) {
         initComponents();
         ajustarApariencia();
         orden_temp = orden;
+        menu_temp = menu;
         pnlGracias.setVisible(false);
         pnlTarjeta.setVisible(false);
         pnlMetodoPago.setVisible(false);
         montoTotal = montoAPagar();
         lblMonto.setText(String.valueOf(montoTotal));
     }
-    
-    
+
     public void ajustarApariencia() {
         getContentPane().setBackground(Color.WHITE);
         this.setTitle("Forma de Pago");
@@ -61,9 +65,8 @@ public class FormaPago extends javax.swing.JFrame {
         pnlTarjeta.setBackground(Color.decode("#A4A3A6"));
         pnlGracias.setBackground(Color.decode("#A4A3A6"));
     }
-    
-    
-    public void TransaccionPago() {
+
+    public void transaccionPago(int tipo) {
         Connection conexion = null;
 
         try {
@@ -71,8 +74,60 @@ public class FormaPago extends javax.swing.JFrame {
             if (conexion.getAutoCommit()) {
                 conexion.setAutoCommit(false); // Quitamos el autocommit para la transacción
             }
-            creacionCliente();
-            datosPago();
+
+            // Creamos el cliente y lo insertamos
+            cli.setNombreCliente(txtNombre.getText());
+            ClienteDAO cli_management = new ClienteDAO(conexion);
+            cli_management.insertar(cli);
+
+            // Obtenemos el id del cliente insertado
+            idCli = cli_management.lastIDCliente();
+            cli.setIdCliente(idCli);
+
+            obtenerDatosOrden(); // Obtenemos los datos complementarios de la orden
+
+            // Insertamos la orden en la base de datos
+            OrdenDAO od_management = new OrdenDAO(conexion);
+            od_management.insertar(orden_temp);
+            idOrden = od_management.lastIDOrden();
+            orden_temp.setIdOrden(idOrden);
+
+            // Insertamos ahora los datos de pago dependiendo del tipo
+            pago.setIdCliente(idCli);
+            pago.setMontoTotal(montoTotal);
+            pago.setTipo(tipo);
+            if (tipo == 0) { // efectivo (para evitar problemas en la base)
+                pago.setNoCuenta("-");
+                pago.setCvv(0);
+                pago.setFechaCad("2001-01-01");
+            } else { // tarjeta
+                // Ya insertamos sus datos
+            }
+            PagoDAO pago_management = new PagoDAO(conexion);
+            pago_management.insertar(pago);
+
+            // Ahora insertamos los platillos
+            for (Platillo plat : orden_temp.getPlatillos()) {
+                // Ponemos los datos a los platillos
+                plat.setTipo(1);
+
+                // Escribimos los platillos
+                PlatilloDAO plat_management = new PlatilloDAO(conexion);
+                plat_management.insertar(plat);
+                int idPlatillo = plat_management.lastIDPlatillo();
+                plat.setIdPlatillo(idPlatillo);
+
+                IngredienteDAO ing_management = new IngredienteDAO(conexion);
+                for (Ingrediente ing : plat.getIngredientes()) {
+                    // Obteniendo el id del ingrediente y platillo
+                    ing_management.seleccionar_por_data(ing);
+                    ing_management.insertar_en_agrega(plat.getIdPlatillo(), ing.getIdIngrediente());
+                }
+                
+                // Escribimos el platillo en contiene junto con el id de la orden
+                plat_management.insertar_en_contiene(idPlatillo, orden_temp.getIdOrden());                
+            }
+
             conexion.commit(); // Todo bien toco correcto
 
         } catch (SQLException ex) {
@@ -85,60 +140,26 @@ public class FormaPago extends javax.swing.JFrame {
             }
         }
     }
-    
-    public void creacionCliente(){
-        cli.setNombreCliente(txtNombre.getText());
-        System.out.println(txtNombre.getText());
-        ClienteDAO cd = new ClienteDAO();
-        cd.insertar(cli);
-        idCli = cd.lastIDCliente();
-        cli.setIdCliente(idCli);
-        System.out.println(cli);      
-    }
-    
-    public void datosPago(){
-        Date dNow = new Date( );
-        SimpleDateFormat ftDia = new SimpleDateFormat ("yyyy-MM-dd");
-        SimpleDateFormat ftHora = new SimpleDateFormat ("hh:mm:ss");
+
+    public void obtenerDatosOrden() {
+        Date dNow = new Date();
+        SimpleDateFormat ftDia = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat ftHora = new SimpleDateFormat("hh:mm:ss");
         String dia = ftDia.format(dNow);
         String hora = ftHora.format(dNow);
         orden_temp.setIdClienteO(idCli);
         orden_temp.setFecha(dia);
         orden_temp.setHora(hora);
-        OrdenDAO od = new OrdenDAO();
-        od.insertar(orden_temp);
-        idOrden = od.lastIDOrden();
-        orden_temp.setIdOrden(idOrden);
-        for (Platillo plat : orden_temp.getPlatillos()) {
-            try {
-                plat.setTipo(1);
-                PlatilloDAO pd = new PlatilloDAO();
-                pd.insertar(plat);
-                IngredienteDAO idao = new IngredienteDAO();
-                for (Ingrediente ing : plat.getIngredientes()) {
-                    idao.insertar_en_agrega(plat.getIdPlatillo(), ing.getIdIngrediente());
-                }
-                pd.insertar_en_contiene(plat.getIdPlatillo(), orden_temp.getIdOrden());
-            } catch (SQLException ex) {
-                Logger.getLogger(FormaPago.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        
-        pago.setIdCliente(idCli);
-        pago.setMontoTotal(montoTotal);     
     }
-    
-    public Double montoAPagar(){
+
+    public Double montoAPagar() {
         Double monto = 0.0;
-        for(Platillo plat: orden_temp.getPlatillos()){
-            monto+=plat.getCostoPlatillo();
+        for (Platillo plat : orden_temp.getPlatillos()) {
+            monto += plat.getCostoPlatillo();
         }
         return monto;
     }
-    
-    
-    
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -364,24 +385,23 @@ public class FormaPago extends javax.swing.JFrame {
     private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
         pnlGracias.setVisible(true);
         pnlTarjeta.setVisible(false);
-        pago.setNoCuenta(Integer.parseInt(txtNoCuenta.getText()));
+        pago.setNoCuenta(txtNoCuenta.getText());
         pago.setCvv(Integer.parseInt(txtCvv.getText()));
-        try{
-            //SimpleDateFormat ftFecha = new SimpleDateFormat ("yyyy-MM-dd");
-            //String Fecha = ftFecha.format(txtFCaducidad.getText());
+        try {
+            /*
+            SimpleDateFormat ftFecha = new SimpleDateFormat ("yyyy-MM-dd");
+            String fecha = ftFecha.format(txtFCaducidad.getText());*/
             pago.setFechaCad(txtFCaducidad.getText());
-        }catch (Exception e){
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Escribe la fecha en el formato: yyyy-MM-dd");
         }
-        pago.setTipo(1);  
-        pagoD.insertar(pago);
+        transaccionPago(1);
     }//GEN-LAST:event_btnFinalizarActionPerformed
 
     private void btnEfectivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEfectivoActionPerformed
+        transaccionPago(0); // Implica que pagará en efectivo
         pnlGracias.setVisible(true);
         pnlTarjeta.setVisible(false);
-        pago.setTipo(0);
-        pagoD.insertar(pago);
     }//GEN-LAST:event_btnEfectivoActionPerformed
 
     private void btnTarjetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTarjetaActionPerformed
@@ -390,7 +410,6 @@ public class FormaPago extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTarjetaActionPerformed
 
     private void btnContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContinuarActionPerformed
-        TransaccionPago();
         pnlMetodoPago.setVisible(true);
     }//GEN-LAST:event_btnContinuarActionPerformed
 
