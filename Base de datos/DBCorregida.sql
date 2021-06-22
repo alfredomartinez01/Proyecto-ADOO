@@ -38,7 +38,6 @@ CREATE TABLE `agrega` (
 
 LOCK TABLES `agrega` WRITE;
 /*!40000 ALTER TABLE `agrega` DISABLE KEYS */;
-INSERT INTO `agrega` VALUES (6,3),(16,3),(17,3),(20,3),(21,3),(3,7),(15,7),(18,7),(19,7),(8,8),(14,8),(15,8),(3,9),(13,9),(19,9),(21,9);
 /*!40000 ALTER TABLE `agrega` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -53,7 +52,7 @@ CREATE TABLE `cliente` (
   `idCliente` int(11) NOT NULL AUTO_INCREMENT,
   `nombreCliente` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`idCliente`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -62,7 +61,6 @@ CREATE TABLE `cliente` (
 
 LOCK TABLES `cliente` WRITE;
 /*!40000 ALTER TABLE `cliente` DISABLE KEYS */;
-INSERT INTO `cliente` VALUES (12,'Alfredo'),(13,'Alfredo'),(14,'Alfredo'),(15,'Alfredo');
 /*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -79,7 +77,7 @@ CREATE TABLE `contiene` (
   PRIMARY KEY (`idPlatillo`,`idOrden`),
   KEY `idOrden_idx` (`idOrden`),
   CONSTRAINT `idOrden_contiene` FOREIGN KEY (`idOrden`) REFERENCES `orden` (`idOrden`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `idPlatillo_contiene` FOREIGN KEY (`idPlatillo`) REFERENCES `platillo` (`idPlatillo`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `idPlatillo_contiene` FOREIGN KEY (`idPlatillo`) REFERENCES `platillo` (`idPlatillo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -89,7 +87,6 @@ CREATE TABLE `contiene` (
 
 LOCK TABLES `contiene` WRITE;
 /*!40000 ALTER TABLE `contiene` DISABLE KEYS */;
-INSERT INTO `contiene` VALUES (13,11),(14,12),(15,12),(16,12),(17,13),(18,13),(19,13),(20,14),(21,14);
 /*!40000 ALTER TABLE `contiene` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -117,7 +114,6 @@ CREATE TABLE `horario_restaurante` (
 
 LOCK TABLES `horario_restaurante` WRITE;
 /*!40000 ALTER TABLE `horario_restaurante` DISABLE KEYS */;
-INSERT INTO `horario_restaurante` VALUES ('lunes','11:11:00','11:11:00',36),('viernes','10:00:00','22:00:00',36);
 /*!40000 ALTER TABLE `horario_restaurante` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -131,9 +127,9 @@ DROP TABLE IF EXISTS `ingrediente`;
 CREATE TABLE `ingrediente` (
   `idIngrediente` int(11) NOT NULL AUTO_INCREMENT,
   `nombreIngrediente` varchar(60) DEFAULT NULL,
-  `costoIngrediente` decimal(10,2) NOT NULL,
+  `costoIngrediente` decimal(10,2) DEFAULT NULL,
   PRIMARY KEY (`idIngrediente`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -142,7 +138,6 @@ CREATE TABLE `ingrediente` (
 
 LOCK TABLES `ingrediente` WRITE;
 /*!40000 ALTER TABLE `ingrediente` DISABLE KEYS */;
-INSERT INTO `ingrediente` VALUES (3,'fdgdfg',3453.00),(7,'asdas',2452.00),(8,'dsf',0.64),(9,'Queso',20.00);
 /*!40000 ALTER TABLE `ingrediente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -157,10 +152,9 @@ CREATE TABLE `menu` (
   `idMenu` int(11) NOT NULL AUTO_INCREMENT,
   `idRestaurante` int(11) NOT NULL,
   PRIMARY KEY (`idMenu`),
-  UNIQUE KEY `idRestaurante` (`idRestaurante`),
   KEY `idRestaurante_idx` (`idRestaurante`),
   CONSTRAINT `idRestaurante` FOREIGN KEY (`idRestaurante`) REFERENCES `restaurante` (`idRestaurante`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -169,7 +163,6 @@ CREATE TABLE `menu` (
 
 LOCK TABLES `menu` WRITE;
 /*!40000 ALTER TABLE `menu` DISABLE KEYS */;
-INSERT INTO `menu` VALUES (31,36),(32,37);
 /*!40000 ALTER TABLE `menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -183,13 +176,14 @@ DROP TABLE IF EXISTS `orden`;
 CREATE TABLE `orden` (
   `idOrden` int(11) NOT NULL AUTO_INCREMENT,
   `idCliente` int(11) NOT NULL,
-  `fecha` date NOT NULL,
-  `hora` time NOT NULL,
+  `fecha` varchar(11) NOT NULL,
+  `hora` varchar(10) NOT NULL,
+  `estado` varchar(45) NOT NULL,
   PRIMARY KEY (`idOrden`),
   KEY `idOrden_idx` (`idOrden`),
   KEY `idCliente` (`idCliente`),
   CONSTRAINT `idCliente` FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`idCliente`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -198,7 +192,6 @@ CREATE TABLE `orden` (
 
 LOCK TABLES `orden` WRITE;
 /*!40000 ALTER TABLE `orden` DISABLE KEYS */;
-INSERT INTO `orden` VALUES (11,12,'2021-06-22','06:19:57'),(12,13,'2021-06-22','06:22:58'),(13,14,'2021-06-22','06:26:02'),(14,15,'2021-06-22','06:28:34');
 /*!40000 ALTER TABLE `orden` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -212,15 +205,15 @@ DROP TABLE IF EXISTS `pago`;
 CREATE TABLE `pago` (
   `idPago` int(11) NOT NULL AUTO_INCREMENT,
   `idCliente` int(11) NOT NULL,
-  `montoTotal` decimal(10,0) NOT NULL,
+  `montoTotal` decimal(10,2) DEFAULT NULL,
   `noCuenta` varchar(18) DEFAULT NULL,
-  `cvv` int(4) DEFAULT NULL,
-  `fechaCad` date DEFAULT NULL,
-  `tipo` tinyint(4) NOT NULL,
+  `cvv` int(11) DEFAULT NULL,
+  `fechaCad` varchar(5) DEFAULT NULL,
+  `tipo` varchar(10) NOT NULL,
   PRIMARY KEY (`idPago`,`idCliente`),
   KEY `idCliente_idx` (`idCliente`),
   CONSTRAINT `idCliente_pago` FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`idCliente`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -229,7 +222,6 @@ CREATE TABLE `pago` (
 
 LOCK TABLES `pago` WRITE;
 /*!40000 ALTER TABLE `pago` DISABLE KEYS */;
-INSERT INTO `pago` VALUES (7,12,70,'5345543',555,'2020-03-25',1),(8,13,71978,'3278378',888,'2020-03-22',1),(9,14,61912,'335783877',333,'2020-03-05',1),(10,15,60411,'04385434',333,'2020-03-15',1);
 /*!40000 ALTER TABLE `pago` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -244,13 +236,13 @@ CREATE TABLE `platillo` (
   `idPlatillo` int(11) NOT NULL AUTO_INCREMENT,
   `idMenu` int(11) NOT NULL,
   `nombrePlatillo` varchar(45) DEFAULT NULL,
-  `costoPlatillo` decimal(10,2) NOT NULL,
+  `costoPlatillo` decimal(10,2) DEFAULT NULL,
   `composicion` varchar(100) DEFAULT NULL,
   `tipo` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`idPlatillo`),
   KEY `idMenu_idx` (`idMenu`),
   CONSTRAINT `idMenu` FOREIGN KEY (`idMenu`) REFERENCES `menu` (`idMenu`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=359 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -259,7 +251,6 @@ CREATE TABLE `platillo` (
 
 LOCK TABLES `platillo` WRITE;
 /*!40000 ALTER TABLE `platillo` DISABLE KEYS */;
-INSERT INTO `platillo` VALUES (2,31,'dasdas',3873.00,'asdasd',0),(3,31,'Hamburguesa doble',50.00,'Doble carne',0),(6,32,'fgfd',53435.00,'dfgdfg',0),(8,31,'sdfsd',12587.00,'sdfsdf',0),(13,31,'Hamburguesa doble',70.00,'Doble carne',1),(14,32,'sdfsd',12587.64,'sdfsdf',1),(15,32,'Hamburguesa doble',2502.64,'Doble carne',1),(16,32,'fgfd',56888.00,'dfgdfg',1),(17,31,'fgfd',56888.00,'dfgdfg',1),(18,31,'Hamburguesa doble',2502.00,'Doble carne',1),(19,31,'Hamburguesa doble',2522.00,'Doble carne',1),(20,31,'fgfd',56888.00,'dfgdfg',1),(21,31,'Hamburguesa doble',3523.00,'Doble carne',1);
 /*!40000 ALTER TABLE `platillo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -278,7 +269,7 @@ CREATE TABLE `restaurante` (
   `nombreUsuario` varchar(45) DEFAULT NULL,
   `contrasena` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`idRestaurante`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=114 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -287,7 +278,6 @@ CREATE TABLE `restaurante` (
 
 LOCK TABLES `restaurante` WRITE;
 /*!40000 ALTER TABLE `restaurante` DISABLE KEYS */;
-INSERT INTO `restaurante` VALUES (36,'KFC',546,553322566,'bb@bb.bbb','33'),(37,'Burger King',45,5588935852,'Lalonganiza','123');
 /*!40000 ALTER TABLE `restaurante` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -300,4 +290,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-06-22  8:45:44
+-- Dump completed on 2021-06-22 17:59:16

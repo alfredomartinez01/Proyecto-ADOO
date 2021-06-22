@@ -10,7 +10,7 @@ import java.util.*;
  * @author chris
  */
 public class ClienteDAO {
-    
+
     private Connection conexionTransaccional; // Para transacciones
     private static final String SQL_SELECT = "SELECT idCliente, nombreCliente FROM cliente";
     private static final String SQL_SELECT_MAX_CLIENTE = "SELECT MAX(idCliente) AS ultimoIDCliente FROM cliente";
@@ -20,10 +20,10 @@ public class ClienteDAO {
     private static final String SQL_UPDATE = "UPDATE  cliente SET nombreCliente = ? WHERE idCliente = ? ";
     private static final String SQL_DELETE = "DELETE FROM cliente  WHERE idCliente = ? ";
 
-    
-    public ClienteDAO(Connection conexionTransaccional){
+    public ClienteDAO(Connection conexionTransaccional) {
         this.conexionTransaccional = conexionTransaccional;
     }
+
     //Regresa lista de objetos tipo cliente 
     //Crearemos objetos de tipo cliente
     public List<Cliente> seleccionar() {
@@ -32,7 +32,7 @@ public class ClienteDAO {
         ResultSet rs = null;
         Cliente cliente = null;// Cada renglon se convertira en un objeto tipo cliente
         List<Cliente> clientes = new ArrayList<>();
-        
+
         try {
             conn = getConnection();//Conexion activa hacia la base de datos
             stmt = conn.prepareStatement(SQL_SELECT);//Mandamos la instruccion SELECT
@@ -40,7 +40,7 @@ public class ClienteDAO {
             while (rs.next()) {
                 int idCliente = rs.getInt("idCliente");
                 String nombreCliente = rs.getString("nombreCliente");
-                
+
                 cliente = new Cliente(idCliente, nombreCliente);//Convertimos informacion de base de datos a objetos java
 
                 clientes.add(cliente);//Agregamos a la lista
@@ -56,7 +56,7 @@ public class ClienteDAO {
                 ex.printStackTrace(System.out);
             }
         }
-        
+
         return clientes;
     }
 
@@ -86,32 +86,31 @@ public class ClienteDAO {
         
         return idCliente;
     }
-    
-    public int insertar(Cliente cliente) throws SQLException {
+    public int insertar(Cliente cliente) {
         Connection conn = null;
         PreparedStatement stmt = null;
         int registros = 0;
-        
         try {
-            conn = this.conexionTransaccional != null ? this.conexionTransaccional : Conexion.getConnection(); // asigna la conn, si no es una transacción, entonces la crea, de otro modo usa la de la transacción
+            conn = getConnection();
             stmt = conn.prepareStatement(SQL_INSERT);
             stmt.setString(1, cliente.getNombreCliente());
             /*El primer parametro 1 corresponde al primer 
                 parametro de la sentencia INSERT -> VALUES(?), el segundo parametro 
                 hace refencia */
-            
-            System.out.println("-----------------------------------------------------------------");
-            System.out.println("ejecutando query:" + stmt);
             registros = stmt.executeUpdate();//actualiza base de datos, puede ejecutar sentencias , update, delete ,insert 
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
         } finally {
-            Conexion.close(stmt);
-            if (this.conexionTransaccional == null) {
-                Conexion.close(conn); // Si no es una transaccion entonces la cerramos
+            try {
+                close(stmt);
+                close(conn);
+            } catch (SQLException ex) {
+                ex.printStackTrace(System.out);
             }
         }
         return registros;
     }
-    
+
     public int actualizar(Cliente cliente) {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -137,7 +136,7 @@ public class ClienteDAO {
         }
         return registros;
     }
-    
+
     public int eliminar(Cliente cliente) {
         Connection conn = null;
         PreparedStatement stmt = null;

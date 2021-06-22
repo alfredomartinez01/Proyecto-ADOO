@@ -23,15 +23,14 @@ import java.util.List;
 public class RestauranteDAO {
 
     private Connection conexionTransaccional;
+    private String SQL_SELECT_RESTAURANTES = "select * from restaurante";
     private String SQL_INSERT_IN_RESTAURANTE = "insert into restaurante(nombreRest, local, telefono, nombreUsuario, contrasena) values(?, ?, ?, ?, ?)";
     private String SQL_UPDATE_RESTAURANTE = "update restaurante set nombreRest = ?, local = ?, telefono = ?, nombreUsuario = ?, contrasena = ? where idRestaurante = ?;";
     private String SQL_SELECT_FROM_RESTAURANTE = "select * from restaurante where ( (local = ? and nombreRest = ?) or (nombreUsuario = ?) or (idRestaurante = ?) )";
-    private String SQL_SELECT_RESTAURANTES = "select * from restaurante";
     private String SQL_INSERT_IN_HORARIO = "insert into horario_restaurante values(?, ?, ?, ?)"; // dia, hora_apertura, hora_cierre, idRestaurante
     private String SQL_SELECT_FROM_HORARIO = "select * from horario_restaurante where idRestaurante = ?";
-    private String SQL_UPDATE_HORARIO = "update horario_restaurante set horaApertura = ?, horaCierre = ? where dia = ? and idRestaurante = ?";
-    private String SQL_DELETE_FROM_HORARIO = "delete from horario_restaurante where dia = ? and idRestaurante = ?";
-
+    private String SQL_UPDATE_HORARIO ="update horario_restaurante set horaApertura = ?, horaCierre = ? where dia = ? and idRestaurante = ?";
+    private String SQL_DELETE_FROM_HORARIO ="delete from horario_restaurante where dia = ? and idRestaurante = ?";
     public RestauranteDAO() {
 
     }
@@ -39,42 +38,6 @@ public class RestauranteDAO {
     public RestauranteDAO(Connection conexionTransaccional) { // Traemos la conexión para una transacción
         this.conexionTransaccional = conexionTransaccional;
     }
-
-    // Para seleccionar todos los restaurantes
-    public ArrayList<Restaurante> select_all() throws SQLException {
-        Connection conn = null;
-        PreparedStatement stmt_menu = null;
-        ResultSet rs = null;
-        ArrayList<Restaurante> restaurantes = new ArrayList<Restaurante>();
-        Restaurante restaurante_aux = new Restaurante();
-        try {
-            conn = this.conexionTransaccional != null ? this.conexionTransaccional : Conexion.getConnection(); // asigna la conn, si no es una transacción, entonces la crea, de otro modo usa la de la transacción
-
-            stmt_menu = conn.prepareStatement(SQL_SELECT_RESTAURANTES); // Preparamos el insert en restaurante
-
-            System.out.println("-----------------------------------------------------------------");
-            System.out.println("ejecutando query:" + stmt_menu);
-            rs = stmt_menu.executeQuery();
-
-            while (rs.next()) {
-                restaurante_aux.setId(rs.getInt("idRestaurante"));
-                restaurante_aux.setNombre(rs.getString("nombreRest"));
-                restaurante_aux.setLocal(rs.getInt("local"));
-                restaurante_aux.setTelefono(rs.getLong("telefono"));
-
-                restaurantes.add(restaurante_aux);
-                restaurante_aux = new Restaurante();
-            }
-        } finally {
-            Conexion.close(stmt_menu);
-            Conexion.close(rs);
-            if (this.conexionTransaccional == null) {
-                Conexion.close(conn); // Si no es una transaccion entonces la cerramos
-            }
-        }
-        return restaurantes;
-    }
-
     /* Para seleccionar el restaurante con base a su local y nombre*/
     public Restaurante select(Restaurante restaurante) throws SQLException {
         Connection conn = null;
@@ -109,7 +72,6 @@ public class RestauranteDAO {
         }
         return restaurante;
     }
-
     /* Registramos los datos del nuevo restaurante en restaurante*/
     public int insertar(Restaurante restaurante) throws SQLException {
         Connection conn = null;
@@ -123,6 +85,69 @@ public class RestauranteDAO {
             stmt_rest.setString(3, String.valueOf(restaurante.getTelefono()));
             stmt_rest.setString(4, restaurante.getCorreo());
             stmt_rest.setString(5, restaurante.getContrasena());
+            
+            System.out.println("-----------------------------------------------------------------");
+            System.out.println("ejecutando query:" + stmt_rest);
+            rows = stmt_rest.executeUpdate();
+            System.out.println("Registros afectados:" + rows);
+        } finally {
+            Conexion.close(stmt_rest);
+            if (this.conexionTransaccional == null) {
+                Conexion.close(conn); // Si no es una transaccion entonces la cerramos
+            }
+        }
+        return rows;
+    }
+    
+    // Para seleccionar todos los restaurantes
+    public ArrayList<Restaurante> select_all() throws SQLException {
+        Connection conn = null;
+        PreparedStatement stmt_menu = null;
+        ResultSet rs = null;
+        ArrayList<Restaurante> restaurantes = new ArrayList<Restaurante>();
+        Restaurante restaurante_aux = new Restaurante();
+        try {
+            conn = this.conexionTransaccional != null ? this.conexionTransaccional : Conexion.getConnection(); // asigna la conn, si no es una transacción, entonces la crea, de otro modo usa la de la transacción
+
+            stmt_menu = conn.prepareStatement(SQL_SELECT_RESTAURANTES); // Preparamos el insert en restaurante
+
+            System.out.println("-----------------------------------------------------------------");
+            System.out.println("ejecutando query:" + stmt_menu);
+            rs = stmt_menu.executeQuery();
+
+            while (rs.next()) {
+                restaurante_aux.setId(rs.getInt("idRestaurante"));
+                restaurante_aux.setNombre(rs.getString("nombreRest"));
+                restaurante_aux.setLocal(rs.getInt("local"));
+                restaurante_aux.setTelefono(rs.getLong("telefono"));
+
+                restaurantes.add(restaurante_aux);
+                restaurante_aux = new Restaurante();
+            }
+        } finally {
+            Conexion.close(stmt_menu);
+            Conexion.close(rs);
+            if (this.conexionTransaccional == null) {
+                Conexion.close(conn); // Si no es una transaccion entonces la cerramos
+            }
+        }
+        return restaurantes;
+    }
+    
+    /* Registramos los datos actualizados del restaurante en restaurante*/
+    public int actualizar(Restaurante restaurante) throws SQLException {
+        Connection conn = null;
+        PreparedStatement stmt_rest = null;
+        int rows = 0;
+        try {
+            conn = this.conexionTransaccional != null ? this.conexionTransaccional : Conexion.getConnection(); // asigna la conn, si no es una transacción, entonces la crea, de otro modo usa la de la transacción
+            stmt_rest = conn.prepareStatement(SQL_UPDATE_RESTAURANTE); // Preparamos el insert en restaurante
+            stmt_rest.setString(1, restaurante.getNombre());
+            stmt_rest.setString(2, String.valueOf(restaurante.getLocal()));
+            stmt_rest.setString(3, String.valueOf(restaurante.getTelefono()));
+            stmt_rest.setString(4, restaurante.getCorreo());
+            stmt_rest.setString(5, restaurante.getContrasena());
+            stmt_rest.setString(6, String.valueOf(restaurante.getId()));
 
             System.out.println("-----------------------------------------------------------------");
             System.out.println("ejecutando query:" + stmt_rest);
@@ -136,39 +161,7 @@ public class RestauranteDAO {
         }
         return rows;
     }
-
-    /* Registramos los datos actualizados del restaurante en restaurante*/
-    public int actualizar(Restaurante restaurante) throws SQLException {
-        Connection conn = null;
-        PreparedStatement stmt_rest = null;
-        int rows = 0;
-        try {
-            if (this.conexionTransaccional != null) { // Si es una transacción
-                conn = this.conexionTransaccional;  // Trabajará con la conexión de esa transacción
-            } else {
-                conn = Conexion.getConnection(); // De otra forma trabaja con su propia conexión
-            }
-            stmt_rest = conn.prepareStatement(SQL_UPDATE_RESTAURANTE); // Preparamos el insert en restaurante
-            stmt_rest.setString(1, restaurante.getNombre());
-            stmt_rest.setInt(2, restaurante.getLocal());
-            stmt_rest.setString(3, String.valueOf(restaurante.getTelefono()));
-            stmt_rest.setString(4, restaurante.getCorreo());
-            stmt_rest.setString(5, restaurante.getContrasena());
-            stmt_rest.setString(6, String.valueOf(restaurante.getId()));
-
-            System.out.println("-----------------------------------------------------------------");
-            System.out.println("ejecutando query:" + stmt_rest);
-            rows = stmt_rest.executeUpdate(); // Ejecución del query
-            System.out.println("Registros afectados:" + rows);
-        } finally {
-            Conexion.close(stmt_rest);
-            if (this.conexionTransaccional == null) { // Si es un query simple
-                Conexion.close(conn); // Si no es una transaccion entonces la cerramos
-            }
-        }
-        return rows;
-    }
-
+    
     /* Rcuperamos el horario del restaurante*/
     public void select_horario(Restaurante restaurante) throws SQLException {
         Connection conn = null;
@@ -176,7 +169,7 @@ public class RestauranteDAO {
         ResultSet rs = null;
         boolean[] diasAbiertos = {false, false, false, false, false, false, false};
         String horarios[][] = {{"", ""}, {"", ""}, {"", ""}, {"", ""}, {"", ""}, {"", ""}, {"", ""}};
-
+        
         try {
             conn = this.conexionTransaccional != null ? this.conexionTransaccional : Conexion.getConnection(); // asigna la conn, si no es una transacción, entonces la crea, de otro modo usa la de la transacción
             stmt_rest = conn.prepareStatement(SQL_SELECT_FROM_HORARIO); // Preparamos el insert en restaurante
@@ -186,8 +179,8 @@ public class RestauranteDAO {
             System.out.println("ejecutando query:" + stmt_rest);
             rs = stmt_rest.executeQuery();
             System.out.println("Registros afectados:" + rs);
-
-            while (rs.next()) {
+            
+            while(rs.next()){
                 switch (rs.getString("dia")) {
                     case "lunes":
                         diasAbiertos[0] = true;
@@ -237,7 +230,6 @@ public class RestauranteDAO {
             }
         }
     }
-
     // Sobre carga de recuperar el horario, ahora sólo necesita id y devuelve un objeto Restaurante
     public Restaurante select_horario(int id) throws SQLException {
         Restaurante restaurante = null;
@@ -246,8 +238,8 @@ public class RestauranteDAO {
         ResultSet rs = null;
         boolean[] diasAbiertos = {false, false, false, false, false, false, false};
         String horarios[][] = {{"", ""}, {"", ""}, {"", ""}, {"", ""}, {"", ""}, {"", ""}, {"", ""}};
-
-        try {
+        
+        try{ 
             restaurante = new Restaurante();
             conn = this.conexionTransaccional != null ? this.conexionTransaccional : Conexion.getConnection(); // asigna la conn, si no es una transacción, entonces la crea, de otro modo usa la de la transacción
             stmt_rest = conn.prepareStatement(SQL_SELECT_FROM_HORARIO); // Preparamos el insert en restaurante
@@ -257,8 +249,8 @@ public class RestauranteDAO {
             System.out.println("ejecutando query:" + stmt_rest);
             rs = stmt_rest.executeQuery();
             System.out.println("Registros afectados:" + rs);
-
-            while (rs.next()) {
+            
+            while(rs.next()){
                 switch (rs.getString("dia")) {
                     case "lunes":
                         diasAbiertos[0] = true;
@@ -309,7 +301,6 @@ public class RestauranteDAO {
         }
         return restaurante;
     }
-
     /* Registramos los datos del nuevo restaurante en horario*/
     public int insertar_horario(String dia, int id, String horaAp, String horaCie) throws SQLException {
         Connection conn = null;
@@ -335,7 +326,7 @@ public class RestauranteDAO {
         }
         return rows;
     }
-
+    
     /* Registramos los datos actualizados del restaurante en horario*/
     public int actualizar_horario(String dia, int id, String horaAp, String horaCie) throws SQLException {
         Connection conn = null;
@@ -361,7 +352,6 @@ public class RestauranteDAO {
         }
         return rows;
     }
-
     /* Registramos los datos actualizados del restaurante en horario*/
     public int eliminar_horario(String dia, int id) throws SQLException {
         Connection conn = null;

@@ -18,7 +18,7 @@ public class Platillo {
     private String nombrePlatillo;
     private double costoPlatillo;
     private String composicion;
-    private int tipo;
+    private int tipo = 0; // 0 si fue registrado por restaurante y 1 si es por pedido
     private ArrayList<Ingrediente> ingredientes = new ArrayList<Ingrediente>();
 
     public Platillo() {

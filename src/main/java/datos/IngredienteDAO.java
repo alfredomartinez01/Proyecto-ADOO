@@ -66,6 +66,45 @@ public class IngredienteDAO {
         return ingredientes;
     }
 
+    public ArrayList<Ingrediente> seleccionar_por_id(int id) {
+        Connection conn = null;
+        PreparedStatement stmt = null; //Variable para trabajar con Querys
+        ResultSet rs = null;
+        Ingrediente ingrediente = null;// Cada renglon se convertira en un objeto tipo Ingrediente
+        ArrayList<Ingrediente> ingredientes = new ArrayList<>();
+
+        try {
+            conn = getConnection();//Conexion activa hacia la base de datos
+            stmt = conn.prepareStatement(SQL_SELECT_BY_IDPLAT);//Mandamos la instruccion SELECT
+            stmt.setString(1, String.valueOf(id));
+
+            System.out.println("-----------------------------------------------------------------");
+            System.out.println("ejecutando query:" + stmt);
+            rs = stmt.executeQuery();//Se ejecuta la instruccion dada
+            while (rs.next()) {
+                int idIngrediente = rs.getInt("idIngrediente");
+                String nombreIngrediente = rs.getString("nombreIngrediente");
+                float costoIngrediente = rs.getFloat("costoIngrediente");
+
+                ingrediente = new Ingrediente(idIngrediente, nombreIngrediente, costoIngrediente);//Convertimos informacion de base de datos a objetos java
+
+                ingredientes.add(ingrediente);//Agregamos a la lista
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            try {
+                close(rs);
+                close(stmt);
+                close(conn);
+            } catch (SQLException ex) {
+                ex.printStackTrace(System.out);
+            }
+        }
+
+        return ingredientes;
+    }
+
     public ArrayList<Ingrediente> seleccionar_por_idPlatillo(int id) throws SQLException {
         Connection conn = null;
         PreparedStatement stmt = null; //Variable para trabajar con Querys
@@ -90,7 +129,7 @@ public class IngredienteDAO {
 
                 ingredientes.add(ingrediente);//Agregamos a la lista
             }
-        }finally {
+        } finally {
             Conexion.close(stmt);
             if (this.conexionTransaccional == null) {
                 Conexion.close(conn); // Si no es una transaccion entonces la cerramos
@@ -149,7 +188,7 @@ public class IngredienteDAO {
         return registros;
     }
 
-    public int insertar_en_agrega(int idPlat, int idIngrediente) throws SQLException {
+    public int insertar_en_agrega(int idPlat, int idRestaurante) throws SQLException {
         Connection conn = null;
         PreparedStatement stmt = null;
         int registros = 0;
@@ -157,7 +196,7 @@ public class IngredienteDAO {
             conn = this.conexionTransaccional != null ? this.conexionTransaccional : Conexion.getConnection(); // asigna la conn, si no es una transacción, entonces la crea, de otro modo usa la de la transacción
             stmt = conn.prepareStatement(SQL_INSERT_IN_AGREGA);
             stmt.setInt(1, idPlat);
-            stmt.setInt(2, idIngrediente);
+            stmt.setInt(2, idRestaurante);
 
             System.out.println("-----------------------------------------------------------------");
             System.out.println("ejecutando query:" + stmt);
