@@ -149,7 +149,7 @@ public class IngredienteDAO {
         return registros;
     }
 
-    public int insertar_en_agrega(int idPlat, int idRestaurante) throws SQLException {
+    public int insertar_en_agrega(int idPlat, int idIngrediente) throws SQLException {
         Connection conn = null;
         PreparedStatement stmt = null;
         int registros = 0;
@@ -157,7 +157,7 @@ public class IngredienteDAO {
             conn = this.conexionTransaccional != null ? this.conexionTransaccional : Conexion.getConnection(); // asigna la conn, si no es una transacción, entonces la crea, de otro modo usa la de la transacción
             stmt = conn.prepareStatement(SQL_INSERT_IN_AGREGA);
             stmt.setInt(1, idPlat);
-            stmt.setInt(2, idRestaurante);
+            stmt.setInt(2, idIngrediente);
 
             System.out.println("-----------------------------------------------------------------");
             System.out.println("ejecutando query:" + stmt);

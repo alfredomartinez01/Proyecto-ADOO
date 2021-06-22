@@ -9,8 +9,10 @@ public class PlatilloDAO {
 
     private Connection conexionTransaccional; // Para transacciones
     private static final String SQL_SELECT = "SELECT * FROM platillo where tipo = 0";
+    private static final String SQL_SELECT_MAX_PLATILLO = "SELECT MAX(idPlatillo) AS ultimoIDPlatillo FROM platillo";
     private static final String SQL_SELECT_BY_IDMENU = "SELECT * FROM platillo where idMenu = ? and tipo = 0";
     private static final String SQL_SELECT_BY_DATA = "select * from platillo where (nombrePlatillo = ? and costoPlatillo = ? and composicion = ?) and tipo = 0";
+    private static final String SQL_INSERT_IN_CONTIENE = "INSERT INTO contiene (idPlatillo, idOrden)  VALUES(?, ?)";
     private static final String SQL_INSERT = "INSERT INTO platillo (idMenu,nombrePlatillo,costoPlatillo,composicion, tipo)  VALUES(?, ?, ?, ?, ?) ";
     /*En VALUES se pone ? en represantacion a cada valor que se quiere editar, se pondran mas  ? seguido 
     de comas si existen mas columnas en la tabla(?,?,?)*/
@@ -63,6 +65,35 @@ public class PlatilloDAO {
 
         return platillos;
     }
+    
+    /*Obtener ultimo id de platillo*/
+        public int lastIDPlatillo() {
+            Connection conn = null;
+            PreparedStatement stmt = null; //Variable para trabajar con Querys
+            ResultSet rs = null;
+            int idPlat = 0;// Cada renglon se convertira en un objeto tipo cliente
+
+            try {
+                conn = getConnection();//Conexion activa hacia la base de datos
+                stmt = conn.prepareStatement(SQL_SELECT_MAX_PLATILLO);//Mandamos la instruccion SELECT
+                rs = stmt.executeQuery();//Se ejecuta la instruccion dada
+                rs.next();
+                    idPlat = rs.getInt("ultimoIDPlatillo");
+            } catch (SQLException ex) {
+                ex.printStackTrace(System.out);
+            } finally {
+                try {
+                    close(rs);
+                    close(stmt);
+                    close(conn);
+                } catch (SQLException ex) {
+                    ex.printStackTrace(System.out);
+                }
+            }
+
+            return idPlat;
+        }
+    
     public ArrayList<Platillo> seleccionar_por(int idmenu) throws SQLException {
         Connection conn = null;
         PreparedStatement stmt = null; //Variable para trabajar con Querys
@@ -149,6 +180,29 @@ public class PlatilloDAO {
                 if (this.conexionTransaccional == null) {
                     Conexion.close(conn); // Si no es una transaccion entonces la cerramos
                 }            
+        }
+        return registros;
+    }
+    
+    
+    public int insertar_en_contiene(int idPlat, int idOrden) throws SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        int registros = 0;
+        try {
+            conn = this.conexionTransaccional != null ? this.conexionTransaccional : Conexion.getConnection(); // asigna la conn, si no es una transacción, entonces la crea, de otro modo usa la de la transacción
+            stmt = conn.prepareStatement(SQL_INSERT_IN_CONTIENE);
+            stmt.setInt(1, idPlat);
+            stmt.setInt(2, idOrden);
+
+            System.out.println("-----------------------------------------------------------------");
+            System.out.println("ejecutando query:" + stmt);
+            registros = stmt.executeUpdate();//actualiza base de datos, puede ejecutar sentencias , update, delete ,insert 
+        } finally {
+            Conexion.close(stmt);
+            if (this.conexionTransaccional == null) {
+                Conexion.close(conn); // Si no es una transaccion entonces la cerramos
+            }
         }
         return registros;
     }
