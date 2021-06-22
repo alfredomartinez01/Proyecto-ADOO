@@ -14,6 +14,7 @@ import java.util.*;
 public class ClienteDAO {
 
         private static final String SQL_SELECT = "SELECT idCliente, nombreCliente FROM cliente";
+        private static final String SQL_SELECT_MAX_CLIENTE = "SELECT MAX(idCliente) AS ultimoIDCliente FROM cliente";
         private static final String SQL_INSERT = "INSERT INTO cliente (nombreCliente)  VALUES(?) ";
         /*En VALUES se pone ? en represantacion a cada valor que se quiere editar, se pondran mas  ? seguido 
         de comas si existen mas columnas en la tabla(?,?,?)*/
@@ -55,6 +56,36 @@ public class ClienteDAO {
 
             return clientes;
         }
+        
+        /*Obtener ultimo id de cliente*/
+        public int lastIDCliente() {
+            Connection conn = null;
+            PreparedStatement stmt = null; //Variable para trabajar con Querys
+            ResultSet rs = null;
+            int idCliente = 0;// Cada renglon se convertira en un objeto tipo cliente
+
+            try {
+                conn = getConnection();//Conexion activa hacia la base de datos
+                stmt = conn.prepareStatement(SQL_SELECT_MAX_CLIENTE);//Mandamos la instruccion SELECT
+                rs = stmt.executeQuery();//Se ejecuta la instruccion dada
+                rs.next();
+                    idCliente = rs.getInt("ultimoIDCliente");
+            } catch (SQLException ex) {
+                ex.printStackTrace(System.out);
+            } finally {
+                try {
+                    close(rs);
+                    close(stmt);
+                    close(conn);
+                } catch (SQLException ex) {
+                    ex.printStackTrace(System.out);
+                }
+            }
+
+            return idCliente;
+        }
+        
+        
 
         public int insertar(Cliente cliente){
             Connection conn = null;

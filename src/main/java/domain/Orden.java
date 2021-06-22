@@ -18,7 +18,6 @@ public class Orden {
    private int idClienteO;
    private String fecha;
    private String hora;
-   private int idPlatillo;
    
 
     public Orden() {
@@ -45,23 +44,10 @@ public class Orden {
         this.hora = hora;
     }
 
-    public int getIdPlatillo() {
-        return idPlatillo;
-    }
-
-    /*public Orden(int idOrden, int idClienteO) {
-    this.idOrden = idOrden;
-    this.idClienteO = idClienteO;
-    }*/
-    public void setIdPlatillo(int idPlatillo) {
-        this.idPlatillo = idPlatillo;
-    }
-
-    public Orden(int idOrden, int idPlatillo) {
+    public Orden(int idOrden, int idClienteO) {
         this.idOrden = idOrden;
-        this.idPlatillo = idPlatillo;
+        this.idClienteO = idClienteO;
     }
-
     public Orden(int idOrden) {
         this.idOrden = idOrden;
     }
@@ -110,10 +96,8 @@ public class Orden {
 
     @Override
     public String toString() {
-        return "Orden{" + "numero=" + numero + ", platillos=" + platillos + ", estado=" + estado + ", idOrden=" + idOrden + ", idClienteO=" + idClienteO + ", fecha=" + fecha + ", hora=" + hora + ", idPlatillo=" + idPlatillo + '}';
+        return "Orden{" + "estado=" + estado + ", idOrden=" + idOrden + ", idClienteO=" + idClienteO + ", fecha=" + fecha + ", hora=" + hora + '}';
     }
-
-    
 
    
 }

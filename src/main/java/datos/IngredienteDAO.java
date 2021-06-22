@@ -66,7 +66,7 @@ public class IngredienteDAO {
         return ingredientes;
     }
 
-    public ArrayList<Ingrediente> seleccionar_por_id(int id) {
+    public ArrayList<Ingrediente> seleccionar_por_idPlatillo(int id) throws SQLException {
         Connection conn = null;
         PreparedStatement stmt = null; //Variable para trabajar con Querys
         ResultSet rs = null;
@@ -90,15 +90,10 @@ public class IngredienteDAO {
 
                 ingredientes.add(ingrediente);//Agregamos a la lista
             }
-        } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
-        } finally {
-            try {
-                close(rs);
-                close(stmt);
-                close(conn);
-            } catch (SQLException ex) {
-                ex.printStackTrace(System.out);
+        }finally {
+            Conexion.close(stmt);
+            if (this.conexionTransaccional == null) {
+                Conexion.close(conn); // Si no es una transaccion entonces la cerramos
             }
         }
 
@@ -154,7 +149,7 @@ public class IngredienteDAO {
         return registros;
     }
 
-    public int insertar_en_agrega(int idPlat, int idRestaurante) throws SQLException {
+    public int insertar_en_agrega(int idPlat, int idIngrediente) throws SQLException {
         Connection conn = null;
         PreparedStatement stmt = null;
         int registros = 0;
@@ -162,7 +157,7 @@ public class IngredienteDAO {
             conn = this.conexionTransaccional != null ? this.conexionTransaccional : Conexion.getConnection(); // asigna la conn, si no es una transacción, entonces la crea, de otro modo usa la de la transacción
             stmt = conn.prepareStatement(SQL_INSERT_IN_AGREGA);
             stmt.setInt(1, idPlat);
-            stmt.setInt(2, idRestaurante);
+            stmt.setInt(2, idIngrediente);
 
             System.out.println("-----------------------------------------------------------------");
             System.out.println("ejecutando query:" + stmt);

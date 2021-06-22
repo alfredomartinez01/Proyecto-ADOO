@@ -31,62 +31,6 @@ public class Pago {
         this.tipo = tipo;
     }
 
-    public int getIdPago() {
-        return idPago;
-    }
-
-    public void setIdPago(int idPago) {
-        this.idPago = idPago;
-    }
-
-    public int getIdClienteP() {
-        return idClienteP;
-    }
-
-    public void setIdClienteP(int idClienteP) {
-        this.idClienteP = idClienteP;
-    }
-
-    public double getMontoTotal() {
-        return montoTotal;
-    }
-
-    public void setMontoTotal(double montoTotal) {
-        this.montoTotal = montoTotal;
-    }
-
-    public int getNoCuenta() {
-        return noCuenta;
-    }
-
-    public void setNoCuenta(int noCuenta) {
-        this.noCuenta = noCuenta;
-    }
-
-    public int getCvv() {
-        return cvv;
-    }
-
-    public void setCvv(int cvv) {
-        this.cvv = cvv;
-    }
-
-    public String getFechaCad() {
-        return fechaCad;
-    }
-
-    public void setFechaCad(String fechaCad) {
-        this.fechaCad = fechaCad;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
     public Pago(int idPago, int idClienteP, double montoTotal, String tipo) {
         this.idPago = idPago;
         this.idClienteP = idClienteP;

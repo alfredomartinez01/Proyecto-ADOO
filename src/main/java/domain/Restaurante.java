@@ -97,4 +97,13 @@ public class Restaurante extends Usuario{
     public String[][] getHorarios() {
         return horarios;
     }    
+    
+    @Override
+    public String toString(){
+        return "id: " + this.getId()+
+                ", nombre: " + this.getNombre()+
+                ", local: " + this.getLocal() +
+                ", telefono: " + this.getTelefono() +
+                ", contrasena: " + this.getContrasena();
+    }
 }
