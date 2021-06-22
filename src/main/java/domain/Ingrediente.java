@@ -26,10 +26,7 @@ public class Ingrediente {
         this.nombreIngrediente = nombreIngrediente;
         this.costoIngrediente = costoIngrediente;
     }
-    public Ingrediente get(){
-        Ingrediente ingrediente = new Ingrediente(this.idIngrediente, this.nombreIngrediente, this.costoIngrediente);
-        return ingrediente;
-    }
+
     
 
     public int getIdIngrediente() {

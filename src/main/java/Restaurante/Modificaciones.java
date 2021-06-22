@@ -10,9 +10,6 @@ import java.awt.Color;
 import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.table.DefaultTableModel;
@@ -45,8 +42,7 @@ public class Modificaciones extends javax.swing.JFrame {
         getContentPane().setBackground(Color.WHITE);
     }
 
-    private void tablaPlatillos() { try {
-        // Muestra la tabla normal
+    private void tablaPlatillos() { // Muestra la tabla normal
         DefaultTableModel model = (DefaultTableModel) tablaPlatillos.getModel();
         menu.leerPlatillos();
         // Borra la tabla anterior
@@ -73,9 +69,6 @@ public class Modificaciones extends javax.swing.JFrame {
             noPlat++;
         }
         tablaPlatillos.setModel(model); // Reasigna el modelo pero ahora con los nuevos datos 
-        } catch (SQLException ex) {
-            Logger.getLogger(Modificaciones.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
     }
 
@@ -112,9 +105,7 @@ public class Modificaciones extends javax.swing.JFrame {
 
                 String idPlat = String.valueOf(tablaPlatillos.getValueAt(tablaPlatillos.getSelectedRow(), 0));
                 int idP = Integer.valueOf(idPlat);
-                if (idP != -1) { 
-                    try {
-                    // Busqueda por IDP, checamos que no esté vacío
+                if (idP != -1) { // Busqueda por IDP, checamos que no esté vacío   
                     // Buscamos los datos del platillo en la lista
                     menu.leerPlatillos();
                     for (Platillo plat : menu.getPlatillos()) {
@@ -128,9 +119,6 @@ public class Modificaciones extends javax.swing.JFrame {
                     plat_temp = plat_modificado;
                     llenarActualizarItems();
                     tablaIngredientes();
-                    } catch (SQLException ex) {
-                        Logger.getLogger(Modificaciones.class.getName()).log(Level.SEVERE, null, ex);
-                    }
 
                 }
             }
@@ -418,7 +406,6 @@ public class Modificaciones extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1371, 768));
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -660,14 +647,14 @@ public class Modificaciones extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lbl_mensaje)
-                .addGap(34, 34, 34)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(337, 337, 337)
+                        .addGap(365, 365, 365)
                         .addComponent(lbl_id3))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
+                        .addGap(46, 46, 46)
                         .addComponent(lbl_operacion)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -709,7 +696,7 @@ public class Modificaciones extends javax.swing.JFrame {
                             .addComponent(CancelarActualizacion))
                         .addGap(42, 42, 42)
                         .addComponent(Volver)))
-                .addGap(53, 53, 53))
+                .addGap(722, 722, 722))
         );
 
         pack();

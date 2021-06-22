@@ -1,36 +1,35 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package domain;
 
+/**
+ *
+ * @author chris
+ */
 public class Pago {
     private int idPago;
-    private int idCliente;
+    private int idClienteP;
     private double montoTotal;
-    private String noCuenta;
+    private int noCuenta;
     private int cvv;
     private String fechaCad;
     private String tipo;
 
-    public Pago(int idPago, int idCliente, double montoTotal, String noCuenta, int cvv, String fechaCad, String tipo) {
-        this.idPago = idPago;
-        this.idCliente = idCliente;
-        this.montoTotal = montoTotal;
-        this.noCuenta = noCuenta;
-        this.cvv = cvv;
-        this.fechaCad = fechaCad;
-        this.tipo = tipo;
-    }
-
     public Pago() {
     }
 
-    public Pago(int idCliente, double montoTotal, String noCuenta, int cvv, String fechaCad, String tipo) {
-        this.idCliente = idCliente;
+    public Pago(int idPago, int idClienteP, double montoTotal, int noCuenta, int cvv, String fechaCad, String tipo) {
+        this.idPago = idPago;
+        this.idClienteP = idClienteP;
         this.montoTotal = montoTotal;
         this.noCuenta = noCuenta;
         this.cvv = cvv;
         this.fechaCad = fechaCad;
         this.tipo = tipo;
     }
-    
 
     public int getIdPago() {
         return idPago;
@@ -40,12 +39,12 @@ public class Pago {
         this.idPago = idPago;
     }
 
-    public int getIdCliente() {
-        return idCliente;
+    public int getIdClienteP() {
+        return idClienteP;
     }
 
-    public void setIdCliente(int idCliente) {
-        this.idCliente = idCliente;
+    public void setIdClienteP(int idClienteP) {
+        this.idClienteP = idClienteP;
     }
 
     public double getMontoTotal() {
@@ -56,11 +55,11 @@ public class Pago {
         this.montoTotal = montoTotal;
     }
 
-    public String getNoCuenta() {
+    public int getNoCuenta() {
         return noCuenta;
     }
 
-    public void setNoCuenta(String noCuenta) {
+    public void setNoCuenta(int noCuenta) {
         this.noCuenta = noCuenta;
     }
 
@@ -86,6 +85,30 @@ public class Pago {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public Pago(int idPago, int idClienteP, double montoTotal, String tipo) {
+        this.idPago = idPago;
+        this.idClienteP = idClienteP;
+        this.montoTotal = montoTotal;
+        this.tipo = tipo;
+    }
+
+    public Pago(int idClienteP, double montoTotal, int noCuenta, int cvv, String fechaCad, String tipo) {
+        this.idClienteP = idClienteP;
+        this.montoTotal = montoTotal;
+        this.noCuenta = noCuenta;
+        this.cvv = cvv;
+        this.fechaCad = fechaCad;
+        this.tipo = tipo;
+    }
+
+    public Pago(int idPago) {
+        this.idPago = idPago;
+    }
+
+    public Pago(double montoTotal) {
+        this.montoTotal = montoTotal;
     }
     
     
