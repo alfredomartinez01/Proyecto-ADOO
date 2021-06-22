@@ -29,7 +29,7 @@ public class PagoDAO {
             stmt.setString(3, pago.getNoCuenta());
             stmt.setInt(4,pago.getCvv());
             stmt.setString(5,pago.getFechaCad());
-            stmt.setInt(6, pago.getTipo());
+            stmt.setString(6, pago.getTipo());
             
             System.out.println("-----------------------------------------------------------------");
             System.out.println("ejecutando query:" + stmt);

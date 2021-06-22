@@ -13,7 +13,7 @@ public class OrdenDAO {
     private static final String SQL_SELECT = "SELECT idOrden, idCliente, fecha, hora FROM orden";
     private static final String SQL_SELECT_MAX_ORDEN = "SELECT MAX(idOrden) AS ultimoIDOrden FROM orden";
     //private static final String SQL_SELECT_BY_DATA = "select * from orden where (nombrePlatillo = ? and costoPlatillo = ? and composicion = ?) and tipo = 1";
-    private static final String SQL_INSERT = "INSERT INTO orden (idCliente, fecha, hora)  VALUES(?,?,?) ";
+    private static final String SQL_INSERT = "INSERT INTO orden (idCliente, fecha, hora, estado)  VALUES(?,?,?,?) ";
     private static final String SQL_UPDATE = "UPDATE  orden SET idCliente = ?, fecha = ?, hora=? WHERE idOrden = ? ";
     private static final String SQL_DELETE = "DELETE FROM orden  WHERE idOrden = ? ";
 
@@ -96,6 +96,7 @@ public class OrdenDAO {
             stmt.setInt(1, orden.getIdCliente());
             stmt.setString(2, orden.getFecha());
             stmt.setString(3, orden.getHora());
+            stmt.setString(4, orden.getEstado());
             
             System.out.println("-----------------------------------------------------------------");
             System.out.println("ejecutando query:" + stmt);

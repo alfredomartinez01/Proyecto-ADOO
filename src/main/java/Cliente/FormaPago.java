@@ -12,6 +12,7 @@ import domain.Cliente;
 import domain.Ingrediente;
 import domain.Menu;
 import domain.Orden;
+import domain.Orden;
 import domain.Pago;
 import domain.Platillo;
 import java.awt.Color;
@@ -87,6 +88,8 @@ public class FormaPago extends javax.swing.JFrame {
             obtenerDatosOrden(); // Obtenemos los datos complementarios de la orden
 
             // Insertamos la orden en la base de datos
+           
+            orden_temp.setEstado("realizada");
             OrdenDAO od_management = new OrdenDAO(conexion);
             od_management.insertar(orden_temp);
             idOrden = od_management.lastIDOrden();
@@ -95,13 +98,15 @@ public class FormaPago extends javax.swing.JFrame {
             // Insertamos ahora los datos de pago dependiendo del tipo
             pago.setIdCliente(idCli);
             pago.setMontoTotal(montoTotal);
-            pago.setTipo(tipo);
+            
             if (tipo == 0) { // efectivo (para evitar problemas en la base)
                 pago.setNoCuenta("-");
                 pago.setCvv(0);
-                pago.setFechaCad("2001-01-01");
+                pago.setFechaCad("01/01");
+                pago.setTipo("efectivo");
             } else { // tarjeta
                 // Ya insertamos sus datos
+                pago.setTipo("tarjeta");
             }
             PagoDAO pago_management = new PagoDAO(conexion);
             pago_management.insertar(pago);

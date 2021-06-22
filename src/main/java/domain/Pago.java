@@ -7,9 +7,9 @@ public class Pago {
     private String noCuenta;
     private int cvv;
     private String fechaCad;
-    private int tipo;
+    private String tipo;
 
-    public Pago(int idPago, int idCliente, double montoTotal, String noCuenta, int cvv, String fechaCad, int tipo) {
+    public Pago(int idPago, int idCliente, double montoTotal, String noCuenta, int cvv, String fechaCad, String tipo) {
         this.idPago = idPago;
         this.idCliente = idCliente;
         this.montoTotal = montoTotal;
@@ -22,7 +22,7 @@ public class Pago {
     public Pago() {
     }
 
-    public Pago(int idCliente, double montoTotal, String noCuenta, int cvv, String fechaCad, int tipo) {
+    public Pago(int idCliente, double montoTotal, String noCuenta, int cvv, String fechaCad, String tipo) {
         this.idCliente = idCliente;
         this.montoTotal = montoTotal;
         this.noCuenta = noCuenta;
@@ -80,11 +80,11 @@ public class Pago {
         this.fechaCad = fechaCad;
     }
 
-    public int getTipo() {
+    public String getTipo() {
         return tipo;
     }
 
-    public void setTipo(int tipo) {
+    public void setTipo(String tipo) {
         this.tipo = tipo;
     }
     

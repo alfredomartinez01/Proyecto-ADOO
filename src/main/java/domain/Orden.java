@@ -8,16 +8,18 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
-enum ESTADOS{
-    REALIZADA, // Cuando el cliente la hace
-    RECIBIDA, // Cuando el restaurante la recibe
-    LISTA, // Cuando está terminada de preparar
-    RECOGIDA, // Cuando fue recogida
-}
+
 public class Orden {
    private int numero;
    
    private ArrayList<Platillo> platillos = new ArrayList<Platillo>(); // Lista de platillos de cada menu
+   /*
+   Estados:
+    realizada
+    recibida
+    preparando
+    lista
+   */
    private String estado;
    
    private int idOrden;
@@ -99,7 +101,7 @@ public class Orden {
     public String getEstado() {
         return estado;
     }
-
+    
     public void setEstado(String estado) {
         this.estado = estado;
     }
@@ -178,4 +180,5 @@ public class Orden {
     public String toString() {
         return "Orden{" + "idOrden=" + idOrden + ", idCliente=" + idClienteO + ", fecha:" + fecha + ",Hora:" + hora + '}';
     }
+
 }
