@@ -37,7 +37,6 @@ public class MenuCliente extends javax.swing.JFrame {
     private Orden orden_temp = new Orden();
     private ArrayList<Ingrediente> ing_disp = new ArrayList<Ingrediente>();
     private ArrayList<Ingrediente> ing_agregados = new ArrayList<Ingrediente>();
-    
     private JButton[] btns_rest = new JButton[5];
     private JButton[] btns_plat = new JButton[5];
 
@@ -48,7 +47,23 @@ public class MenuCliente extends javax.swing.JFrame {
         consultarRestaurantes();
         removerElementos(); // removidos todos            
         agregarBotones();
-        
+        popupTablaIngredientesDisp();
+        popupTablaIngredientesAgregados();
+        popupTablaPlatillos();
+    }
+    
+    public MenuCliente(Orden order) {
+        initComponents();
+        ajustarApariencia();
+
+        consultarRestaurantes();
+        removerElementos(); // removidos todos            
+        agregarBotones();
+        pnlMenu.setVisible(true);
+        pnlPlatillo.setVisible(true);
+        pnlDescripcion.setVisible(false);
+        orden_temp = order;
+        llenarTablaPlatillos();
         popupTablaIngredientesDisp();
         popupTablaIngredientesAgregados();
         popupTablaPlatillos();
@@ -193,6 +208,7 @@ public class MenuCliente extends javax.swing.JFrame {
             int noPlat = 0;
             for (Platillo plat : orden_temp.getPlatillos()) {
                 //tablaPlatillos.setRowHeight(noPlat, 30);
+                plat.setIdMenu(menu_temp.getIdMenu());
                 fila[0] = plat.getNombrePlatillo();
                 fila[1] = plat.getComposicion();
                 fila[2] = plat.getCostoPlatillo();
@@ -278,19 +294,17 @@ public class MenuCliente extends javax.swing.JFrame {
         btnAgregarP = new javax.swing.JButton();
         lblNombreP = new javax.swing.JLabel();
         lblDescripcion = new javax.swing.JLabel();
-        pnlOrden = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tablaPlatillos = new javax.swing.JTable();
-        btnContinuar = new javax.swing.JButton();
-        btnBorrarRow = new javax.swing.JButton();
-        btnLimpiar = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaIngredientesAgregados = new javax.swing.JTable();
         lbl_ingAgregados = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tablaIngredientesDisp = new javax.swing.JTable();
         lbl_ingDisponibles = new javax.swing.JLabel();
+        pnlOrden = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaPlatillos = new javax.swing.JTable();
+        btnContinuar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -458,7 +472,7 @@ public class MenuCliente extends javax.swing.JFrame {
                     .addComponent(btnPlatillo1)
                     .addComponent(btnPlatillo2)
                     .addComponent(jLabel2))
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(77, Short.MAX_VALUE))
         );
         pnlMenuLayout.setVerticalGroup(
             pnlMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -475,7 +489,7 @@ public class MenuCliente extends javax.swing.JFrame {
                 .addComponent(btnPlatillo4)
                 .addGap(18, 18, 18)
                 .addComponent(btnPlatillo5)
-                .addContainerGap(530, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         btnAgregarP.setBackground(new java.awt.Color(153, 255, 255));
@@ -492,96 +506,6 @@ public class MenuCliente extends javax.swing.JFrame {
         lblNombreP.setText("<Nombre Platillo>");
 
         lblDescripcion.setText("<Descripción de platillo>");
-
-        jLabel1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        jLabel1.setText("Tu orden");
-
-        tablaPlatillos.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        tablaPlatillos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Nombre", "Composicion", "Precio", "Ingredientes"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(tablaPlatillos);
-        if (tablaPlatillos.getColumnModel().getColumnCount() > 0) {
-            tablaPlatillos.getColumnModel().getColumn(2).setMaxWidth(60);
-            tablaPlatillos.getColumnModel().getColumn(3).setMinWidth(200);
-        }
-
-        btnContinuar.setBackground(new java.awt.Color(153, 255, 255));
-        btnContinuar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        btnContinuar.setForeground(new java.awt.Color(59, 52, 85));
-        btnContinuar.setText("Siguiente");
-        btnContinuar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnContinuarActionPerformed(evt);
-            }
-        });
-
-        btnBorrarRow.setBackground(new java.awt.Color(153, 255, 255));
-        btnBorrarRow.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        btnBorrarRow.setForeground(new java.awt.Color(59, 52, 85));
-        btnBorrarRow.setText("Borrar");
-
-        btnLimpiar.setBackground(new java.awt.Color(153, 255, 255));
-        btnLimpiar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        btnLimpiar.setForeground(new java.awt.Color(59, 52, 85));
-        btnLimpiar.setText("Limpiar");
-
-        javax.swing.GroupLayout pnlOrdenLayout = new javax.swing.GroupLayout(pnlOrden);
-        pnlOrden.setLayout(pnlOrdenLayout);
-        pnlOrdenLayout.setHorizontalGroup(
-            pnlOrdenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlOrdenLayout.createSequentialGroup()
-                .addGroup(pnlOrdenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlOrdenLayout.createSequentialGroup()
-                        .addGap(334, 334, 334)
-                        .addComponent(jLabel1))
-                    .addGroup(pnlOrdenLayout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addGroup(pnlOrdenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(pnlOrdenLayout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(btnBorrarRow)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnLimpiar)
-                                .addGap(201, 201, 201)
-                                .addComponent(btnContinuar))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 720, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(30, Short.MAX_VALUE))
-        );
-        pnlOrdenLayout.setVerticalGroup(
-            pnlOrdenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlOrdenLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(pnlOrdenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnContinuar)
-                    .addComponent(btnBorrarRow)
-                    .addComponent(btnLimpiar))
-                .addContainerGap(19, Short.MAX_VALUE))
-        );
 
         tablaIngredientesAgregados.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         tablaIngredientesAgregados.setModel(new javax.swing.table.DefaultTableModel(
@@ -646,12 +570,9 @@ public class MenuCliente extends javax.swing.JFrame {
         pnlDescripcionLayout.setHorizontalGroup(
             pnlDescripcionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDescripcionLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(pnlDescripcionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDescripcionLayout.createSequentialGroup()
-                        .addComponent(lblNombreP)
-                        .addGap(331, 331, 331))
-                    .addComponent(pnlOrden, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(296, Short.MAX_VALUE)
+                .addComponent(lblNombreP)
+                .addGap(331, 331, 331))
             .addGroup(pnlDescripcionLayout.createSequentialGroup()
                 .addGap(51, 51, 51)
                 .addGroup(pnlDescripcionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -676,7 +597,7 @@ public class MenuCliente extends javax.swing.JFrame {
         pnlDescripcionLayout.setVerticalGroup(
             pnlDescripcionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDescripcionLayout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblNombreP)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -690,9 +611,80 @@ public class MenuCliente extends javax.swing.JFrame {
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(43, 43, 43)
                 .addComponent(btnAgregarP)
-                .addGap(18, 18, 18)
-                .addComponent(pnlOrden, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addGap(402, 402, 402))
+        );
+
+        jLabel1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        jLabel1.setText("Tu orden");
+
+        tablaPlatillos.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        tablaPlatillos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nombre", "Composicion", "Precio", "Ingredientes"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tablaPlatillos);
+        if (tablaPlatillos.getColumnModel().getColumnCount() > 0) {
+            tablaPlatillos.getColumnModel().getColumn(2).setMaxWidth(60);
+            tablaPlatillos.getColumnModel().getColumn(3).setMinWidth(200);
+        }
+
+        btnContinuar.setBackground(new java.awt.Color(153, 255, 255));
+        btnContinuar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        btnContinuar.setForeground(new java.awt.Color(59, 52, 85));
+        btnContinuar.setText("Siguiente");
+        btnContinuar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnContinuarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlOrdenLayout = new javax.swing.GroupLayout(pnlOrden);
+        pnlOrden.setLayout(pnlOrdenLayout);
+        pnlOrdenLayout.setHorizontalGroup(
+            pnlOrdenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlOrdenLayout.createSequentialGroup()
+                .addGroup(pnlOrdenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlOrdenLayout.createSequentialGroup()
+                        .addGap(334, 334, 334)
+                        .addComponent(jLabel1))
+                    .addGroup(pnlOrdenLayout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addGroup(pnlOrdenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlOrdenLayout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(btnContinuar))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 720, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(30, Short.MAX_VALUE))
+        );
+        pnlOrdenLayout.setVerticalGroup(
+            pnlOrdenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlOrdenLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnContinuar)
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout pnlPlatilloLayout = new javax.swing.GroupLayout(pnlPlatillo);
@@ -700,16 +692,23 @@ public class MenuCliente extends javax.swing.JFrame {
         pnlPlatilloLayout.setHorizontalGroup(
             pnlPlatilloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlPlatilloLayout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addComponent(pnlDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(pnlPlatilloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlPlatilloLayout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addComponent(pnlDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlPlatilloLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(pnlOrden, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
         pnlPlatilloLayout.setVerticalGroup(
             pnlPlatilloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlPlatilloLayout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addComponent(pnlDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addComponent(pnlDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(pnlOrden, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -719,9 +718,9 @@ public class MenuCliente extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(pnlRestaurantes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(22, 22, 22)
                 .addComponent(pnlPlatillo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -741,7 +740,7 @@ public class MenuCliente extends javax.swing.JFrame {
 
     private void btnContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContinuarActionPerformed
         this.setVisible(false);
-        ConfirmarOrden confirm = new ConfirmarOrden();
+        ConfirmarOrden confirm = new ConfirmarOrden(orden_temp);
         confirm.setVisible(true);
     }//GEN-LAST:event_btnContinuarActionPerformed
 
@@ -774,7 +773,7 @@ public class MenuCliente extends javax.swing.JFrame {
     }
 
     private void btnPlatillo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlatillo2ActionPerformed
-        pnlPlatillo.setVisible(true);
+        activarPaneles();
         asignarDataPlatillo(1);
     }//GEN-LAST:event_btnPlatillo2ActionPerformed
 
@@ -803,7 +802,7 @@ public class MenuCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRes5ActionPerformed
 
     private void btnPlatillo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlatillo1ActionPerformed
-        pnlPlatillo.setVisible(true);
+        activarPaneles();
         asignarDataPlatillo(0);
     }//GEN-LAST:event_btnPlatillo1ActionPerformed
 
@@ -813,19 +812,24 @@ public class MenuCliente extends javax.swing.JFrame {
         lblDescripcion.setText("Costo: $" + plat_temp.getCostoPlatillo() + " Composición: " + plat_temp.getComposicion());
         llenarTablaDisponibles();
     }
+    
+    public void activarPaneles(){
+        pnlPlatillo.setVisible(true);
+        pnlDescripcion.setVisible(true);
+    }
 
     private void btnPlatillo3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlatillo3ActionPerformed
-        pnlPlatillo.setVisible(true);
+        activarPaneles();
         asignarDataPlatillo(2);
     }//GEN-LAST:event_btnPlatillo3ActionPerformed
 
     private void btnPlatillo4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlatillo4ActionPerformed
-        pnlPlatillo.setVisible(true);
+        activarPaneles();
         asignarDataPlatillo(3);
     }//GEN-LAST:event_btnPlatillo4ActionPerformed
 
     private void btnPlatillo5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlatillo5ActionPerformed
-        pnlPlatillo.setVisible(true);
+        activarPaneles();
         asignarDataPlatillo(4);
     }//GEN-LAST:event_btnPlatillo5ActionPerformed
 
@@ -879,9 +883,7 @@ public class MenuCliente extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarP;
-    private javax.swing.JButton btnBorrarRow;
     private javax.swing.JButton btnContinuar;
-    private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnPlatillo1;
     private javax.swing.JButton btnPlatillo2;
     private javax.swing.JButton btnPlatillo3;
