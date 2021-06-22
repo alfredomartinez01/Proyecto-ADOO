@@ -89,6 +89,10 @@ public class Platillo {
         return tipo;
     }
 
+    public void setTipo(int tipo) {
+        this.tipo = tipo;
+    }
+
     public void setIdMenu(int idMenu) {
         this.idMenu = idMenu;
     }
@@ -158,6 +162,7 @@ public class Platillo {
             return -1;
         }
     }
+    
 
     public int actualizarPlatillo() {
         Connection conexion = null; // Creamos la conexión
@@ -256,5 +261,11 @@ public class Platillo {
 
             return -1;
         }
+    }
+    
+    @Override
+    public String toString() {
+        return "Plat{" + "idPlatillo=" + idPlatillo + ", idMenu=" + idMenu + ", nombreP:" + nombrePlatillo + ",costoP:" + costoPlatillo + 
+                ", composicion:" + composicion + ",tipo:" + tipo +'}';
     }
 }

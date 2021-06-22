@@ -1,5 +1,11 @@
 package domain;
 
+import datos.Conexion;
+import datos.IngredienteDAO;
+import datos.OrdenDAO;
+import datos.PlatilloDAO;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 enum ESTADOS{
@@ -106,7 +112,45 @@ public class Orden {
         this.idClienteO = idClienteO;
     }
     
-    
+    /*public int escribirOrden() {
+        Connection conexion = null; // Creamos la conexión
+
+        try {
+            conexion = Conexion.getConnection(); // Establecemos la conexión
+            if (conexion.getAutoCommit()) {
+                conexion.setAutoCommit(false); // Quitamos el autocommit para la transacción
+            }
+            OrdenDAO ord_management = new OrdenDAO(conexion);
+            ord_management.insertar(this);
+
+            PlatilloDAO plat_management = new PlatilloDAO(conexion);
+            for (Platillo plat : this.platillos) { 
+                //plat_management.insertar(plat);
+                // Obteniendo el id del ingrediente y platillo
+                //ord_management.seleccionar_data(this);
+                //plat_management.seleccionar_por_data(plat);
+                plat_management.insertar_en_contiene(plat.getIdPlatillo(), this.idOrden);
+            }
+
+            conexion.commit(); // Intentamos hacer el commit de todos los queries 
+            System.out.println("Se ha hecho commit de la transaccion");
+
+            return 0;
+
+        } catch (SQLException ex) {
+
+            ex.printStackTrace(System.out);
+            System.out.println("Entramos al rollback");
+            try {
+                conexion.rollback(); // Si hubo algún error
+            } catch (SQLException ex1) {
+                ex1.printStackTrace(System.out);
+            }
+
+            return -1;
+        }
+    }*/
+
 
     
 
@@ -128,4 +172,10 @@ public class Orden {
    public String verificarEstado(){
        return estado;
    }
+   
+   
+   @Override
+    public String toString() {
+        return "Orden{" + "idOrden=" + idOrden + ", idCliente=" + idClienteO + ", fecha:" + fecha + ",Hora:" + hora + '}';
+    }
 }
