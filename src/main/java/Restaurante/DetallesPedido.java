@@ -21,7 +21,7 @@ public class DetallesPedido extends javax.swing.JFrame {
     private Restaurante restaurante = new Restaurante();
     private OrdenDAO ordenDao = new OrdenDAO();
     private PlatilloDAO platilloDao = new PlatilloDAO();
-    public String x;
+    public String ord;
     
     
     public DetallesPedido(Restaurante restaurant, String no_orden) {
@@ -31,6 +31,7 @@ public class DetallesPedido extends javax.swing.JFrame {
         asignarDatos();
         lbl_mensaje.setText("Mostrando detalles de la orden " + no_orden + ".");
         timer.start();
+        ord = no_orden;
         
         
     }    
@@ -271,7 +272,24 @@ public class DetallesPedido extends javax.swing.JFrame {
 
     
     private void ActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarActionPerformed
-        // TODO add your handling code here:
+        String estado = (String) Estados.getSelectedItem();
+        String update_estado;
+        OrdenDAO ordenDao = new OrdenDAO();
+        System.out.println("valor   "+Integer.valueOf(ord));
+        int  x = Integer.parseInt(ord);
+        if("Orden realizada".equals(estado)){
+        Orden ordenModificar = new Orden(x,"REALIZADA");
+        ordenDao.actualizar(ordenModificar);
+        }else if("Orden recibida".equals(estado)){
+        Orden ordenModificar = new Orden(x,"RECIBIDA");
+        ordenDao.actualizar(ordenModificar); 
+        }else if("Preparando orden".equals(estado)){
+        Orden ordenModificar = new Orden(x,"PREPARANDO");
+        ordenDao.actualizar(ordenModificar); 
+        }else if("Orden lista parar recoger".equals(estado)){
+        Orden ordenModificar = new Orden(x,"LISTA");
+        ordenDao.actualizar(ordenModificar); 
+        }
     }//GEN-LAST:event_ActualizarActionPerformed
 
     private void EstadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EstadosActionPerformed

@@ -39,7 +39,10 @@ public class Orden {
     public ArrayList<Platillo> getPlatillos() {
         return platillos;
     }
-
+    public Orden(int idOrden,String estado) {
+        this.estado = estado;
+        this.idOrden = idOrden;
+    }
     public Orden( int idOrden, int idClienteO, String fecha, String hora,String estado) {
         this.estado = estado;
         this.idOrden = idOrden;

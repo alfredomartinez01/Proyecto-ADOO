@@ -14,7 +14,7 @@ public class OrdenDAO {
     private static final String SQL_SELECT_MAX_ORDEN = "SELECT MAX(idOrden) AS ultimoIDOrden FROM orden";
     //private static final String SQL_SELECT_BY_DATA = "select * from orden where (nombrePlatillo = ? and costoPlatillo = ? and composicion = ?) and tipo = 1";
     private static final String SQL_INSERT = "INSERT INTO orden (idCliente, fecha, hora, estado)  VALUES(?,?,?,?) ";
-    private static final String SQL_UPDATE = "UPDATE  orden SET idCliente = ?, fecha = ?, hora=? WHERE idOrden = ? ";
+    private static final String SQL_UPDATE = "UPDATE  orden SET estado=? WHERE idOrden = ? ";
     private static final String SQL_DELETE = "DELETE FROM orden  WHERE idOrden = ? ";
     private static final String SQL_SELECT_CONTIENE = "SELECT idOrden, idPlatillo FROM contiene";
     
@@ -124,11 +124,8 @@ public class OrdenDAO {
         try {
             conn = getConnection();
             stmt = conn.prepareStatement(SQL_UPDATE);
-            stmt.setInt(1,orden.getIdCliente());
-            stmt.setString(2,orden.getFecha());
-            stmt.setString(3, orden.getHora());
-            
-            stmt.setInt(4,orden.getIdOrden());
+            stmt.setString(1,orden.getEstado());
+            stmt.setInt(2,orden.getIdOrden());
             registros = stmt.executeUpdate();//actualiza base de datos, puede ejecutar sentencias , update, delete ,insert 
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
