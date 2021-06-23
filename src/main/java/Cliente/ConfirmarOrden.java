@@ -12,6 +12,7 @@ import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -37,11 +38,11 @@ public class ConfirmarOrden extends javax.swing.JFrame {
     }
 
     public void ajustarApariencia() {
-        getContentPane().setBackground(Color.WHITE);
         this.setTitle("Confirmación de orden");
         this.setExtendedState(MAXIMIZED_BOTH);
-        getContentPane().setBackground(Color.decode("#3B3455"));
+        getContentPane().setBackground(Color.decode("#ACDED5"));
         tblOrdenC.setSize(ancho_pantalla, alto_pantalla);
+        this.setIconImage(new ImageIcon(getClass().getResource("/logo.jpg")).getImage());
     }
 
     public void llenarTablaPlatillos() {
@@ -83,6 +84,7 @@ public class ConfirmarOrden extends javax.swing.JFrame {
         btnCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -149,7 +151,7 @@ public class ConfirmarOrden extends javax.swing.JFrame {
                         .addComponent(btnConfirmar))
                     .addComponent(jLabel1)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(444, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -162,7 +164,7 @@ public class ConfirmarOrden extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnConfirmar)
                     .addComponent(btnCancelar))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(479, Short.MAX_VALUE))
         );
 
         pack();

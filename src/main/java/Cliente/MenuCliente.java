@@ -22,6 +22,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
@@ -71,10 +72,10 @@ public class MenuCliente extends javax.swing.JFrame {
     }
 
     public void ajustarApariencia() {
-        getContentPane().setBackground(Color.WHITE);
         this.setTitle("Autorder");
         this.setExtendedState(MAXIMIZED_BOTH);
-        getContentPane().setBackground(Color.decode("#3B3455"));
+        getContentPane().setBackground(Color.decode("#ACDED5"));
+        this.setIconImage(new ImageIcon(getClass().getResource("/logo.jpg")).getImage());
         pnlRestaurantes.setBackground(Color.decode("#3B3455"));
         pnlMenu.setBackground(Color.decode("#A4A3A6"));
     }
@@ -308,6 +309,7 @@ public class MenuCliente extends javax.swing.JFrame {
         btnContinuar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         pnlRestaurantes.setBackground(Color.decode("#3B3455")
         );
@@ -730,7 +732,7 @@ public class MenuCliente extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(pnlMenu, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(pnlPlatillo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnlRestaurantes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(pnlRestaurantes, javax.swing.GroupLayout.DEFAULT_SIZE, 790, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 

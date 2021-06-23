@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 public class FormaPago extends javax.swing.JFrame {
@@ -59,10 +60,10 @@ public class FormaPago extends javax.swing.JFrame {
     }
 
     public void ajustarApariencia() {
-        getContentPane().setBackground(Color.WHITE);
         this.setTitle("Forma de Pago");
         this.setExtendedState(MAXIMIZED_BOTH);
-        getContentPane().setBackground(Color.decode("#3B3455"));
+        getContentPane().setBackground(Color.decode("#ACDED5"));
+        this.setIconImage(new ImageIcon(getClass().getResource("/logo.jpg")).getImage());
         pnlTarjeta.setBackground(Color.decode("#A4A3A6"));
         pnlGracias.setBackground(Color.decode("#A4A3A6"));
     }
@@ -194,6 +195,7 @@ public class FormaPago extends javax.swing.JFrame {
         lblMonto = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jLabel2.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -362,7 +364,7 @@ public class FormaPago extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(64, 64, 64)
                         .addComponent(pnlMetodoPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(64, Short.MAX_VALUE))
+                .addContainerGap(563, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -381,7 +383,7 @@ public class FormaPago extends javax.swing.JFrame {
                     .addComponent(btnContinuar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pnlMetodoPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(73, Short.MAX_VALUE))
+                .addContainerGap(231, Short.MAX_VALUE))
         );
 
         pack();

@@ -30,15 +30,9 @@ public class Bienvenida extends javax.swing.JFrame {
     
     public void ajustarApariencia(){        
         this.setExtendedState(MAXIMIZED_BOTH);
-        getContentPane().setBackground(Color.decode("#3B3455"));
+        getContentPane().setBackground(Color.decode("#ACDED5"));
         this.setTitle("Bienvenido");
-        lblBienvenido.setLocation(ancho_pantalla / 2 , alto_pantalla / 2);
-        btnIniciar.setLocation(ancho_pantalla/2, alto_pantalla/2 - 30);
-        /*URL iconURL = getClass().getResource("/imagenes/logo.png");
-        // iconURL is null when not found
-        ImageIcon icon = new ImageIcon(iconURL);
-        this.setIconImage(icon.getImage());*/
-        //this.setIconImage(new ImageIcon(getClass().getResource("/imagenes/logo.png")).getImage());
+        this.setIconImage(new ImageIcon(getClass().getResource("/logo.jpg")).getImage());
     }
     
     
@@ -57,14 +51,17 @@ public class Bienvenida extends javax.swing.JFrame {
         btnIniciar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
-        lblBienvenido.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 24)); // NOI18N
-        lblBienvenido.setForeground(new java.awt.Color(255, 255, 255));
-        lblBienvenido.setText("Bienvenido");
+        lblBienvenido.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 36)); // NOI18N
+        lblBienvenido.setForeground(new java.awt.Color(0, 153, 153));
+        lblBienvenido.setText("¡Bienvenido a Autorder!");
+
+        lblImagenPrincipal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logo.jpg"))); // NOI18N
 
         btnIniciar.setBackground(new java.awt.Color(153, 255, 255));
         btnIniciar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        btnIniciar.setForeground(new java.awt.Color(153, 153, 153));
+        btnIniciar.setForeground(new java.awt.Color(0, 102, 153));
         btnIniciar.setText("Iniciar Orden");
         btnIniciar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -77,29 +74,29 @@ public class Bienvenida extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(299, 299, 299)
-                .addComponent(lblImagenPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(303, 303, 303))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(lblBienvenido)
-                        .addGap(361, 361, 361))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnIniciar)
-                        .addGap(367, 367, 367))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(436, 436, 436)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblImagenPrincipal)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(138, 138, 138)
+                                .addComponent(btnIniciar))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(427, 427, 427)
+                        .addComponent(lblBienvenido)))
+                .addContainerGap(525, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(44, 44, 44)
+                .addGap(160, 160, 160)
                 .addComponent(lblBienvenido)
-                .addGap(34, 34, 34)
-                .addComponent(lblImagenPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(76, 76, 76)
+                .addGap(18, 18, 18)
+                .addComponent(lblImagenPrincipal)
+                .addGap(40, 40, 40)
                 .addComponent(btnIniciar)
-                .addContainerGap())
+                .addContainerGap(162, Short.MAX_VALUE))
         );
 
         pack();
