@@ -26,13 +26,12 @@ public class DetallesPedido extends javax.swing.JFrame {
     
     public DetallesPedido(Restaurante restaurant, String no_orden) {
         this.restaurante = restaurant;
+        this.no_ord = no_orden;   
         initComponents();
         ajustarApariencia();  
-        asignarDatos();
+        tablaPlatillos();
         lbl_mensaje.setText("Mostrando detalles de la orden " + no_orden + ".");
-        timer.start();
-        this.no_ord = no_orden;       
-        System.out.println(this.no_ord);
+        timer.start();    
     }    
     
     
@@ -43,9 +42,7 @@ public class DetallesPedido extends javax.swing.JFrame {
     }
     public void asignarDatos(){
         /* Asignamos los platillos y toda la información de la orden*/  
-        tablaPlatillos();
-        
-        
+        tablaPlatillos();       
     }
     
     private void tablaPlatillos(){ // Muestra la tabla normal
@@ -63,6 +60,7 @@ public class DetallesPedido extends javax.swing.JFrame {
         Object[] fila = new Object[4]; // Crea el objeto de celdas para agregar
         
         
+        System.out.println(this.no_ord);
         
         for (Orden orden : contiene){
             if(orden.getIdOrden()== 12){

@@ -50,6 +50,7 @@ public class DespliegueHistorial extends javax.swing.JFrame {
         Object[] fila = new Object[5]; // Crea el objeto de celdas para agregar
 
         for (Orden orden : ordenes) {
+            System.out.println(orden.getEstado());
             for (Pago pago : pagos) {
                 if (orden.getIdCliente() == pago.getIdClienteP()) {
                     fila[0] = orden.getIdOrden();
@@ -209,18 +210,12 @@ public class DespliegueHistorial extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void ActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarActionPerformed
-        
             timer.stop();
             table_timer.stop();
             DetallesPedido detalles = new DetallesPedido(restaurante, txt_orden.getText());
             detalles.setVisible(true);
             this.setVisible(false);
             this.dispose();
-            
-            
-            
-        
-        
     }//GEN-LAST:event_ActualizarActionPerformed
 
     private void VolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VolverActionPerformed

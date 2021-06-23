@@ -63,7 +63,7 @@ public class FormaPago extends javax.swing.JFrame {
         this.setTitle("Forma de Pago");
         this.setExtendedState(MAXIMIZED_BOTH);
         getContentPane().setBackground(Color.decode("#ACDED5"));
-        this.setIconImage(new ImageIcon(getClass().getResource("/logo.jpg")).getImage());
+        //this.setIconImage(new ImageIcon(getClass().getResource("/logo.jpg")).getImage());
         pnlTarjeta.setBackground(Color.decode("#A4A3A6"));
         pnlGracias.setBackground(Color.decode("#A4A3A6"));
     }

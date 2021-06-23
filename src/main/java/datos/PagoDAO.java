@@ -60,6 +60,10 @@ public class PagoDAO {
         try {
             conn = getConnection();//Conexion activa hacia la base de datos
             stmt = conn.prepareStatement(SQL_SELECT);//Mandamos la instruccion SELECT
+            
+            
+            System.out.println("-----------------------------------------------------------------");
+            System.out.println("ejecutando query:" + stmt);
             rs = stmt.executeQuery();//Se ejecuta la instruccion dada
             while (rs.next()) {
                 int idPago = rs.getInt("idPago");

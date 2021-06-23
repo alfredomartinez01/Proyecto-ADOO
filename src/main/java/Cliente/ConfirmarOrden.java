@@ -42,7 +42,7 @@ public class ConfirmarOrden extends javax.swing.JFrame {
         this.setExtendedState(MAXIMIZED_BOTH);
         getContentPane().setBackground(Color.decode("#ACDED5"));
         tblOrdenC.setSize(ancho_pantalla, alto_pantalla);
-        this.setIconImage(new ImageIcon(getClass().getResource("/logo.jpg")).getImage());
+        //this.setIconImage(new ImageIcon(getClass().getResource("/logo.jpg")).getImage());
     }
 
     public void llenarTablaPlatillos() {

@@ -75,7 +75,7 @@ public class MenuCliente extends javax.swing.JFrame {
         this.setTitle("Autorder");
         this.setExtendedState(MAXIMIZED_BOTH);
         getContentPane().setBackground(Color.decode("#ACDED5"));
-        this.setIconImage(new ImageIcon(getClass().getResource("/logo.jpg")).getImage());
+        //this.setIconImage(new ImageIcon(getClass().getResource("/logo.jpg")).getImage());
         pnlRestaurantes.setBackground(Color.decode("#3B3455"));
         pnlMenu.setBackground(Color.decode("#A4A3A6"));
     }
