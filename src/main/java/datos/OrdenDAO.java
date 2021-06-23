@@ -11,6 +11,7 @@ public class OrdenDAO {
    
     private Connection conexionTransaccional;
     private static final String SQL_SELECT = "SELECT * FROM orden";
+    private static final String SQL_SELECT_ESTADO = "SELECT * FROM orden where estado = ?";
     private static final String SQL_SELECT_MAX_ORDEN = "SELECT MAX(idOrden) AS ultimoIDOrden FROM orden";
     //private static final String SQL_SELECT_BY_DATA = "select * from orden where (nombrePlatillo = ? and costoPlatillo = ? and composicion = ?) and tipo = 1";
     private static final String SQL_INSERT = "INSERT INTO orden (idCliente, fecha, hora, estado)  VALUES(?,?,?,?) ";
@@ -67,6 +68,49 @@ public class OrdenDAO {
 
         return ordenes;
     }
+    
+    public List<Orden> seleccionar_por_estado(String estado_orden) {
+        Connection conn = null;
+        PreparedStatement stmt = null; //Variable para trabajar con Querys
+        ResultSet rs = null;
+        Orden orden = null;// Cada renglon se convertira en un objeto tipo Orden
+        List<Orden> ordenes = new ArrayList<>();
+
+        try {
+            conn = getConnection();//Conexion activa hacia la base de datos
+            stmt = conn.prepareStatement(SQL_SELECT_ESTADO);//Mandamos la instruccion SELECT
+            stmt.setString(1, estado_orden);
+            
+            System.out.println("-----------------------------------------------------------------");
+            System.out.println("ejecutando query:" + stmt);
+            
+            rs = stmt.executeQuery();//Se ejecuta la instruccion dada
+            while (rs.next()) {
+                int idOrden = rs.getInt("idOrden");
+                int idCliente = rs.getInt("idCliente");
+                String fecha = rs.getString("fecha");
+                String hora = rs.getString("hora");
+                String estado = rs.getString("estado");
+                
+                orden = new Orden(idOrden, idCliente,fecha,hora,estado);//Convertimos informacion de base de datos a objetos java
+
+                ordenes.add(orden);//Agregamos a la lista
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            try {
+                close(rs);
+                close(stmt);
+                close(conn);
+            } catch (SQLException ex) {
+                ex.printStackTrace(System.out);
+            }
+        }
+
+        return ordenes;
+    }
+    
     
     public int insertar(Orden orden) throws SQLException{
         Connection conn = null;
