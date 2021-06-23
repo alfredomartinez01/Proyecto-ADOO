@@ -1,6 +1,7 @@
 package Restaurante;
 
 import datos.RestauranteDAO;
+import domain.Imagen;
 import domain.Restaurante;
 import java.awt.Color;
 import java.sql.SQLException;
@@ -9,6 +10,7 @@ import javax.swing.ImageIcon;
 public class Login extends javax.swing.JFrame {
     public static int ancho_pantalla = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width;
     public static int alto_pantalla = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
+    public final static ImageIcon admin = new Imagen("admin.png").getImageIcon();
     
     public Login() {
         initComponents();        
@@ -18,7 +20,7 @@ public class Login extends javax.swing.JFrame {
         this.setExtendedState(MAXIMIZED_BOTH);
         getContentPane().setBackground(Color.decode("#ACDED5"));
         this.setTitle("Iniciar sesión");
-        this.setIconImage(new ImageIcon(getClass().getResource("/logo.jpg")).getImage());
+        //this.setIconImage(new ImageIcon(getClass().getResource("/logo.jpg")).getImage());
     }
     private int comprobarCredenciales(String user, String password) {
         // Obtetiendo los datos del usuario
@@ -149,7 +151,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        lblAdminImg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/admin.png"))); // NOI18N
+        lblAdminImg.setIcon(admin);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

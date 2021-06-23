@@ -21,7 +21,7 @@ public class DetallesPedido extends javax.swing.JFrame {
     private Restaurante restaurante = new Restaurante();
     private OrdenDAO ordenDao = new OrdenDAO();
     private PlatilloDAO platilloDao = new PlatilloDAO();
-    public String ord;
+    public String no_ord;
     
     
     public DetallesPedido(Restaurante restaurant, String no_orden) {
@@ -31,9 +31,8 @@ public class DetallesPedido extends javax.swing.JFrame {
         asignarDatos();
         lbl_mensaje.setText("Mostrando detalles de la orden " + no_orden + ".");
         timer.start();
-        ord = no_orden;
-        
-        
+        this.no_ord = no_orden;       
+        System.out.println(this.no_ord);
     }    
     
     
@@ -275,8 +274,8 @@ public class DetallesPedido extends javax.swing.JFrame {
         String estado = (String) Estados.getSelectedItem();
         String update_estado;
         OrdenDAO ordenDao = new OrdenDAO();
-        System.out.println("valor   "+Integer.valueOf(ord));
-        int  x = Integer.parseInt(ord);
+        System.out.println("valor   "+Integer.valueOf(no_ord));
+        int  x = Integer.parseInt(no_ord);
         if("Orden realizada".equals(estado)){
         Orden ordenModificar = new Orden(x,"REALIZADA");
         ordenDao.actualizar(ordenModificar);
