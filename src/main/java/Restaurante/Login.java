@@ -4,6 +4,7 @@ import datos.RestauranteDAO;
 import domain.Restaurante;
 import java.awt.Color;
 import java.sql.SQLException;
+import javax.swing.ImageIcon;
 
 public class Login extends javax.swing.JFrame {
     public static int ancho_pantalla = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -15,8 +16,9 @@ public class Login extends javax.swing.JFrame {
     }
     public void ajustarApariencia(){        
         this.setExtendedState(MAXIMIZED_BOTH);
-        getContentPane().setBackground(Color.WHITE);
+        getContentPane().setBackground(Color.decode("#ACDED5"));
         this.setTitle("Iniciar sesión");
+        this.setIconImage(new ImageIcon(getClass().getResource("/logo.jpg")).getImage());
     }
     private int comprobarCredenciales(String user, String password) {
         // Obtetiendo los datos del usuario
@@ -55,6 +57,7 @@ public class Login extends javax.swing.JFrame {
         text_pass = new javax.swing.JPasswordField();
         Aceptar = new javax.swing.JButton();
         Registrarse = new javax.swing.JButton();
+        lblAdminImg = new javax.swing.JLabel();
 
         Error.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         Error.setAlwaysOnTop(true);
@@ -88,10 +91,14 @@ public class Login extends javax.swing.JFrame {
         setBackground(new java.awt.Color(255, 255, 255));
         setResizable(false);
 
-        lbl_bienvenido.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 24)); // NOI18N
+        lbl_bienvenido.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 36)); // NOI18N
+        lbl_bienvenido.setForeground(new java.awt.Color(0, 153, 153));
         lbl_bienvenido.setText("Bienvenido");
 
-        text_user.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        text_user.setBackground(new java.awt.Color(204, 255, 255));
+        text_user.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        text_user.setForeground(new java.awt.Color(0, 102, 153));
+        text_user.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(172, 222, 213)));
         text_user.setNextFocusableComponent(text_pass);
         text_user.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -99,13 +106,18 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        lbl_usuario.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        lbl_usuario.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        lbl_usuario.setForeground(new java.awt.Color(0, 153, 153));
         lbl_usuario.setText("Usuario:");
 
-        lbl_contrasena.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        lbl_contrasena.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        lbl_contrasena.setForeground(new java.awt.Color(0, 153, 153));
         lbl_contrasena.setText("Contraseña:");
 
-        text_pass.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        text_pass.setBackground(new java.awt.Color(204, 255, 255));
+        text_pass.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        text_pass.setForeground(new java.awt.Color(0, 102, 153));
+        text_pass.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(172, 222, 213)));
         text_pass.setNextFocusableComponent(Aceptar);
         text_pass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -113,56 +125,65 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        Aceptar.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        Aceptar.setBackground(new java.awt.Color(153, 255, 255));
+        Aceptar.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        Aceptar.setForeground(new java.awt.Color(0, 102, 153));
         Aceptar.setText("Ingresar");
-        Aceptar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 204)));
-        Aceptar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Aceptar.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        Aceptar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         Aceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AceptarActionPerformed(evt);
             }
         });
 
-        Registrarse.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        Registrarse.setBackground(new java.awt.Color(153, 255, 255));
+        Registrarse.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        Registrarse.setForeground(new java.awt.Color(0, 102, 153));
         Registrarse.setText("Registrarse");
-        Registrarse.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
-        Registrarse.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Registrarse.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        Registrarse.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         Registrarse.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 RegistrarseActionPerformed(evt);
             }
         });
 
+        lblAdminImg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/admin.png"))); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(515, 515, 515)
+                .addGap(508, 508, 508)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(lbl_bienvenido)
-                        .addGap(103, 103, 103))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(129, 129, 129)
-                            .addComponent(lbl_usuario))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(lbl_contrasena)
-                                .addGap(118, 118, 118))
-                            .addComponent(text_pass, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(text_user, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Aceptar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Registrarse, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(533, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(129, 129, 129)
+                        .addComponent(lbl_usuario))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(lbl_contrasena)
+                            .addGap(118, 118, 118))
+                        .addComponent(text_pass, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(text_user, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(Aceptar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(Registrarse, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(65, 65, 65)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblAdminImg, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbl_bienvenido))))
+                .addContainerGap(540, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(62, 62, 62)
+                .addGap(95, 95, 95)
                 .addComponent(lbl_bienvenido)
-                .addGap(48, 48, 48)
+                .addGap(18, 18, 18)
+                .addComponent(lblAdminImg, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(lbl_usuario)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(text_user, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -174,7 +195,7 @@ public class Login extends javax.swing.JFrame {
                 .addComponent(Aceptar)
                 .addGap(18, 18, 18)
                 .addComponent(Registrarse)
-                .addContainerGap(386, Short.MAX_VALUE))
+                .addGap(149, 149, 149))
         );
 
         pack();
@@ -246,6 +267,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton Aceptar;
     private javax.swing.JDialog Error;
     private javax.swing.JButton Registrarse;
+    private javax.swing.JLabel lblAdminImg;
     private javax.swing.JLabel lbl_bienvenido;
     private javax.swing.JLabel lbl_contrasena;
     private javax.swing.JLabel lbl_usuario;
