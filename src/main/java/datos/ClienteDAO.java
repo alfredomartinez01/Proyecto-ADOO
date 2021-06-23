@@ -13,6 +13,7 @@ public class ClienteDAO {
 
     private Connection conexionTransaccional; // Para transacciones
     private static final String SQL_SELECT = "SELECT idCliente, nombreCliente FROM cliente";
+    private static final String SQL_POR_ORDEN = "SELECT * from cliente where idCliente in  (select idCliente from orden where idOrden = ?)";
     private static final String SQL_SELECT_MAX_CLIENTE = "SELECT MAX(idCliente) AS ultimoIDCliente FROM cliente";
     private static final String SQL_INSERT = "INSERT INTO cliente (nombreCliente)  VALUES(?) ";
     /*En VALUES se pone ? en represantacion a cada valor que se quiere editar, se pondran mas  ? seguido 
@@ -22,6 +23,9 @@ public class ClienteDAO {
 
     public ClienteDAO(Connection conexionTransaccional) {
         this.conexionTransaccional = conexionTransaccional;
+    }
+    
+    public ClienteDAO() {
     }
 
     //Regresa lista de objetos tipo cliente 
@@ -59,7 +63,43 @@ public class ClienteDAO {
 
         return clientes;
     }
+    
+    public Cliente seleccionar_por_orden(int idOrden) {
+        Connection conn = null;
+        PreparedStatement stmt = null; //Variable para trabajar con Querys
+        ResultSet rs = null;
+        Cliente cliente = null;// Cada renglon se convertira en un objeto tipo cliente
+        List<Cliente> clientes = new ArrayList<>();
 
+        try {
+            conn = getConnection();//Conexion activa hacia la base de datos
+            stmt = conn.prepareStatement(SQL_POR_ORDEN);//Mandamos la instruccion SELECT
+            stmt.setInt(1, idOrden);
+            
+            System.out.println("-----------------------------------------------------------------");
+            System.out.println("ejecutando query:" + stmt);
+            rs = stmt.executeQuery();//Se ejecuta la instruccion dada
+            while (rs.next()) {
+                int idCliente = rs.getInt("idCliente");
+                String nombreCliente = rs.getString("nombreCliente");
+
+                cliente = new Cliente(idCliente, nombreCliente);//Convertimos informacion de base de datos a objetos java
+                return cliente;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            try {
+                close(rs);
+                close(stmt);
+                close(conn);
+            } catch (SQLException ex) {
+                ex.printStackTrace(System.out);
+            }
+        }
+        return null;
+    }
+    
     /*Obtener ultimo id de cliente*/
     public int lastIDCliente() throws SQLException {
         Connection conn = null;
@@ -86,13 +126,16 @@ public class ClienteDAO {
         
         return idCliente;
     }
-    public int insertar(Cliente cliente) {
+    public int insertar(Cliente cliente) throws SQLException {
         Connection conn = null;
         PreparedStatement stmt = null;
         int registros = 0;
         try {
-            conn = getConnection();
+            conn = this.conexionTransaccional != null ? this.conexionTransaccional : Conexion.getConnection(); // asigna la conn, si no es una transacción, entonces la crea, de otro modo usa la de la transacción
             stmt = conn.prepareStatement(SQL_INSERT);
+            
+            System.out.println("-----------------------------------------------------------------");
+            System.out.println("ejecutando query:" + stmt);
             stmt.setString(1, cliente.getNombreCliente());
             /*El primer parametro 1 corresponde al primer 
                 parametro de la sentencia INSERT -> VALUES(?), el segundo parametro 
@@ -101,11 +144,9 @@ public class ClienteDAO {
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
         } finally {
-            try {
-                close(stmt);
-                close(conn);
-            } catch (SQLException ex) {
-                ex.printStackTrace(System.out);
+            Conexion.close(stmt);
+            if (this.conexionTransaccional == null) {
+                Conexion.close(conn); // Si no es una transaccion entonces la cerramos
             }
         }
         return registros;

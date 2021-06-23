@@ -16,8 +16,10 @@ public class OrdenDAO {
     private static final String SQL_INSERT = "INSERT INTO orden (idCliente, fecha, hora, estado)  VALUES(?,?,?,?) ";
     private static final String SQL_UPDATE = "UPDATE  orden SET estado=? WHERE idOrden = ? ";
     private static final String SQL_DELETE = "DELETE FROM orden  WHERE idOrden = ? ";
-    private static final String SQL_SELECT_CONTIENE = "SELECT idOrden, idPlatillo FROM contiene";
-    
+    private static final String SQL_SELECT_CONTIENE = "SELECT idOrden, idPlatillo FROM contiene where idPlatillo = ?";
+    private static final String SQL_SELECT_CONTIENE_MENU = "SELECT * FROM orden where idOrden in ("
+                                                               + "select idOrden from contiene where idPlatillo in (select idPlatillo from platillo where idMenu = ?)"
+                                                               + ")";
         public OrdenDAO(Connection conexionTransaccional) {
         this.conexionTransaccional = conexionTransaccional;
     }
@@ -66,28 +68,26 @@ public class OrdenDAO {
         return ordenes;
     }
     
-    public int insertar(Orden orden){
+    public int insertar(Orden orden) throws SQLException{
         Connection conn = null;
         PreparedStatement stmt = null;
         int registros = 0;
         try {
-            conn = getConnection();
+            conn = this.conexionTransaccional != null ? this.conexionTransaccional : Conexion.getConnection(); // asigna la conn, si no es una transacción, entonces la crea, de otro modo usa la de la transacción
             stmt = conn.prepareStatement(SQL_INSERT);
             stmt.setInt(1,orden.getIdCliente());
             stmt.setString(2,orden.getFecha());
             stmt.setString(3, orden.getHora());
             stmt.setString(4, orden.getEstado());
             
+            
+            System.out.println("-----------------------------------------------------------------");
+            System.out.println("ejecutando query:" + stmt);
             registros = stmt.executeUpdate();//actualiza base de datos, puede ejecutar sentencias , update, delete ,insert 
-        } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
-        }
-        finally{
-            try{
-               close(stmt); 
-               close(conn); 
-            }catch(SQLException ex){
-                ex.printStackTrace(System.out);
+        } finally{
+            Conexion.close(stmt);
+            if (this.conexionTransaccional == null) {
+                Conexion.close(conn); // Si no es una transaccion entonces la cerramos
             }
         }
         return registros;
@@ -167,7 +167,7 @@ public class OrdenDAO {
     
     
     
-    public List<Orden> seleccionar_contiene() {
+    public List<Orden> seleccionar_contiene(int idPlat) {
         Connection conn = null;
         PreparedStatement stmt = null; //Variable para trabajar con Querys
         ResultSet rs = null;
@@ -177,6 +177,91 @@ public class OrdenDAO {
         try {
             conn = getConnection();//Conexion activa hacia la base de datos
             stmt = conn.prepareStatement(SQL_SELECT_CONTIENE);//Mandamos la instruccion SELECT
+            stmt.setInt(1, idPlat);
+            
+            
+            System.out.println("-----------------------------------------------------------------");
+            System.out.println("ejecutando query:" + stmt);
+            rs = stmt.executeQuery();//Se ejecuta la instruccion dada
+            while (rs.next()) {
+                int idOrden = rs.getInt("idOrden");
+                int idPlatillo = rs.getInt("idPlatillo");                               
+                orden = new Orden(idOrden, idPlatillo);//Convertimos informacion de base de datos a objetos java
+
+                ordenes.add(orden);//Agregamos a la lista
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            try {
+                close(rs);
+                close(stmt);
+                close(conn);
+            } catch (SQLException ex) {
+                ex.printStackTrace(System.out);
+            }
+        }
+
+        return ordenes;
+    }
+    
+     public List<Orden> seleccionar_por_menu(int idMenu) {
+        Connection conn = null;
+        PreparedStatement stmt = null; //Variable para trabajar con Querys
+        ResultSet rs = null;
+        Orden orden = null;// Cada renglon se convertira en un objeto tipo Orden
+        List<Orden> ordenes = new ArrayList<>();
+
+        try {
+            conn = getConnection();//Conexion activa hacia la base de datos
+            stmt = conn.prepareStatement(SQL_SELECT_CONTIENE_MENU);//Mandamos la instruccion SELECT
+            stmt.setInt(1, idMenu);
+            
+            
+            System.out.println("-----------------------------------------------------------------");
+            System.out.println("ejecutando query:" + stmt);
+            rs = stmt.executeQuery();//Se ejecuta la instruccion dada
+            while (rs.next()) {
+                int idOrden = rs.getInt("idOrden");
+                int idCliente = rs.getInt("idCliente");
+                String fecha = rs.getString("fecha");
+                String hora = rs.getString("hora");
+                String estado = rs.getString("estado");
+                
+                orden = new Orden(idOrden, idCliente,fecha,hora,estado);//Convertimos informacion de base de datos a objetos java
+
+                ordenes.add(orden);//Agregamos a la lista
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            try {
+                close(rs);
+                close(stmt);
+                close(conn);
+            } catch (SQLException ex) {
+                ex.printStackTrace(System.out);
+            }
+        }
+
+        return ordenes;
+    }
+     
+    public List<Orden> seleccionar_contiene_orden(int idorden) {
+        Connection conn = null;
+        PreparedStatement stmt = null; //Variable para trabajar con Querys
+        ResultSet rs = null;
+        Orden orden = null;// Cada renglon se convertira en un objeto tipo Orden
+        List<Orden> ordenes = new ArrayList<>();
+
+        try {
+            conn = getConnection();//Conexion activa hacia la base de datos
+            stmt = conn.prepareStatement(SQL_SELECT_CONTIENE);//Mandamos la instruccion SELECT
+            stmt.setInt(1, idorden);
+            
+            
+            System.out.println("-----------------------------------------------------------------");
+            System.out.println("ejecutando query:" + stmt);
             rs = stmt.executeQuery();//Se ejecuta la instruccion dada
             while (rs.next()) {
                 int idOrden = rs.getInt("idOrden");

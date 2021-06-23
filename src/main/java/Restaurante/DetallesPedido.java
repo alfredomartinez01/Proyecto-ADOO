@@ -15,41 +15,81 @@ import java.util.List;
 import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 import Restaurante.DespliegueHistorial;
+import datos.IngredienteDAO;
+import domain.Ingrediente;
+import domain.Menu;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DetallesPedido extends javax.swing.JFrame {
-    
+
     private Restaurante restaurante = new Restaurante();
+    private Menu menu = new Menu();
     private OrdenDAO ordenDao = new OrdenDAO();
     private PlatilloDAO platilloDao = new PlatilloDAO();
+    private IngredienteDAO ingredienteDao = new IngredienteDAO();
     public String no_ord;
-    
-    
+
     public DetallesPedido(Restaurante restaurant, String no_orden) {
         this.restaurante = restaurant;
-        this.no_ord = no_orden;   
+        this.no_ord = no_orden;
         initComponents();
-        ajustarApariencia();  
+        ajustarApariencia();
         tablaPlatillos();
+        mostrarEstado();
         lbl_mensaje.setText("Mostrando detalles de la orden " + no_orden + ".");
-        timer.start();    
-    }    
-    
-    
-    public void ajustarApariencia(){      
+        timer.start();
+    }
+
+    public void ajustarApariencia() {
         this.setTitle("Detalles de orden");
         this.setExtendedState(MAXIMIZED_BOTH);
         getContentPane().setBackground(Color.WHITE);
     }
-    public void asignarDatos(){
-        /* Asignamos los platillos y toda la información de la orden*/  
-        tablaPlatillos();       
+
+    public void asignarDatos() {
+        /* Asignamos los platillos y toda la información de la orden*/
+        tablaPlatillos();
     }
-    
-    private void tablaPlatillos(){ // Muestra la tabla normal
+
+    public void mostrarEstado() {
+        OrdenDAO ordenDao = new OrdenDAO();
+        int no_orden = Integer.parseInt(no_ord);
+        List<Orden> ordenes = ordenDao.seleccionar();
+
+        for (Orden ord : ordenes) {
+            if (ord.getIdOrden() == no_orden) {
+                
+                String estado = ord.getEstado();
+                if ("realizada".equals(estado)) {
+                    Estados.setSelectedIndex(0);
+                } else if ("recibida".equals(estado)) {
+                    Estados.setSelectedIndex(1);
+                } else if ("preparando".equals(estado)) {
+                    Estados.setSelectedIndex(2);
+                } else if ("lista".equals(estado)) {
+                    Estados.setSelectedIndex(3);
+                } else if ("recogida".equals(estado)) {
+                    Estados.setSelectedIndex(4);
+                }
+            }
+        }
+
+    }
+
+    private void tablaPlatillos() { // Muestra la tabla normal
         DefaultTableModel model = (DefaultTableModel) tablaPlatillos.getModel();
-        List<Orden> contiene = ordenDao.seleccionar_contiene();
-        List<Platillo> platillos = platilloDao.seleccionar();
-        
+        List<Platillo> platillos = new ArrayList<Platillo>();
+
+        try {
+            // Seleccionamos desde contiene por id menu
+            platillos = platilloDao.seleccionar_por_orden(Integer.valueOf(no_ord));
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+
         int o = 0;
         // Borra la tabla anterior
         int index = 0;
@@ -57,35 +97,29 @@ public class DetallesPedido extends javax.swing.JFrame {
             model.removeRow(index);
         }
         model = (DefaultTableModel) tablaPlatillos.getModel(); // Crea el modelo de la tabla a partir del actual
-        Object[] fila = new Object[4]; // Crea el objeto de celdas para agregar
-        
-        
-        System.out.println(this.no_ord);
-        
-        for (Orden orden : contiene){
-            if(orden.getIdOrden()== 12){
-                for (Platillo platillo : platillos){
-                    o = platillo.getIdPlatillo();
-                }
-            }
-        }
-            
-            for (Platillo platillo1 : platillos) {
-                
-                if (platillo1.getIdPlatillo() == o) {
-                    fila[0] = platillo1.getIdPlatillo();
-                    fila[1] = platillo1.getNombrePlatillo();
-                    fila[2] = platillo1.getCostoPlatillo();
-                    fila[3] = platillo1.getComposicion();
-                   
-                    model.addRow(fila);
-                }
-                
-            }
-        
+        Object[] fila = new Object[5]; // Crea el objeto de celdas para agregar
 
-        tablaPlatillos.setModel(model); 
-                
+        for (Platillo platillo1 : platillos) {
+            try {
+                platillo1.setIngredientes(ingredienteDao.seleccionar_por_idPlatillo(platillo1.getIdPlatillo()));
+                fila[0] = platillo1.getIdPlatillo();
+                fila[1] = platillo1.getNombrePlatillo();
+                fila[2] = platillo1.getCostoPlatillo();
+                fila[3] = platillo1.getComposicion();
+                String ingredientes = "";
+                for (Ingrediente ing : platillo1.getIngredientes()) {
+                    ingredientes += ing;
+                }
+                fila[4] = ingredientes;
+                model.addRow(fila);
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            }
+
+        }
+
+        tablaPlatillos.setModel(model);
+
     }
 
     @SuppressWarnings("unchecked")
@@ -94,8 +128,6 @@ public class DetallesPedido extends javax.swing.JFrame {
 
         lbl_mensaje = new javax.swing.JLabel();
         lbl_instrucciones2 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tablaPlatillos = new javax.swing.JTable();
         lbl_instrucciones3 = new javax.swing.JLabel();
         fecha_label = new javax.swing.JLabel();
         fecha_label1 = new javax.swing.JLabel();
@@ -103,6 +135,8 @@ public class DetallesPedido extends javax.swing.JFrame {
         Estados = new javax.swing.JComboBox<>();
         Volver = new javax.swing.JButton();
         Actualizar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaPlatillos = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -118,44 +152,6 @@ public class DetallesPedido extends javax.swing.JFrame {
         lbl_instrucciones2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lbl_instrucciones2.setText("Estado");
 
-        tablaPlatillos.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        tablaPlatillos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "ID", "Nombre", "Precio", "Composición"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                true, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(tablaPlatillos);
-        if (tablaPlatillos.getColumnModel().getColumnCount() > 0) {
-            tablaPlatillos.getColumnModel().getColumn(0).setMaxWidth(100);
-            tablaPlatillos.getColumnModel().getColumn(1).setMinWidth(30);
-            tablaPlatillos.getColumnModel().getColumn(1).setPreferredWidth(300);
-            tablaPlatillos.getColumnModel().getColumn(1).setMaxWidth(500);
-            tablaPlatillos.getColumnModel().getColumn(2).setMinWidth(25);
-            tablaPlatillos.getColumnModel().getColumn(2).setPreferredWidth(100);
-            tablaPlatillos.getColumnModel().getColumn(2).setMaxWidth(100);
-            tablaPlatillos.getColumnModel().getColumn(3).setMinWidth(25);
-            tablaPlatillos.getColumnModel().getColumn(3).setPreferredWidth(300);
-            tablaPlatillos.getColumnModel().getColumn(3).setMaxWidth(500);
-        }
-
         lbl_instrucciones3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lbl_instrucciones3.setText("Platillos");
 
@@ -169,7 +165,7 @@ public class DetallesPedido extends javax.swing.JFrame {
         lbl_instrucciones4.setText("Fecha de orden");
 
         Estados.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        Estados.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Orden realizada", "Orden recibida", "Preparando orden", "Orden lista parar recoger" }));
+        Estados.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Orden realizada", "Orden recibida", "Preparando orden", "Orden lista parar recoger", "Orden recogida" }));
         Estados.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 EstadosActionPerformed(evt);
@@ -196,6 +192,41 @@ public class DetallesPedido extends javax.swing.JFrame {
             }
         });
 
+        tablaPlatillos.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        tablaPlatillos.setForeground(new java.awt.Color(51, 51, 51));
+        tablaPlatillos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Nombre", "Precio", "Composición", "Lista de ingredientes"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tablaPlatillos.setRowHeight(22);
+        tablaPlatillos.setRowMargin(2);
+        jScrollPane1.setViewportView(tablaPlatillos);
+        if (tablaPlatillos.getColumnModel().getColumnCount() > 0) {
+            tablaPlatillos.getColumnModel().getColumn(0).setMaxWidth(60);
+            tablaPlatillos.getColumnModel().getColumn(2).setPreferredWidth(120);
+            tablaPlatillos.getColumnModel().getColumn(2).setMaxWidth(200);
+            tablaPlatillos.getColumnModel().getColumn(4).setMinWidth(300);
+        }
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -203,15 +234,14 @@ public class DetallesPedido extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1266, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbl_instrucciones4)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(lbl_instrucciones3)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(fecha_label, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(lbl_mensaje)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1266, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(fecha_label1, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lbl_instrucciones3)
+                        .addGap(907, 907, 907)
+                        .addComponent(fecha_label, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lbl_mensaje)
+                    .addComponent(fecha_label1, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbl_instrucciones2)
                     .addComponent(Estados, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
@@ -232,8 +262,8 @@ public class DetallesPedido extends javax.swing.JFrame {
                         .addGap(29, 29, 29))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lbl_instrucciones3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                        .addComponent(lbl_instrucciones3)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23)
                 .addComponent(lbl_instrucciones4)
@@ -243,7 +273,7 @@ public class DetallesPedido extends javax.swing.JFrame {
                 .addComponent(lbl_instrucciones2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(Estados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 268, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 256, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Volver)
                     .addComponent(Actualizar))
@@ -254,49 +284,56 @@ public class DetallesPedido extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        DespliegueHistorial historial= new DespliegueHistorial(restaurante);
+        DespliegueHistorial historial = new DespliegueHistorial(restaurante);
         historial.setVisible(true);
         this.setVisible(false);
         this.dispose();
     }//GEN-LAST:event_formWindowClosing
 
     private void VolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VolverActionPerformed
-        DespliegueHistorial historial= new DespliegueHistorial(restaurante);
+        DespliegueHistorial historial = new DespliegueHistorial(restaurante);
         historial.setVisible(true);
         this.setVisible(false);
         this.dispose();
     }//GEN-LAST:event_VolverActionPerformed
 
-    
+
     private void ActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarActionPerformed
         String estado = (String) Estados.getSelectedItem();
         String update_estado;
         OrdenDAO ordenDao = new OrdenDAO();
-        System.out.println("valor   "+Integer.valueOf(no_ord));
-        int  x = Integer.parseInt(no_ord);
-        if("Orden realizada".equals(estado)){
-        Orden ordenModificar = new Orden(x,"REALIZADA");
-        ordenDao.actualizar(ordenModificar);
-        }else if("Orden recibida".equals(estado)){
-        Orden ordenModificar = new Orden(x,"RECIBIDA");
-        ordenDao.actualizar(ordenModificar); 
-        }else if("Preparando orden".equals(estado)){
-        Orden ordenModificar = new Orden(x,"PREPARANDO");
-        ordenDao.actualizar(ordenModificar); 
-        }else if("Orden lista parar recoger".equals(estado)){
-        Orden ordenModificar = new Orden(x,"LISTA");
-        ordenDao.actualizar(ordenModificar); 
+        System.out.println("valor   " + Integer.valueOf(no_ord));
+
+        int no_orden = Integer.parseInt(no_ord);
+        if ("Orden realizada".equals(estado)) {
+            Orden ordenModificar = new Orden(no_orden, "realizada");
+            ordenDao.actualizar(ordenModificar);
+        } else if ("Orden recibida".equals(estado)) {
+            Orden ordenModificar = new Orden(no_orden, "recibida");
+            ordenDao.actualizar(ordenModificar);
+        } else if ("Preparando orden".equals(estado)) {
+            Orden ordenModificar = new Orden(no_orden, "preparando");
+            ordenDao.actualizar(ordenModificar);
+        } else if ("Orden lista parar recoger".equals(estado)) {
+            Orden ordenModificar = new Orden(no_orden, "lista");
+            ordenDao.actualizar(ordenModificar);            
+        } else if ("Orden recogida".equals(estado)) {
+            Orden ordenModificar = new Orden(no_orden, "recogida");
+            ordenDao.actualizar(ordenModificar);            
         }
+        
+        mostrarEstado();
     }//GEN-LAST:event_ActualizarActionPerformed
 
     private void EstadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EstadosActionPerformed
         //////////
     }//GEN-LAST:event_EstadosActionPerformed
-    Timer timer = new Timer (1000, new ActionListener (){ // Encargado de actualizar la hora
-            public void actionPerformed(ActionEvent e) {
-               fecha_label.setText("Fecha: " + new Date());
-            }           
+    Timer timer = new Timer(100, new ActionListener() { // Encargado de actualizar la hora
+        public void actionPerformed(ActionEvent e) {
+            fecha_label.setText("Fecha: " + new Date());
+        }
     });
+
     public static void main(String args[]) {
 
         java.awt.EventQueue.invokeLater(new Runnable() {

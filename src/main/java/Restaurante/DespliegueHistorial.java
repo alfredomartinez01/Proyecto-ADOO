@@ -1,8 +1,11 @@
 package Restaurante;
 
 import static Restaurante.Login.*;
+import datos.ClienteDAO;
 import datos.OrdenDAO;
 import datos.PagoDAO;
+import domain.Cliente;
+import domain.Menu;
 import domain.Orden;
 import domain.Pago;
 import domain.Restaurante;
@@ -20,7 +23,9 @@ public class DespliegueHistorial extends javax.swing.JFrame {
     private Restaurante restaurante = new Restaurante();
     private OrdenDAO ordenDao = new OrdenDAO();
     private PagoDAO pagoDao = new PagoDAO();
-    public int noOrden ;
+    private ClienteDAO clienteDao = new ClienteDAO();
+    public int noOrden;
+    private Menu menu = new Menu(restaurante);
 
     public DespliegueHistorial(Restaurante restaurant) {
         this.restaurante = restaurant;
@@ -37,34 +42,36 @@ public class DespliegueHistorial extends javax.swing.JFrame {
     }
 
     private void tablaPedidos() { // Muestra la tabla normal
+        menu.setIdRestaurante(restaurante.getId());
+        menu.consultarIdMenu();
+
         DefaultTableModel model = (DefaultTableModel) tablaPedidos.getModel();
-        List<Orden> ordenes = ordenDao.seleccionar();        
+        List<Orden> ordenes = ordenDao.seleccionar_por_menu(menu.getIdMenu());
+
         List<Pago> pagos = pagoDao.seleccionar();
-        
+
         // Borra la tabla anterior
         int index = 0;
         while (index < model.getRowCount()) {
             model.removeRow(index);
         }
         model = (DefaultTableModel) tablaPedidos.getModel(); // Crea el modelo de la tabla a partir del actual
-        Object[] fila = new Object[5]; // Crea el objeto de celdas para agregar
+        Object[] fila = new Object[6]; // Crea el objeto de celdas para agregar
 
         for (Orden orden : ordenes) {
-            System.out.println(orden.getEstado());
-            for (Pago pago : pagos) {
-                if (orden.getIdCliente() == pago.getIdClienteP()) {
-                    fila[0] = orden.getIdOrden();
-                    fila[1] = orden.getFecha();
-                    fila[2] = pago.getTipo();
-                    fila[3] = pago.getMontoTotal();
-                    fila[4] = orden.getEstado();
-                    model.addRow(fila);
-                }
-            }
+            Cliente cliente = clienteDao.seleccionar_por_orden(orden.getIdOrden());
+            Pago pago = pagoDao.seleccionar_por_cliente(cliente.getIdCliente());
+            fila[0] = orden.getIdOrden();
+            fila[1] = orden.getFecha();
+            fila[2] = pago.getTipo();
+            fila[3] = pago.getMontoTotal();
+            fila[4] = orden.getEstado();
+            fila[5] = cliente.getNombreCliente();
+            model.addRow(fila);
+
         }
 
         tablaPedidos.setModel(model);
-        
 
     }
 
@@ -102,14 +109,14 @@ public class DespliegueHistorial extends javax.swing.JFrame {
 
             },
             new String [] {
-                "No. Orden", "Fecha", "Tipo de pago", "Monto total", "Estado"
+                "No. Orden", "Fecha", "Tipo de pago", "Monto total", "Estado", "Nombre"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -210,12 +217,12 @@ public class DespliegueHistorial extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void ActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarActionPerformed
-            timer.stop();
-            table_timer.stop();
-            DetallesPedido detalles = new DetallesPedido(restaurante, txt_orden.getText());
-            detalles.setVisible(true);
-            this.setVisible(false);
-            this.dispose();
+        timer.stop();
+        table_timer.stop();
+        DetallesPedido detalles = new DetallesPedido(restaurante, txt_orden.getText());
+        detalles.setVisible(true);
+        this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_ActualizarActionPerformed
 
     private void VolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VolverActionPerformed
@@ -230,23 +237,23 @@ public class DespliegueHistorial extends javax.swing.JFrame {
     private void txt_ordenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_ordenActionPerformed
         // TODO add your handling code here:
         List<Orden> ordenes = ordenDao.seleccionar();
-       
+
         System.out.println("valor historial" + txt_orden.getText());
         for (Orden orden : ordenes) {
-            if(orden.getIdCliente()==noOrden){
+            if (orden.getIdCliente() == noOrden) {
                 noOrden = orden.getIdCliente();
             }
         }
-        
+
     }//GEN-LAST:event_txt_ordenActionPerformed
 
-    Timer timer = new Timer(1000, new ActionListener() { // Encargado de actualizar la hora
+    Timer timer = new Timer(100, new ActionListener() { // Encargado de actualizar la hora
         public void actionPerformed(ActionEvent e) {
             fecha_label.setText("Fecha: " + new Date());
         }
     });
 
-    Timer table_timer = new Timer(1000, new ActionListener() { // Encargado de mostrar la tabla normal
+    Timer table_timer = new Timer(100, new ActionListener() { // Encargado de mostrar la tabla normal
         public void actionPerformed(ActionEvent e) {
             tablaPedidos();
         }

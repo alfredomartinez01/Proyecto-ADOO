@@ -18,7 +18,7 @@ public class PlatilloDAO {
     de comas si existen mas columnas en la tabla(?,?,?)*/
     private static final String SQL_UPDATE = "UPDATE  platillo SET idMenu = ?, nombrePlatillo = ?, costoPlatillo = ?, composicion = ?  WHERE idPlatillo = ? ";
     private static final String SQL_DELETE = "DELETE FROM platillo  WHERE idPlatillo = ? ";
-
+    private static final String SQL_SELECT_BY_IDORDEN = "SELECT * FROM platillo where idPlatillo in (select idPlatillo from contiene where idOrden = ?)";
     public PlatilloDAO() {
 
     }
@@ -126,6 +126,41 @@ public class PlatilloDAO {
             conn = getConnection();//Conexion activa hacia la base de datos
             stmt = conn.prepareStatement(SQL_SELECT_BY_IDMENU);//Mandamos la instruccion SELECT
             stmt.setInt(1, idmenu);
+            
+            System.out.println("-----------------------------------------------------------------");
+            System.out.println("ejecutando query:" + stmt);
+            rs = stmt.executeQuery();//Se ejecuta la instruccion dada
+            while (rs.next()) {
+                int idPlatillo = rs.getInt("idPlatillo");
+                int idMenu = rs.getInt("idMenu");
+                String nombrePlatillo = rs.getString("nombrePlatillo");
+                float costoPlatillo = rs.getFloat("costoPlatillo");
+                String composicion = rs.getString("composicion");
+                platillo = new Platillo(idPlatillo, idMenu, nombrePlatillo, costoPlatillo, composicion);//Convertimos informacion de base de datos a objetos java
+
+                platillos.add(platillo);//Agregamos a la lista
+            }
+        } finally {
+                Conexion.close(stmt);
+                Conexion.close(rs);                
+                if (this.conexionTransaccional == null) {
+                    Conexion.close(conn); // Si no es una transaccion entonces la cerramos
+                }            
+        }
+        return platillos;
+    }
+    
+    public ArrayList<Platillo> seleccionar_por_orden(int idorden) throws SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null; //Variable para trabajar con Querys
+        ResultSet rs = null;
+        Platillo platillo = null;// Cada renglon se convertira en un objeto tipo Platillo
+        ArrayList<Platillo> platillos = new ArrayList<>();
+
+        try {
+            conn = getConnection();//Conexion activa hacia la base de datos
+            stmt = conn.prepareStatement(SQL_SELECT_BY_IDORDEN);//Mandamos la instruccion SELECT
+            stmt.setInt(1, idorden);
             
             System.out.println("-----------------------------------------------------------------");
             System.out.println("ejecutando query:" + stmt);

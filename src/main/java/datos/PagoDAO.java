@@ -14,7 +14,8 @@ public class PagoDAO {
     private Connection conexionTransaccional;
     private static final String SQL_SELECT = "SELECT idPago,idCliente,montoTotal, tipo FROM pago";
     private static final String SQL_INSERT = "INSERT INTO pago (idCliente,montoTotal,noCuenta, cvv, fechaCad, tipo)  VALUES(?,?,?,?,?,?) ";
-
+    private static final String SQL_SELECT_CLIENTE = "select * from pago where idCliente = ?";
+    
     public PagoDAO() {
     }
 
@@ -88,5 +89,44 @@ public class PagoDAO {
         }
 
         return pagos;
+    }
+    
+    public Pago seleccionar_por_cliente(int idCl) {
+        Connection conn = null;
+        PreparedStatement stmt = null; //Variable para trabajar con Querys
+        ResultSet rs = null;
+        Pago pago = null;// Cada renglon se convertira en un objeto tipo pago
+        List<Pago> pagos = new ArrayList<>();
+
+        try {
+            conn = getConnection();//Conexion activa hacia la base de datos
+            stmt = conn.prepareStatement(SQL_SELECT_CLIENTE);//Mandamos la instruccion SELECT
+            stmt.setInt(1, idCl);
+            
+            System.out.println("-----------------------------------------------------------------");
+            System.out.println("ejecutando query:" + stmt);
+            rs = stmt.executeQuery();//Se ejecuta la instruccion dada
+            while (rs.next()) {
+                int idPago = rs.getInt("idPago");
+                int idCliente = rs.getInt("idCliente");
+                double montoTotal = rs.getDouble("montoTotal");
+                String tipo = rs.getString("tipo");
+
+                pago = new Pago(idPago, idCliente, montoTotal, tipo);//Convertimos informacion de base de datos a objetos java
+                return pago;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            try {
+                close(rs);
+                close(stmt);
+                close(conn);
+            } catch (SQLException ex) {
+                ex.printStackTrace(System.out);
+            }
+        }
+
+        return null;
     }
 }
