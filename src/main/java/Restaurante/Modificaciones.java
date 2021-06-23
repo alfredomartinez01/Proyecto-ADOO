@@ -42,7 +42,7 @@ public class Modificaciones extends javax.swing.JFrame {
     public void ajustarApariencia() {
         this.setTitle("Platillos y modificaciones");
         this.setExtendedState(MAXIMIZED_BOTH);
-        getContentPane().setBackground(Color.WHITE);
+        getContentPane().setBackground(Color.decode("#ACDED5"));
     }
 
     private void tablaPlatillos() { // Muestra la tabla normal
@@ -425,6 +425,7 @@ public class Modificaciones extends javax.swing.JFrame {
         });
 
         lbl_mensaje.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 24)); // NOI18N
+        lbl_mensaje.setForeground(new java.awt.Color(0, 153, 153));
         lbl_mensaje.setText("Mostrando platillos de <nombre>");
 
         tablaPlatillos.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -469,9 +470,13 @@ public class Modificaciones extends javax.swing.JFrame {
         }
 
         lbl_operacion.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lbl_operacion.setForeground(new java.awt.Color(0, 153, 153));
         lbl_operacion.setText("Añadir platillo");
 
+        txt_nombre.setBackground(new java.awt.Color(204, 255, 255));
         txt_nombre.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        txt_nombre.setForeground(new java.awt.Color(0, 102, 153));
+        txt_nombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(172, 222, 213)));
         txt_nombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_nombreActionPerformed(evt);
@@ -479,8 +484,12 @@ public class Modificaciones extends javax.swing.JFrame {
         });
 
         lbl_precio.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        lbl_precio.setForeground(new java.awt.Color(0, 153, 153));
         lbl_precio.setText("Precio");
 
+        txt_precioI.setBackground(new java.awt.Color(204, 255, 255));
+        txt_precioI.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(172, 222, 213)));
+        txt_precioI.setForeground(new java.awt.Color(0, 102, 153));
         txt_precioI.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.##"))));
         txt_precioI.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         txt_precioI.addActionListener(new java.awt.event.ActionListener() {
@@ -490,9 +499,13 @@ public class Modificaciones extends javax.swing.JFrame {
         });
 
         lbl_nombre1.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        lbl_nombre1.setForeground(new java.awt.Color(0, 153, 153));
         lbl_nombre1.setText("Nombre");
 
+        txt_composicion.setBackground(new java.awt.Color(204, 255, 255));
         txt_composicion.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        txt_composicion.setForeground(new java.awt.Color(0, 102, 153));
+        txt_composicion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(172, 222, 213)));
         txt_composicion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_composicionActionPerformed(evt);
@@ -500,9 +513,11 @@ public class Modificaciones extends javax.swing.JFrame {
         });
 
         lbl_composicion.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        lbl_composicion.setForeground(new java.awt.Color(0, 153, 153));
         lbl_composicion.setText("Composición");
 
-        lbl_composicion1.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        lbl_composicion1.setFont(new java.awt.Font("Arial", 3, 16)); // NOI18N
+        lbl_composicion1.setForeground(new java.awt.Color(0, 153, 153));
         lbl_composicion1.setText("Ingredientes");
 
         tablaIngredientes.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -531,22 +546,32 @@ public class Modificaciones extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tablaIngredientes);
 
+        txt_precioAnadirIngrediente.setBackground(new java.awt.Color(204, 255, 255));
+        txt_precioAnadirIngrediente.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(172, 222, 213)));
+        txt_precioAnadirIngrediente.setForeground(new java.awt.Color(0, 102, 153));
         txt_precioAnadirIngrediente.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.##"))));
         txt_precioAnadirIngrediente.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
         lbl_precio1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lbl_precio1.setForeground(new java.awt.Color(0, 153, 153));
         lbl_precio1.setText("Precio (MXN.00)");
 
         lbl_composicion3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lbl_composicion3.setForeground(new java.awt.Color(0, 153, 153));
         lbl_composicion3.setText("Nombre");
 
+        txt_nombreAnadirIngrediente.setBackground(new java.awt.Color(204, 255, 255));
         txt_nombreAnadirIngrediente.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        txt_nombreAnadirIngrediente.setForeground(new java.awt.Color(0, 102, 153));
+        txt_nombreAnadirIngrediente.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(172, 222, 213)));
         txt_nombreAnadirIngrediente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_nombreAnadirIngredienteActionPerformed(evt);
             }
         });
 
+        AnadirIngrediente.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        AnadirIngrediente.setForeground(new java.awt.Color(59, 52, 85));
         AnadirIngrediente.setText("Añadir ingrediente");
         AnadirIngrediente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -554,30 +579,36 @@ public class Modificaciones extends javax.swing.JFrame {
             }
         });
 
-        Volver.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        Volver.setBackground(new java.awt.Color(153, 255, 255));
+        Volver.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
+        Volver.setForeground(new java.awt.Color(0, 102, 153));
         Volver.setText("Volver atrás");
         Volver.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
-        Volver.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Volver.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         Volver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 VolverActionPerformed(evt);
             }
         });
 
-        AnadirPlatillo.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        AnadirPlatillo.setBackground(new java.awt.Color(153, 255, 255));
+        AnadirPlatillo.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
+        AnadirPlatillo.setForeground(new java.awt.Color(0, 102, 153));
         AnadirPlatillo.setText("Añadir platillo");
         AnadirPlatillo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
-        AnadirPlatillo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        AnadirPlatillo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         AnadirPlatillo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AnadirPlatilloActionPerformed(evt);
             }
         });
 
-        ActualizarPlatillo.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        ActualizarPlatillo.setBackground(new java.awt.Color(153, 255, 255));
+        ActualizarPlatillo.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
+        ActualizarPlatillo.setForeground(new java.awt.Color(0, 102, 153));
         ActualizarPlatillo.setText("Actualizar platillo");
         ActualizarPlatillo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
-        ActualizarPlatillo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        ActualizarPlatillo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         ActualizarPlatillo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ActualizarPlatilloActionPerformed(evt);
@@ -586,16 +617,22 @@ public class Modificaciones extends javax.swing.JFrame {
 
         lbl_id3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
+        txt_id.setBackground(new java.awt.Color(204, 255, 255));
+        txt_id.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(172, 222, 213)));
+        txt_id.setForeground(new java.awt.Color(0, 102, 153));
         txt_id.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#"))));
         txt_id.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
         lbl_id.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lbl_id.setForeground(new java.awt.Color(0, 153, 153));
         lbl_id.setText("ID");
 
-        CancelarActualizacion.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        CancelarActualizacion.setBackground(new java.awt.Color(153, 255, 255));
+        CancelarActualizacion.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
+        CancelarActualizacion.setForeground(new java.awt.Color(0, 102, 153));
         CancelarActualizacion.setText("Cancelar");
         CancelarActualizacion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
-        CancelarActualizacion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        CancelarActualizacion.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         CancelarActualizacion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CancelarActualizacionActionPerformed(evt);
@@ -612,6 +649,10 @@ public class Modificaciones extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbl_operacion)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lbl_nombre1)
+                                .addGap(260, 260, 260)
+                                .addComponent(lbl_id))
                             .addComponent(Volver, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -623,32 +664,28 @@ public class Modificaciones extends javax.swing.JFrame {
                                     .addComponent(txt_precioI, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(lbl_composicion1)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txt_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lbl_nombre1))
+                                .addComponent(txt_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lbl_id)
-                                    .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(AnadirIngrediente, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
+                                    .addComponent(AnadirIngrediente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(lbl_precio1)
                                     .addComponent(txt_precioAnadirIngrediente, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(lbl_composicion3)
-                                    .addComponent(txt_nombreAnadirIngrediente)))
-                            .addComponent(AnadirPlatillo, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 244, Short.MAX_VALUE)
-                        .addComponent(lbl_id3)
-                        .addContainerGap(590, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txt_nombreAnadirIngrediente, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(AnadirPlatillo, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(ActualizarPlatillo, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(CancelarActualizacion, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(CancelarActualizacion, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lbl_id3)
+                        .addContainerGap(829, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1266, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lbl_mensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 978, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 69, Short.MAX_VALUE))))
@@ -656,7 +693,7 @@ public class Modificaciones extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(23, 23, 23)
                 .addComponent(lbl_mensaje)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -673,17 +710,16 @@ public class Modificaciones extends javax.swing.JFrame {
                             .addComponent(lbl_id))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txt_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(txt_id)
-                                .addGap(2, 2, 2)))
+                            .addComponent(txt_nombre, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                            .addComponent(txt_id))
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lbl_composicion)
                             .addComponent(lbl_precio))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txt_composicion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_precioI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txt_precioI, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
+                            .addComponent(txt_composicion))
                         .addGap(14, 14, 14)
                         .addComponent(lbl_composicion1)
                         .addGap(35, 35, 35)
@@ -698,16 +734,16 @@ public class Modificaciones extends javax.swing.JFrame {
                                 .addComponent(txt_precioAnadirIngrediente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(8, 8, 8)
                                 .addComponent(AnadirIngrediente))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(11, 11, 11)
-                        .addComponent(AnadirPlatillo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(ActualizarPlatillo)
-                            .addComponent(CancelarActualizacion))
-                        .addGap(42, 42, 42)
-                        .addComponent(Volver)))
-                .addGap(722, 722, 722))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(39, 39, 39)
+                .addComponent(AnadirPlatillo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ActualizarPlatillo)
+                    .addComponent(CancelarActualizacion))
+                .addGap(42, 42, 42)
+                .addComponent(Volver)
+                .addContainerGap())
         );
 
         pack();
