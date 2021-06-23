@@ -12,6 +12,7 @@ import domain.Menu;
 import domain.Orden;
 import domain.Platillo;
 import domain.Restaurante;
+import domain.Imagen;
 import java.awt.Color;
 import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.awt.GridLayout;
@@ -40,6 +41,9 @@ public class MenuCliente extends javax.swing.JFrame {
     private ArrayList<Ingrediente> ing_agregados = new ArrayList<Ingrediente>();
     private JButton[] btns_rest = new JButton[5];
     private JButton[] btns_plat = new JButton[5];
+    public final static ImageIcon menu = new Imagen("menu.png").getImageIcon();
+    public final static ImageIcon res = new Imagen("res.png").getImageIcon();
+    public final static ImageIcon plat = new Imagen("plat.png").getImageIcon();
 
     public MenuCliente() {
         initComponents();
@@ -75,9 +79,12 @@ public class MenuCliente extends javax.swing.JFrame {
         this.setTitle("Autorder");
         this.setExtendedState(MAXIMIZED_BOTH);
         getContentPane().setBackground(Color.decode("#ACDED5"));
-        //this.setIconImage(new ImageIcon(getClass().getResource("/logo.jpg")).getImage());
-        pnlRestaurantes.setBackground(Color.decode("#3B3455"));
-        pnlMenu.setBackground(Color.decode("#A4A3A6"));
+        this.setIconImage(new Imagen("logo.jpg").getImageIcon().getImage());
+        pnlRestaurantes.setBackground(Color.decode("#BDE5D6"));
+        pnlMenu.setBackground(Color.decode("#CBEDE0"));
+        pnlPlatillo.setBackground(Color.decode("#D2F4E7"));
+        pnlOrden.setBackground(Color.decode("#D2F4E7"));
+        pnlDescripcion.setBackground(Color.decode("#D2F4E7"));
     }
 
     public void removerElementos() {
@@ -284,6 +291,7 @@ public class MenuCliente extends javax.swing.JFrame {
         btnRes3 = new javax.swing.JButton();
         btnRes4 = new javax.swing.JButton();
         btnRes5 = new javax.swing.JButton();
+        lblResImg = new javax.swing.JLabel();
         pnlMenu = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         btnPlatillo2 = new javax.swing.JButton();
@@ -291,6 +299,7 @@ public class MenuCliente extends javax.swing.JFrame {
         btnPlatillo3 = new javax.swing.JButton();
         btnPlatillo4 = new javax.swing.JButton();
         btnPlatillo5 = new javax.swing.JButton();
+        lblMenuImg = new javax.swing.JLabel();
         pnlPlatillo = new javax.swing.JPanel();
         pnlDescripcion = new javax.swing.JPanel();
         btnAgregarP = new javax.swing.JButton();
@@ -302,6 +311,7 @@ public class MenuCliente extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         tablaIngredientesDisp = new javax.swing.JTable();
         lbl_ingDisponibles = new javax.swing.JLabel();
+        lblPlatilloImg = new javax.swing.JLabel();
         pnlOrden = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -318,9 +328,9 @@ public class MenuCliente extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Restaurantes");
 
-        btnRes1.setBackground(new java.awt.Color(255, 255, 255));
-        btnRes1.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        btnRes1.setForeground(new java.awt.Color(59, 52, 85));
+        btnRes1.setBackground(new java.awt.Color(153, 255, 255));
+        btnRes1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        btnRes1.setForeground(new java.awt.Color(0, 102, 153));
         btnRes1.setText("Res1");
         btnRes1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -328,9 +338,9 @@ public class MenuCliente extends javax.swing.JFrame {
             }
         });
 
-        btnRes2.setBackground(new java.awt.Color(255, 255, 255));
-        btnRes2.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        btnRes2.setForeground(new java.awt.Color(59, 52, 85));
+        btnRes2.setBackground(new java.awt.Color(153, 255, 255));
+        btnRes2.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        btnRes2.setForeground(new java.awt.Color(0, 102, 153));
         btnRes2.setText("Res2");
         btnRes2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -338,9 +348,9 @@ public class MenuCliente extends javax.swing.JFrame {
             }
         });
 
-        btnRes3.setBackground(new java.awt.Color(255, 255, 255));
-        btnRes3.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        btnRes3.setForeground(new java.awt.Color(59, 52, 85));
+        btnRes3.setBackground(new java.awt.Color(153, 255, 255));
+        btnRes3.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        btnRes3.setForeground(new java.awt.Color(0, 102, 153));
         btnRes3.setText("Res3");
         btnRes3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -348,9 +358,9 @@ public class MenuCliente extends javax.swing.JFrame {
             }
         });
 
-        btnRes4.setBackground(new java.awt.Color(255, 255, 255));
-        btnRes4.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        btnRes4.setForeground(new java.awt.Color(59, 52, 85));
+        btnRes4.setBackground(new java.awt.Color(153, 255, 255));
+        btnRes4.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        btnRes4.setForeground(new java.awt.Color(0, 102, 153));
         btnRes4.setText("Res4");
         btnRes4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -358,9 +368,9 @@ public class MenuCliente extends javax.swing.JFrame {
             }
         });
 
-        btnRes5.setBackground(new java.awt.Color(255, 255, 255));
-        btnRes5.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        btnRes5.setForeground(new java.awt.Color(59, 52, 85));
+        btnRes5.setBackground(new java.awt.Color(153, 255, 255));
+        btnRes5.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        btnRes5.setForeground(new java.awt.Color(0, 102, 153));
         btnRes5.setText("Res5");
         btnRes5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -368,30 +378,39 @@ public class MenuCliente extends javax.swing.JFrame {
             }
         });
 
+        lblResImg.setIcon(res);
+
         javax.swing.GroupLayout pnlRestaurantesLayout = new javax.swing.GroupLayout(pnlRestaurantes);
         pnlRestaurantes.setLayout(pnlRestaurantesLayout);
         pnlRestaurantesLayout.setHorizontalGroup(
             pnlRestaurantesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlRestaurantesLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlRestaurantesLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(pnlRestaurantesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlRestaurantesLayout.createSequentialGroup()
-                        .addGap(62, 62, 62)
+                        .addComponent(lblResImg, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel3))
+                    .addGroup(pnlRestaurantesLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
                         .addGroup(pnlRestaurantesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnRes2)
                             .addComponent(btnRes1)
                             .addComponent(btnRes3)
                             .addComponent(btnRes4)
-                            .addComponent(btnRes5)))
-                    .addGroup(pnlRestaurantesLayout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addComponent(jLabel3)))
-                .addContainerGap(42, Short.MAX_VALUE))
+                            .addComponent(btnRes5))))
+                .addGap(26, 26, 26))
         );
         pnlRestaurantesLayout.setVerticalGroup(
             pnlRestaurantesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlRestaurantesLayout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(jLabel3)
+                .addGroup(pnlRestaurantesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlRestaurantesLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lblResImg, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlRestaurantesLayout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(btnRes1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -400,7 +419,7 @@ public class MenuCliente extends javax.swing.JFrame {
                 .addComponent(btnRes3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnRes4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(11, 11, 11)
                 .addComponent(btnRes5)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -412,9 +431,9 @@ public class MenuCliente extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Menú");
 
-        btnPlatillo2.setBackground(new java.awt.Color(255, 255, 255));
-        btnPlatillo2.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        btnPlatillo2.setForeground(new java.awt.Color(59, 52, 85));
+        btnPlatillo2.setBackground(new java.awt.Color(153, 255, 255));
+        btnPlatillo2.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        btnPlatillo2.setForeground(new java.awt.Color(0, 102, 153));
         btnPlatillo2.setText("Platillo2");
         btnPlatillo2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -422,9 +441,9 @@ public class MenuCliente extends javax.swing.JFrame {
             }
         });
 
-        btnPlatillo1.setBackground(new java.awt.Color(255, 255, 255));
-        btnPlatillo1.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        btnPlatillo1.setForeground(new java.awt.Color(59, 52, 85));
+        btnPlatillo1.setBackground(new java.awt.Color(153, 255, 255));
+        btnPlatillo1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        btnPlatillo1.setForeground(new java.awt.Color(0, 102, 153));
         btnPlatillo1.setText("Platillo1");
         btnPlatillo1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -432,9 +451,9 @@ public class MenuCliente extends javax.swing.JFrame {
             }
         });
 
-        btnPlatillo3.setBackground(new java.awt.Color(255, 255, 255));
-        btnPlatillo3.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        btnPlatillo3.setForeground(new java.awt.Color(59, 52, 85));
+        btnPlatillo3.setBackground(new java.awt.Color(153, 255, 255));
+        btnPlatillo3.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        btnPlatillo3.setForeground(new java.awt.Color(0, 102, 153));
         btnPlatillo3.setText("Platillo3");
         btnPlatillo3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -442,9 +461,9 @@ public class MenuCliente extends javax.swing.JFrame {
             }
         });
 
-        btnPlatillo4.setBackground(new java.awt.Color(255, 255, 255));
-        btnPlatillo4.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        btnPlatillo4.setForeground(new java.awt.Color(59, 52, 85));
+        btnPlatillo4.setBackground(new java.awt.Color(153, 255, 255));
+        btnPlatillo4.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        btnPlatillo4.setForeground(new java.awt.Color(0, 102, 153));
         btnPlatillo4.setText("Platillo4");
         btnPlatillo4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -452,9 +471,9 @@ public class MenuCliente extends javax.swing.JFrame {
             }
         });
 
-        btnPlatillo5.setBackground(new java.awt.Color(255, 255, 255));
-        btnPlatillo5.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        btnPlatillo5.setForeground(new java.awt.Color(59, 52, 85));
+        btnPlatillo5.setBackground(new java.awt.Color(153, 255, 255));
+        btnPlatillo5.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        btnPlatillo5.setForeground(new java.awt.Color(0, 102, 153));
         btnPlatillo5.setText("Platillo5");
         btnPlatillo5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -462,29 +481,36 @@ public class MenuCliente extends javax.swing.JFrame {
             }
         });
 
+        lblMenuImg.setIcon(menu);
+
         javax.swing.GroupLayout pnlMenuLayout = new javax.swing.GroupLayout(pnlMenu);
         pnlMenu.setLayout(pnlMenuLayout);
         pnlMenuLayout.setHorizontalGroup(
             pnlMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlMenuLayout.createSequentialGroup()
-                .addGap(63, 63, 63)
+                .addGap(27, 27, 27)
                 .addGroup(pnlMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnPlatillo5)
-                    .addComponent(btnPlatillo3)
-                    .addComponent(btnPlatillo4)
                     .addComponent(btnPlatillo1)
+                    .addGroup(pnlMenuLayout.createSequentialGroup()
+                        .addComponent(lblMenuImg, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel2))
                     .addComponent(btnPlatillo2)
-                    .addComponent(jLabel2))
-                .addContainerGap(77, Short.MAX_VALUE))
+                    .addComponent(btnPlatillo3)
+                    .addComponent(btnPlatillo4))
+                .addContainerGap(66, Short.MAX_VALUE))
         );
         pnlMenuLayout.setVerticalGroup(
             pnlMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlMenuLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
+                .addGroup(pnlMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblMenuImg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnPlatillo1)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnPlatillo2)
                 .addGap(18, 18, 18)
                 .addComponent(btnPlatillo3)
@@ -506,8 +532,10 @@ public class MenuCliente extends javax.swing.JFrame {
         });
 
         lblNombreP.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        lblNombreP.setForeground(new java.awt.Color(0, 153, 153));
         lblNombreP.setText("<Nombre Platillo>");
 
+        lblDescripcion.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         lblDescripcion.setText("<Descripción de platillo>");
 
         tablaIngredientesAgregados.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -568,56 +596,64 @@ public class MenuCliente extends javax.swing.JFrame {
         lbl_ingDisponibles.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         lbl_ingDisponibles.setText("Ingredientes disponibles");
 
+        lblPlatilloImg.setIcon(plat);
+
         javax.swing.GroupLayout pnlDescripcionLayout = new javax.swing.GroupLayout(pnlDescripcion);
         pnlDescripcion.setLayout(pnlDescripcionLayout);
         pnlDescripcionLayout.setHorizontalGroup(
             pnlDescripcionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDescripcionLayout.createSequentialGroup()
-                .addContainerGap(296, Short.MAX_VALUE)
-                .addComponent(lblNombreP)
-                .addGap(331, 331, 331))
             .addGroup(pnlDescripcionLayout.createSequentialGroup()
-                .addGap(51, 51, 51)
-                .addGroup(pnlDescripcionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(23, 23, 23)
+                .addGroup(pnlDescripcionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(pnlDescripcionLayout.createSequentialGroup()
-                        .addComponent(lblDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 688, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDescripcionLayout.createSequentialGroup()
+                        .addGroup(pnlDescripcionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbl_ingDisponibles))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(pnlDescripcionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbl_ingAgregados)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(pnlDescripcionLayout.createSequentialGroup()
+                        .addGap(0, 20, Short.MAX_VALUE)
                         .addGroup(pnlDescripcionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(pnlDescripcionLayout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(btnAgregarP))
+                                .addComponent(lblNombreP)
+                                .addGap(220, 220, 220)
+                                .addComponent(lblPlatilloImg, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnAgregarP)
                             .addGroup(pnlDescripcionLayout.createSequentialGroup()
-                                .addGroup(pnlDescripcionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lbl_ingDisponibles)
-                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(pnlDescripcionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lbl_ingAgregados)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(50, 50, 50))))
+                                .addComponent(lblDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 555, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(133, 133, 133)))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlDescripcionLayout.setVerticalGroup(
             pnlDescripcionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDescripcionLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblNombreP)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15)
-                .addGroup(pnlDescripcionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbl_ingAgregados)
-                    .addComponent(lbl_ingDisponibles))
-                .addGap(18, 18, 18)
                 .addGroup(pnlDescripcionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlDescripcionLayout.createSequentialGroup()
+                        .addComponent(lblNombreP)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblPlatilloImg, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pnlDescripcionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlDescripcionLayout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addComponent(lbl_ingDisponibles)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlDescripcionLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(lbl_ingAgregados)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(btnAgregarP)
-                .addGap(434, 434, 434))
+                .addGap(438, 438, 438))
         );
 
         jLabel1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 153, 153));
         jLabel1.setText("Tu orden");
 
         tablaPlatillos.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
@@ -674,7 +710,7 @@ public class MenuCliente extends javax.swing.JFrame {
                         .addGroup(pnlOrdenLayout.createSequentialGroup()
                             .addGap(25, 25, 25)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 720, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlOrdenLayout.setVerticalGroup(
             pnlOrdenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -685,7 +721,7 @@ public class MenuCliente extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnContinuar)
-                .addContainerGap(159, Short.MAX_VALUE))
+                .addContainerGap(141, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout pnlPlatilloLayout = new javax.swing.GroupLayout(pnlPlatillo);
@@ -693,14 +729,12 @@ public class MenuCliente extends javax.swing.JFrame {
         pnlPlatilloLayout.setHorizontalGroup(
             pnlPlatilloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlPlatilloLayout.createSequentialGroup()
-                .addGroup(pnlPlatilloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlPlatilloLayout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(pnlDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlPlatilloLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(pnlOrden, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(pnlDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(24, Short.MAX_VALUE))
+            .addGroup(pnlPlatilloLayout.createSequentialGroup()
+                .addComponent(pnlOrden, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         pnlPlatilloLayout.setVerticalGroup(
             pnlPlatilloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -709,7 +743,7 @@ public class MenuCliente extends javax.swing.JFrame {
                 .addComponent(pnlDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlOrden, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -718,10 +752,10 @@ public class MenuCliente extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(pnlRestaurantes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnlRestaurantes, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(pnlMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22)
+                .addGap(18, 18, 18)
                 .addComponent(pnlPlatillo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -729,11 +763,11 @@ public class MenuCliente extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(pnlMenu, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnlPlatillo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnlRestaurantes, javax.swing.GroupLayout.DEFAULT_SIZE, 790, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(pnlPlatillo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlRestaurantes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
 
         pack();
@@ -905,7 +939,10 @@ public class MenuCliente extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblDescripcion;
+    private javax.swing.JLabel lblMenuImg;
     private javax.swing.JLabel lblNombreP;
+    private javax.swing.JLabel lblPlatilloImg;
+    private javax.swing.JLabel lblResImg;
     private javax.swing.JLabel lbl_ingAgregados;
     private javax.swing.JLabel lbl_ingDisponibles;
     private javax.swing.JPanel pnlDescripcion;

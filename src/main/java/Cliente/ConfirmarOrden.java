@@ -3,6 +3,7 @@ package Cliente;
 import static Cliente.Bienvenida.alto_pantalla;
 import static Cliente.Bienvenida.ancho_pantalla;
 import domain.Cliente;
+import domain.Imagen;
 import domain.Ingrediente;
 import domain.Menu;
 import domain.Orden;
@@ -23,6 +24,7 @@ public class ConfirmarOrden extends javax.swing.JFrame {
 
     private Orden orden_temp = new Orden();
     private Menu menu_temp = new Menu();
+    public final static ImageIcon comida = new Imagen("comida.png").getImageIcon();
 
     public ConfirmarOrden() {
         initComponents();
@@ -42,7 +44,7 @@ public class ConfirmarOrden extends javax.swing.JFrame {
         this.setExtendedState(MAXIMIZED_BOTH);
         getContentPane().setBackground(Color.decode("#ACDED5"));
         tblOrdenC.setSize(ancho_pantalla, alto_pantalla);
-        //this.setIconImage(new ImageIcon(getClass().getResource("/logo.jpg")).getImage());
+        this.setIconImage(new Imagen("logo.jpg").getImageIcon().getImage());
     }
 
     public void llenarTablaPlatillos() {
@@ -82,12 +84,13 @@ public class ConfirmarOrden extends javax.swing.JFrame {
         tblOrdenC = new javax.swing.JTable();
         btnConfirmar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        lblOrdenImg = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setForeground(new java.awt.Color(0, 153, 153));
         jLabel1.setText("Tu orden es: ");
 
         tblOrdenC.setModel(new javax.swing.table.DefaultTableModel(
@@ -138,6 +141,8 @@ public class ConfirmarOrden extends javax.swing.JFrame {
             }
         });
 
+        lblOrdenImg.setIcon(comida);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -145,26 +150,31 @@ public class ConfirmarOrden extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblOrdenImg, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(43, 43, 43)
+                        .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnCancelar)
-                        .addGap(53, 53, 53)
-                        .addComponent(btnConfirmar))
-                    .addComponent(jLabel1)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(444, Short.MAX_VALUE))
+                        .addGap(56, 56, 56)
+                        .addComponent(btnConfirmar)))
+                .addContainerGap(217, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblOrdenImg, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
+                .addGap(74, 74, 74)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnConfirmar)
-                    .addComponent(btnCancelar))
-                .addContainerGap(479, Short.MAX_VALUE))
+                    .addComponent(btnCancelar)
+                    .addComponent(btnConfirmar))
+                .addContainerGap(359, Short.MAX_VALUE))
         );
 
         pack();
@@ -223,6 +233,7 @@ public class ConfirmarOrden extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JOptionPane jOptionPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblOrdenImg;
     private javax.swing.JTable tblOrdenC;
     // End of variables declaration//GEN-END:variables
 }

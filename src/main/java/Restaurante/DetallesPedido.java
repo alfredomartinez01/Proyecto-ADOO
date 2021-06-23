@@ -46,7 +46,7 @@ public class DetallesPedido extends javax.swing.JFrame {
     public void ajustarApariencia() {
         this.setTitle("Detalles de orden");
         this.setExtendedState(MAXIMIZED_BOTH);
-        getContentPane().setBackground(Color.WHITE);
+        getContentPane().setBackground(Color.decode("#ACDED5"));
     }
 
     public void asignarDatos() {
@@ -147,45 +147,57 @@ public class DetallesPedido extends javax.swing.JFrame {
         });
 
         lbl_mensaje.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 24)); // NOI18N
+        lbl_mensaje.setForeground(new java.awt.Color(0, 153, 153));
         lbl_mensaje.setText("Mostrando detalles de la orden <n_orden>.");
 
         lbl_instrucciones2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lbl_instrucciones2.setForeground(new java.awt.Color(0, 153, 153));
         lbl_instrucciones2.setText("Estado");
 
         lbl_instrucciones3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lbl_instrucciones3.setForeground(new java.awt.Color(0, 153, 153));
         lbl_instrucciones3.setText("Platillos");
 
         fecha_label.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        fecha_label.setForeground(new java.awt.Color(0, 153, 153));
         fecha_label.setText("Fecha");
 
         fecha_label1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        fecha_label1.setForeground(new java.awt.Color(0, 153, 153));
         fecha_label1.setText("Fecha");
 
         lbl_instrucciones4.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lbl_instrucciones4.setForeground(new java.awt.Color(0, 153, 153));
         lbl_instrucciones4.setText("Fecha de orden");
 
+        Estados.setBackground(new java.awt.Color(172, 222, 213));
         Estados.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        Estados.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Orden realizada", "Orden recibida", "Preparando orden", "Orden lista parar recoger", "Orden recogida" }));
+        Estados.setForeground(new java.awt.Color(0, 102, 153));
+        Estados.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Orden realizada", "Orden recibida", "Preparando orden", "Orden lista parar recoger" }));
         Estados.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 EstadosActionPerformed(evt);
             }
         });
 
-        Volver.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        Volver.setBackground(new java.awt.Color(153, 255, 255));
+        Volver.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
+        Volver.setForeground(new java.awt.Color(0, 102, 153));
         Volver.setText("Volver atrás");
         Volver.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
-        Volver.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Volver.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         Volver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 VolverActionPerformed(evt);
             }
         });
 
-        Actualizar.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        Actualizar.setBackground(new java.awt.Color(153, 255, 255));
+        Actualizar.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
+        Actualizar.setForeground(new java.awt.Color(0, 102, 153));
         Actualizar.setText("Actualizar estado");
         Actualizar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
-        Actualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Actualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         Actualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ActualizarActionPerformed(evt);
@@ -247,7 +259,8 @@ public class DetallesPedido extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(Volver, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(Actualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(Actualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1201, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(65, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -262,8 +275,8 @@ public class DetallesPedido extends javax.swing.JFrame {
                         .addGap(29, 29, 29))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lbl_instrucciones3)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lbl_instrucciones3)
+                        .addGap(11, 11, 11)))
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23)
                 .addComponent(lbl_instrucciones4)
@@ -273,7 +286,6 @@ public class DetallesPedido extends javax.swing.JFrame {
                 .addComponent(lbl_instrucciones2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(Estados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 256, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Volver)
                     .addComponent(Actualizar))

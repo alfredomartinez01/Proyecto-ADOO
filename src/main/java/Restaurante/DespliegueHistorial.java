@@ -38,7 +38,7 @@ public class DespliegueHistorial extends javax.swing.JFrame {
     public void ajustarApariencia() {
         this.setTitle("Historial de pedidos");
         this.setExtendedState(MAXIMIZED_BOTH);
-        getContentPane().setBackground(Color.WHITE);
+        getContentPane().setBackground(Color.decode("#ACDED5"));
     }
 
     private void tablaPedidos() { // Muestra la tabla normal
@@ -98,9 +98,11 @@ public class DespliegueHistorial extends javax.swing.JFrame {
         });
 
         lbl_mensaje.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 24)); // NOI18N
+        lbl_mensaje.setForeground(new java.awt.Color(0, 153, 153));
         lbl_mensaje.setText("Mostrando historial de pedidos");
 
         fecha_label.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        fecha_label.setForeground(new java.awt.Color(0, 153, 153));
         fecha_label.setText("Fecha");
 
         tablaPedidos.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -130,32 +132,36 @@ public class DespliegueHistorial extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tablaPedidos);
 
         lbl_detalles.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        lbl_detalles.setForeground(new java.awt.Color(0, 153, 153));
         lbl_detalles.setText("Ver detalles de orden");
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 153, 153));
         jLabel1.setText("No. Orden");
 
+        txt_orden.setBackground(new java.awt.Color(204, 255, 255));
+        txt_orden.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(172, 222, 213)));
+        txt_orden.setForeground(new java.awt.Color(0, 102, 153));
         txt_orden.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#"))));
-        txt_orden.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_ordenActionPerformed(evt);
-            }
-        });
 
-        Actualizar.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        Actualizar.setBackground(new java.awt.Color(153, 255, 255));
+        Actualizar.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
+        Actualizar.setForeground(new java.awt.Color(0, 102, 153));
         Actualizar.setText("Consultar");
         Actualizar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
-        Actualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Actualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         Actualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ActualizarActionPerformed(evt);
             }
         });
 
-        Volver.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        Volver.setBackground(new java.awt.Color(153, 255, 255));
+        Volver.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
+        Volver.setForeground(new java.awt.Color(0, 102, 153));
         Volver.setText("Volver atrás");
         Volver.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
-        Volver.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Volver.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         Volver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 VolverActionPerformed(evt);
@@ -174,12 +180,12 @@ public class DespliegueHistorial extends javax.swing.JFrame {
                     .addComponent(lbl_mensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(Actualizar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel1)
-                            .addGap(31, 31, 31)
-                            .addComponent(txt_orden))
                         .addComponent(lbl_detalles, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(Volver, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(Volver, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(txt_orden, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(99, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -196,12 +202,12 @@ public class DespliegueHistorial extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(txt_orden, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(txt_orden, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addComponent(Actualizar)
                 .addGap(27, 27, 27)
                 .addComponent(Volver)
-                .addContainerGap(88, Short.MAX_VALUE))
+                .addGap(66, 66, 66))
         );
 
         pack();

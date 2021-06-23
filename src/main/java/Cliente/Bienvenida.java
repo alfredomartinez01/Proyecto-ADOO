@@ -5,6 +5,7 @@
  */
 package Cliente;
 
+import domain.Imagen;
 import java.awt.Color;
 import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.awt.Image;
@@ -22,6 +23,7 @@ public class Bienvenida extends javax.swing.JFrame {
     public static int alto_pantalla = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
     ImageIcon Cromo = new ImageIcon();
     ImageIcon Scale = new ImageIcon();
+    ImageIcon logo = new Imagen("logo.jpg").getImageIcon();
     
     public Bienvenida() {
         initComponents();
@@ -32,7 +34,7 @@ public class Bienvenida extends javax.swing.JFrame {
         this.setExtendedState(MAXIMIZED_BOTH);
         getContentPane().setBackground(Color.decode("#ACDED5"));
         this.setTitle("Bienvenido");
-        this.setIconImage(new ImageIcon(getClass().getResource("/logo.jpg")).getImage());
+        //this.setIconImage(new Imagen("logo.jpg").getImageIcon().getImage());
     }
     
     
@@ -57,7 +59,7 @@ public class Bienvenida extends javax.swing.JFrame {
         lblBienvenido.setForeground(new java.awt.Color(0, 153, 153));
         lblBienvenido.setText("¡Bienvenido a Autorder!");
 
-        lblImagenPrincipal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logo.jpg"))); // NOI18N
+        lblImagenPrincipal.setIcon(logo);
 
         btnIniciar.setBackground(new java.awt.Color(153, 255, 255));
         btnIniciar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
@@ -96,7 +98,7 @@ public class Bienvenida extends javax.swing.JFrame {
                 .addComponent(lblImagenPrincipal)
                 .addGap(40, 40, 40)
                 .addComponent(btnIniciar)
-                .addContainerGap(162, Short.MAX_VALUE))
+                .addContainerGap(480, Short.MAX_VALUE))
         );
 
         pack();

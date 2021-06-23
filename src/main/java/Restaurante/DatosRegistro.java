@@ -5,6 +5,7 @@ import static Restaurante.Login.ancho_pantalla;
 import datos.Conexion;
 import datos.MenuDAO;
 import datos.RestauranteDAO;
+import domain.Imagen;
 import domain.Menu;
 import domain.Restaurante;
 import java.awt.Color;
@@ -16,9 +17,11 @@ import javax.swing.text.BadLocationException;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 
 public class DatosRegistro extends javax.swing.JFrame {
     public static String diasSemana[] = {"lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"};
+    public final static ImageIcon registro = new Imagen("registro.png").getImageIcon();
     
     public DatosRegistro() {
         initComponents();
@@ -28,14 +31,14 @@ public class DatosRegistro extends javax.swing.JFrame {
     public void ajustarApariencia() {
         this.setTitle("Registro de restaurante");
         this.setExtendedState(MAXIMIZED_BOTH);
-        getContentPane().setBackground(Color.WHITE);
-        chck_lunes.setBackground(Color.WHITE);
-        chck_martes.setBackground(Color.WHITE);
-        chck_miercoles.setBackground(Color.WHITE);
-        chck_jueves.setBackground(Color.WHITE);
-        chck_viernes.setBackground(Color.WHITE);
-        chck_sabado.setBackground(Color.WHITE);
-        chck_domingo.setBackground(Color.WHITE);
+        getContentPane().setBackground(Color.decode("#ACDED5"));
+        chck_lunes.setBackground(Color.decode("#ACDED5"));
+        chck_martes.setBackground(Color.decode("#ACDED5"));
+        chck_miercoles.setBackground(Color.decode("#ACDED5"));
+        chck_jueves.setBackground(Color.decode("#ACDED5"));
+        chck_viernes.setBackground(Color.decode("#ACDED5"));
+        chck_sabado.setBackground(Color.decode("#ACDED5"));
+        chck_domingo.setBackground(Color.decode("#ACDED5"));
     }
 
     @SuppressWarnings("unchecked")
@@ -76,6 +79,7 @@ public class DatosRegistro extends javax.swing.JFrame {
         chck_domingo = new javax.swing.JCheckBox();
         txt_Hdomingo = new javax.swing.JFormattedTextField();
         txt_local = new javax.swing.JFormattedTextField();
+        lblRegistra = new javax.swing.JLabel();
 
         Error.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         Error.setAlwaysOnTop(true);
@@ -117,12 +121,17 @@ public class DatosRegistro extends javax.swing.JFrame {
         });
 
         lbl_bienvenido.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 24)); // NOI18N
+        lbl_bienvenido.setForeground(new java.awt.Color(0, 153, 153));
         lbl_bienvenido.setText("Registro de restaurante");
 
         lbl_nombre.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        lbl_nombre.setForeground(new java.awt.Color(0, 153, 153));
         lbl_nombre.setText("Nombre");
 
+        txt_nombre.setBackground(new java.awt.Color(204, 255, 255));
         txt_nombre.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        txt_nombre.setForeground(new java.awt.Color(0, 102, 153));
+        txt_nombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(172, 222, 213)));
         txt_nombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_nombreActionPerformed(evt);
@@ -130,9 +139,13 @@ public class DatosRegistro extends javax.swing.JFrame {
         });
 
         lbl_contrasena.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        lbl_contrasena.setForeground(new java.awt.Color(0, 153, 153));
         lbl_contrasena.setText("Nueva contraseña:");
 
+        txt_pass.setBackground(new java.awt.Color(204, 255, 255));
         txt_pass.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        txt_pass.setForeground(new java.awt.Color(0, 102, 153));
+        txt_pass.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(172, 222, 213)));
         txt_pass.setName("Contra"); // NOI18N
         txt_pass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -140,23 +153,30 @@ public class DatosRegistro extends javax.swing.JFrame {
             }
         });
 
-        Registrar.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        Registrar.setBackground(new java.awt.Color(153, 255, 255));
+        Registrar.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        Registrar.setForeground(new java.awt.Color(0, 102, 153));
         Registrar.setText("Registrar");
-        Registrar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 204)));
-        Registrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Registrar.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(153, 255, 255), null));
+        Registrar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         Registrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 RegistrarActionPerformed(evt);
             }
         });
 
-        lbl_instrucciones.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        lbl_instrucciones.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        lbl_instrucciones.setForeground(new java.awt.Color(0, 153, 153));
         lbl_instrucciones.setText("Ingrese los datos a continuación...");
 
         lbl_rpcontrasena.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        lbl_rpcontrasena.setForeground(new java.awt.Color(0, 153, 153));
         lbl_rpcontrasena.setText("Repita su contraseña:");
 
+        txt_passConfirm.setBackground(new java.awt.Color(204, 255, 255));
         txt_passConfirm.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        txt_passConfirm.setForeground(new java.awt.Color(0, 102, 153));
+        txt_passConfirm.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(172, 222, 213)));
         txt_passConfirm.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_passConfirmActionPerformed(evt);
@@ -164,11 +184,15 @@ public class DatosRegistro extends javax.swing.JFrame {
         });
 
         lbl_telefono.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        lbl_telefono.setForeground(new java.awt.Color(0, 153, 153));
         lbl_telefono.setText("Teléfono");
 
+        txt_telefono.setBackground(new java.awt.Color(204, 255, 255));
+        txt_telefono.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(172, 222, 213)));
+        txt_telefono.setForeground(new java.awt.Color(0, 102, 153));
         txt_telefono.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#"))));
         txt_telefono.setToolTipText("");
-        txt_telefono.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        txt_telefono.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         txt_telefono.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         txt_telefono.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -177,9 +201,13 @@ public class DatosRegistro extends javax.swing.JFrame {
         });
 
         lbl_correo.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        lbl_correo.setForeground(new java.awt.Color(0, 153, 153));
         lbl_correo.setText("Correo");
 
+        txt_correo.setBackground(new java.awt.Color(204, 255, 255));
         txt_correo.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        txt_correo.setForeground(new java.awt.Color(0, 102, 153));
+        txt_correo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(172, 222, 213)));
         txt_correo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_correoActionPerformed(evt);
@@ -187,13 +215,17 @@ public class DatosRegistro extends javax.swing.JFrame {
         });
 
         lbl_correo1.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        lbl_correo1.setForeground(new java.awt.Color(0, 153, 153));
         lbl_correo1.setText("Local");
 
         lbl_correo2.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        lbl_correo2.setForeground(new java.awt.Color(0, 153, 153));
         lbl_correo2.setText("Horario");
 
         chck_lunes.setText("Lunes");
 
+        txt_Hlunes.setBackground(new java.awt.Color(204, 255, 255));
+        txt_Hlunes.setForeground(new java.awt.Color(0, 102, 153));
         try {
             txt_Hlunes.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##:## - ##:##")));
         } catch (java.text.ParseException ex) {
@@ -206,20 +238,26 @@ public class DatosRegistro extends javax.swing.JFrame {
             }
         });
 
-        lbl_correo3.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        lbl_correo3.setFont(new java.awt.Font("Arial", 2, 12)); // NOI18N
+        lbl_correo3.setForeground(new java.awt.Color(0, 153, 153));
         lbl_correo3.setText("Día");
 
-        lbl_correo4.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        lbl_correo4.setFont(new java.awt.Font("Arial", 2, 12)); // NOI18N
+        lbl_correo4.setForeground(new java.awt.Color(0, 153, 153));
         lbl_correo4.setText("Apertura - Cierre");
 
         chck_miercoles.setText("Miércoles");
 
+        txt_Hmartes.setBackground(new java.awt.Color(204, 255, 255));
+        txt_Hmartes.setForeground(new java.awt.Color(0, 102, 153));
         try {
             txt_Hmartes.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##:## - ##:##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
 
+        txt_Hmiercoles.setBackground(new java.awt.Color(204, 255, 255));
+        txt_Hmiercoles.setForeground(new java.awt.Color(0, 102, 153));
         try {
             txt_Hmiercoles.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##:## - ##:##")));
         } catch (java.text.ParseException ex) {
@@ -230,6 +268,8 @@ public class DatosRegistro extends javax.swing.JFrame {
 
         chck_jueves.setText("Jueves");
 
+        txt_Hjueves.setBackground(new java.awt.Color(204, 255, 255));
+        txt_Hjueves.setForeground(new java.awt.Color(0, 102, 153));
         try {
             txt_Hjueves.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##:## - ##:##")));
         } catch (java.text.ParseException ex) {
@@ -238,6 +278,8 @@ public class DatosRegistro extends javax.swing.JFrame {
 
         chck_viernes.setText("Viernes");
 
+        txt_Hviernes.setBackground(new java.awt.Color(204, 255, 255));
+        txt_Hviernes.setForeground(new java.awt.Color(0, 102, 153));
         try {
             txt_Hviernes.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##:## - ##:##")));
         } catch (java.text.ParseException ex) {
@@ -246,6 +288,8 @@ public class DatosRegistro extends javax.swing.JFrame {
 
         chck_sabado.setText("Sábado");
 
+        txt_Hsabado.setBackground(new java.awt.Color(204, 255, 255));
+        txt_Hsabado.setForeground(new java.awt.Color(0, 102, 153));
         try {
             txt_Hsabado.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##:## - ##:##")));
         } catch (java.text.ParseException ex) {
@@ -254,15 +298,20 @@ public class DatosRegistro extends javax.swing.JFrame {
 
         chck_domingo.setText("Domingo");
 
+        txt_Hdomingo.setBackground(new java.awt.Color(204, 255, 255));
+        txt_Hdomingo.setForeground(new java.awt.Color(0, 102, 153));
         try {
             txt_Hdomingo.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##:## - ##:##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
 
+        txt_local.setBackground(new java.awt.Color(204, 255, 255));
+        txt_local.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(172, 222, 213)));
+        txt_local.setForeground(new java.awt.Color(0, 102, 153));
         txt_local.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#"))));
         txt_local.setToolTipText("");
-        txt_local.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        txt_local.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         txt_local.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         txt_local.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -270,19 +319,12 @@ public class DatosRegistro extends javax.swing.JFrame {
             }
         });
 
+        lblRegistra.setIcon(registro);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(545, 545, 545)
-                        .addComponent(lbl_bienvenido))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(271, 271, 271)
-                        .addComponent(lbl_nombre)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(253, 253, 253)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -365,13 +407,28 @@ public class DatosRegistro extends javax.swing.JFrame {
                                             .addComponent(txt_Hsabado, javax.swing.GroupLayout.Alignment.LEADING))))
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addGap(407, 407, 407))))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(271, 271, 271)
+                        .addComponent(lbl_nombre))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(504, 504, 504)
+                        .addComponent(lbl_bienvenido)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(603, 603, 603)
+                .addComponent(lblRegistra, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(65, 65, 65)
+                .addGap(23, 23, 23)
+                .addComponent(lblRegistra, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(lbl_bienvenido)
-                .addGap(56, 56, 56)
+                .addGap(50, 50, 50)
                 .addComponent(lbl_instrucciones)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lbl_nombre)
@@ -437,7 +494,7 @@ public class DatosRegistro extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txt_pass, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txt_passConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
                 .addComponent(Registrar)
                 .addGap(66, 66, 66))
         );
@@ -772,6 +829,7 @@ public class DatosRegistro extends javax.swing.JFrame {
     private javax.swing.JCheckBox chck_miercoles;
     private javax.swing.JCheckBox chck_sabado;
     private javax.swing.JCheckBox chck_viernes;
+    private javax.swing.JLabel lblRegistra;
     private javax.swing.JLabel lbl_bienvenido;
     private javax.swing.JLabel lbl_contrasena;
     private javax.swing.JLabel lbl_correo;

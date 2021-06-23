@@ -34,15 +34,15 @@ public class MenuAdministrador extends javax.swing.JFrame {
         getContentPane().setBackground(Color.WHITE);
         this.setTitle("Administración");
         this.setExtendedState(MAXIMIZED_BOTH);
-        getContentPane().setBackground(Color.WHITE);
-        chck_lunes.setBackground(Color.WHITE);
-        chck_martes.setBackground(Color.WHITE);
-        chck_miercoles.setBackground(Color.WHITE);
-        chck_jueves.setBackground(Color.WHITE);
-        chck_viernes.setBackground(Color.WHITE);
-        chck_sabado.setBackground(Color.WHITE);
-        chck_domingo.setBackground(Color.WHITE);
-        chck_editable.setBackground(Color.WHITE);
+        getContentPane().setBackground(Color.decode("#ACDED5"));
+        chck_lunes.setBackground(Color.decode("#ACDED5"));
+        chck_martes.setBackground(Color.decode("#ACDED5"));
+        chck_miercoles.setBackground(Color.decode("#ACDED5"));
+        chck_jueves.setBackground(Color.decode("#ACDED5"));
+        chck_viernes.setBackground(Color.decode("#ACDED5"));
+        chck_sabado.setBackground(Color.decode("#ACDED5"));
+        chck_domingo.setBackground(Color.decode("#ACDED5"));
+        chck_editable.setBackground(Color.decode("#ACDED5"));
 
         Actualizar.setSelected(false);
     }
@@ -187,6 +187,7 @@ public class MenuAdministrador extends javax.swing.JFrame {
         ActualizarContrasena = new javax.swing.JButton();
         ActualizarContrasena1 = new javax.swing.JButton();
         txt_local = new javax.swing.JFormattedTextField();
+        lbl_correo3 = new javax.swing.JLabel();
 
         Error.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         Error.setAlwaysOnTop(true);
@@ -228,25 +229,35 @@ public class MenuAdministrador extends javax.swing.JFrame {
         });
 
         lbl_bienvenido.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 24)); // NOI18N
+        lbl_bienvenido.setForeground(new java.awt.Color(0, 153, 153));
         lbl_bienvenido.setText("Bienvenido <usuario>, administrando <nombre restaurante>.");
 
         chck_domingo.setText("Domingo");
 
+        txt_Hdomingo.setBackground(new java.awt.Color(204, 255, 255));
+        txt_Hdomingo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(172, 222, 213)));
+        txt_Hdomingo.setForeground(new java.awt.Color(0, 102, 153));
         try {
             txt_Hdomingo.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##:## - ##:##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
 
+        txt_telefono.setBackground(new java.awt.Color(204, 255, 255));
+        txt_telefono.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(172, 222, 213)));
+        txt_telefono.setForeground(new java.awt.Color(0, 102, 153));
         txt_telefono.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#"))));
         txt_telefono.setToolTipText("");
-        txt_telefono.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        txt_telefono.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         txt_telefono.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
 
         lbl_correo.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        lbl_correo.setForeground(new java.awt.Color(0, 153, 153));
         lbl_correo.setText("Correo");
 
-        txt_correo.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        txt_correo.setBackground(new java.awt.Color(204, 255, 255));
+        txt_correo.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        txt_correo.setForeground(new java.awt.Color(0, 102, 153));
         txt_correo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_correoActionPerformed(evt);
@@ -254,9 +265,11 @@ public class MenuAdministrador extends javax.swing.JFrame {
         });
 
         lbl_correo1.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        lbl_correo1.setForeground(new java.awt.Color(0, 153, 153));
         lbl_correo1.setText("Dirección");
 
         lbl_correo2.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        lbl_correo2.setForeground(new java.awt.Color(0, 153, 153));
         lbl_correo2.setText("Horario");
 
         chck_lunes.setText("Lunes");
@@ -266,6 +279,9 @@ public class MenuAdministrador extends javax.swing.JFrame {
             }
         });
 
+        txt_Hlunes.setBackground(new java.awt.Color(204, 255, 255));
+        txt_Hlunes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(172, 222, 213)));
+        txt_Hlunes.setForeground(new java.awt.Color(0, 102, 153));
         try {
             txt_Hlunes.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##:## - ##:##")));
         } catch (java.text.ParseException ex) {
@@ -279,16 +295,23 @@ public class MenuAdministrador extends javax.swing.JFrame {
         });
 
         lbl_correo4.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        lbl_correo4.setForeground(new java.awt.Color(0, 153, 153));
         lbl_correo4.setText("Apertura - Cierre");
 
         chck_miercoles.setText("Miércoles");
 
+        txt_Hmartes.setBackground(new java.awt.Color(204, 255, 255));
+        txt_Hmartes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(172, 222, 213)));
+        txt_Hmartes.setForeground(new java.awt.Color(0, 102, 153));
         try {
             txt_Hmartes.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##:## - ##:##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
 
+        txt_Hmiercoles.setBackground(new java.awt.Color(204, 255, 255));
+        txt_Hmiercoles.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(172, 222, 213)));
+        txt_Hmiercoles.setForeground(new java.awt.Color(0, 102, 153));
         try {
             txt_Hmiercoles.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##:## - ##:##")));
         } catch (java.text.ParseException ex) {
@@ -296,11 +319,14 @@ public class MenuAdministrador extends javax.swing.JFrame {
         }
 
         lbl_nombre.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        lbl_nombre.setForeground(new java.awt.Color(0, 153, 153));
         lbl_nombre.setText("Nombre");
 
         chck_martes.setText("Martes");
 
-        txt_nombre.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        txt_nombre.setBackground(new java.awt.Color(204, 255, 255));
+        txt_nombre.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        txt_nombre.setForeground(new java.awt.Color(0, 102, 153));
         txt_nombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_nombreActionPerformed(evt);
@@ -310,15 +336,22 @@ public class MenuAdministrador extends javax.swing.JFrame {
         chck_jueves.setText("Jueves");
 
         lbl_contrasena.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        lbl_contrasena.setForeground(new java.awt.Color(0, 153, 153));
         lbl_contrasena.setText("Nueva contraseña:");
 
+        txt_Hjueves.setBackground(new java.awt.Color(204, 255, 255));
+        txt_Hjueves.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(172, 222, 213)));
+        txt_Hjueves.setForeground(new java.awt.Color(0, 102, 153));
         try {
             txt_Hjueves.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##:## - ##:##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
 
-        txt_pass.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        txt_pass.setBackground(new java.awt.Color(204, 255, 255));
+        txt_pass.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        txt_pass.setForeground(new java.awt.Color(0, 102, 153));
+        txt_pass.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(172, 222, 213)));
         txt_pass.setName("Contra"); // NOI18N
         txt_pass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -328,6 +361,9 @@ public class MenuAdministrador extends javax.swing.JFrame {
 
         chck_viernes.setText("Viernes");
 
+        txt_Hviernes.setBackground(new java.awt.Color(204, 255, 255));
+        txt_Hviernes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(172, 222, 213)));
+        txt_Hviernes.setForeground(new java.awt.Color(0, 102, 153));
         try {
             txt_Hviernes.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##:## - ##:##")));
         } catch (java.text.ParseException ex) {
@@ -335,20 +371,28 @@ public class MenuAdministrador extends javax.swing.JFrame {
         }
 
         lbl_instrucciones.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lbl_instrucciones.setForeground(new java.awt.Color(0, 153, 153));
         lbl_instrucciones.setText("Datos de restaurante");
 
         chck_sabado.setText("Sábado");
 
         lbl_rpcontrasena.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        lbl_rpcontrasena.setForeground(new java.awt.Color(0, 153, 153));
         lbl_rpcontrasena.setText("Repita su contraseña:");
 
+        txt_Hsabado.setBackground(new java.awt.Color(204, 255, 255));
+        txt_Hsabado.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(172, 222, 213)));
+        txt_Hsabado.setForeground(new java.awt.Color(0, 102, 153));
         try {
             txt_Hsabado.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##:## - ##:##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
 
-        txt_passConfirm.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        txt_passConfirm.setBackground(new java.awt.Color(204, 255, 255));
+        txt_passConfirm.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        txt_passConfirm.setForeground(new java.awt.Color(0, 102, 153));
+        txt_passConfirm.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(172, 222, 213)));
         txt_passConfirm.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_passConfirmActionPerformed(evt);
@@ -356,18 +400,22 @@ public class MenuAdministrador extends javax.swing.JFrame {
         });
 
         lbl_telefono.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        lbl_telefono.setForeground(new java.awt.Color(0, 153, 153));
         lbl_telefono.setText("Teléfono");
 
-        Actualizar.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        Actualizar.setBackground(new java.awt.Color(153, 255, 255));
+        Actualizar.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
+        Actualizar.setForeground(new java.awt.Color(0, 102, 153));
         Actualizar.setText("Actualizar datos");
         Actualizar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
-        Actualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Actualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         Actualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ActualizarActionPerformed(evt);
             }
         });
 
+        chck_editable.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         chck_editable.setText("Editar datos");
         chck_editable.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -376,9 +424,13 @@ public class MenuAdministrador extends javax.swing.JFrame {
         });
 
         lbl_contrasena1.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        lbl_contrasena1.setForeground(new java.awt.Color(0, 153, 153));
         lbl_contrasena1.setText("Contraseña anterior");
 
-        txt_lastPass.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        txt_lastPass.setBackground(new java.awt.Color(204, 255, 255));
+        txt_lastPass.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        txt_lastPass.setForeground(new java.awt.Color(0, 102, 153));
+        txt_lastPass.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(172, 222, 213)));
         txt_lastPass.setName("Contra"); // NOI18N
         txt_lastPass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -387,22 +439,25 @@ public class MenuAdministrador extends javax.swing.JFrame {
         });
 
         lbl_instrucciones1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lbl_instrucciones1.setForeground(new java.awt.Color(0, 153, 153));
         lbl_instrucciones1.setText("Menu y pedidos");
 
-        HistorialPedidos.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        HistorialPedidos.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
+        HistorialPedidos.setForeground(new java.awt.Color(59, 52, 85));
         HistorialPedidos.setText("Ver historial de pedidos");
         HistorialPedidos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
-        HistorialPedidos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        HistorialPedidos.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         HistorialPedidos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 HistorialPedidosActionPerformed(evt);
             }
         });
 
-        ActualizarMenu.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        ActualizarMenu.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
+        ActualizarMenu.setForeground(new java.awt.Color(59, 52, 85));
         ActualizarMenu.setText("Actualizar menú");
         ActualizarMenu.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
-        ActualizarMenu.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        ActualizarMenu.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         ActualizarMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ActualizarMenuActionPerformed(evt);
@@ -410,37 +465,49 @@ public class MenuAdministrador extends javax.swing.JFrame {
         });
 
         lbl_instrucciones2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lbl_instrucciones2.setForeground(new java.awt.Color(0, 153, 153));
         lbl_instrucciones2.setText("Acceso y sesión");
 
-        ActualizarContrasena.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        ActualizarContrasena.setBackground(new java.awt.Color(153, 255, 255));
+        ActualizarContrasena.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
+        ActualizarContrasena.setForeground(new java.awt.Color(0, 102, 153));
         ActualizarContrasena.setText("Actualizar contraseña");
         ActualizarContrasena.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
-        ActualizarContrasena.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        ActualizarContrasena.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         ActualizarContrasena.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ActualizarContrasenaActionPerformed(evt);
             }
         });
 
-        ActualizarContrasena1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        ActualizarContrasena1.setBackground(new java.awt.Color(153, 255, 255));
+        ActualizarContrasena1.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
+        ActualizarContrasena1.setForeground(new java.awt.Color(0, 102, 153));
         ActualizarContrasena1.setText("Salir");
         ActualizarContrasena1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
-        ActualizarContrasena1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        ActualizarContrasena1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         ActualizarContrasena1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ActualizarContrasena1ActionPerformed(evt);
             }
         });
 
+        txt_local.setBackground(new java.awt.Color(204, 255, 255));
+        txt_local.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(172, 222, 213)));
+        txt_local.setForeground(new java.awt.Color(0, 102, 153));
         txt_local.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#"))));
         txt_local.setToolTipText("");
-        txt_local.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        txt_local.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         txt_local.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         txt_local.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_localActionPerformed(evt);
             }
         });
+
+        lbl_correo3.setFont(new java.awt.Font("Arial", 2, 12)); // NOI18N
+        lbl_correo3.setForeground(new java.awt.Color(0, 153, 153));
+        lbl_correo3.setText("Día");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -457,14 +524,16 @@ public class MenuAdministrador extends javax.swing.JFrame {
                                     .addComponent(Actualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lbl_correo2)
                                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                                 .addGroup(layout.createSequentialGroup()
                                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                                         .addGroup(layout.createSequentialGroup()
-                                                            .addGap(98, 98, 98)
+                                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                .addComponent(lbl_correo2)
+                                                                .addComponent(lbl_correo3))
+                                                            .addGap(46, 46, 46)
                                                             .addComponent(lbl_correo4))
-                                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                        .addGroup(layout.createSequentialGroup()
                                                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                                 .addComponent(chck_martes)
                                                                 .addComponent(chck_lunes)
@@ -528,8 +597,9 @@ public class MenuAdministrador extends javax.swing.JFrame {
                             .addComponent(txt_passConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lbl_contrasena1)
                             .addComponent(ActualizarContrasena1, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ActualizarContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_lastPass, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(ActualizarContrasena, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txt_lastPass, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)))))
                 .addContainerGap(155, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -573,57 +643,62 @@ public class MenuAdministrador extends javax.swing.JFrame {
                             .addComponent(txt_lastPass, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txt_local, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(lbl_correo2)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(chck_lunes)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(chck_martes)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(chck_miercoles))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(chck_jueves)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(chck_viernes)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(chck_sabado))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(15, 15, 15)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(ActualizarContrasena)
-                                        .addComponent(lbl_correo4))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(txt_Hlunes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(txt_Hmartes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(txt_Hmiercoles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lbl_correo2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(lbl_correo3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(chck_lunes)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(chck_martes)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(chck_miercoles)
+                                            .addComponent(txt_Hmiercoles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(chck_jueves)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(chck_viernes)
+                                            .addComponent(txt_Hviernes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(chck_sabado)
+                                            .addComponent(txt_Hsabado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(48, 48, 48)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(20, 20, 20)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(txt_Hviernes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(ActualizarContrasena1))
+                                        .addGap(15, 15, 15)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(ActualizarContrasena)
+                                            .addComponent(lbl_correo4))
+                                        .addGap(11, 11, 11)
+                                        .addComponent(txt_Hlunes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txt_Hsabado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(txt_Hjueves, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(chck_domingo)
-                                        .addComponent(txt_Hdomingo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                                        .addComponent(txt_Hmartes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(48, 48, 48)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(20, 20, 20)
+                                                .addComponent(ActualizarContrasena1))
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addComponent(txt_Hjueves, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(chck_domingo)
+                                                .addComponent(txt_Hdomingo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addGap(18, 18, 18)
                 .addComponent(Actualizar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                 .addComponent(lbl_instrucciones1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(HistorialPedidos)
                     .addComponent(ActualizarMenu))
-                .addContainerGap(89, Short.MAX_VALUE))
+                .addContainerGap(88, Short.MAX_VALUE))
         );
 
         pack();
@@ -1082,6 +1157,7 @@ public class MenuAdministrador extends javax.swing.JFrame {
     private javax.swing.JLabel lbl_correo;
     private javax.swing.JLabel lbl_correo1;
     private javax.swing.JLabel lbl_correo2;
+    private javax.swing.JLabel lbl_correo3;
     private javax.swing.JLabel lbl_correo4;
     private javax.swing.JLabel lbl_instrucciones;
     private javax.swing.JLabel lbl_instrucciones1;

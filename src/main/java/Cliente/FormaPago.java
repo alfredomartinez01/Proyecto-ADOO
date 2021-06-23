@@ -9,6 +9,7 @@ import datos.PagoDAO;
 import datos.PlatilloDAO;
 import datos.IngredienteDAO;
 import domain.Cliente;
+import domain.Imagen;
 import domain.Ingrediente;
 import domain.Menu;
 import domain.Orden;
@@ -41,7 +42,6 @@ public class FormaPago extends javax.swing.JFrame {
     public FormaPago() {
         initComponents();
         ajustarApariencia();
-        pnlGracias.setVisible(false);
         pnlTarjeta.setVisible(false);
         pnlMetodoPago.setVisible(false);
 
@@ -52,7 +52,6 @@ public class FormaPago extends javax.swing.JFrame {
         ajustarApariencia();
         orden_temp = orden;
         menu_temp = menu;
-        pnlGracias.setVisible(false);
         pnlTarjeta.setVisible(false);
         pnlMetodoPago.setVisible(false);
         montoTotal = montoAPagar();
@@ -63,9 +62,9 @@ public class FormaPago extends javax.swing.JFrame {
         this.setTitle("Forma de Pago");
         this.setExtendedState(MAXIMIZED_BOTH);
         getContentPane().setBackground(Color.decode("#ACDED5"));
-        //this.setIconImage(new ImageIcon(getClass().getResource("/logo.jpg")).getImage());
-        pnlTarjeta.setBackground(Color.decode("#A4A3A6"));
-        pnlGracias.setBackground(Color.decode("#A4A3A6"));
+        this.setIconImage(new Imagen("logo.jpg").getImageIcon().getImage());
+        pnlMetodoPago.setBackground(Color.decode("#ACDED5"));
+        pnlTarjeta.setBackground(Color.decode("#ACDED5"));
     }
 
     public void transaccionPago(int tipo) {
@@ -182,8 +181,6 @@ public class FormaPago extends javax.swing.JFrame {
         pnlMetodoPago = new javax.swing.JPanel();
         btnEfectivo = new javax.swing.JButton();
         btnTarjeta = new javax.swing.JButton();
-        pnlGracias = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
         pnlTarjeta = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -197,16 +194,22 @@ public class FormaPago extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
-        jLabel2.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 153, 153));
         jLabel2.setText("Monto a pagar:");
 
-        jLabel1.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Escribe tu nombre, por favor:");
 
+        txtNombre.setBackground(new java.awt.Color(204, 255, 255));
         txtNombre.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        txtNombre.setForeground(new java.awt.Color(0, 102, 153));
+        txtNombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(172, 222, 213)));
 
+        btnContinuar.setBackground(new java.awt.Color(153, 255, 255));
+        btnContinuar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        btnContinuar.setForeground(new java.awt.Color(59, 52, 85));
         btnContinuar.setText("Continuar");
         btnContinuar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -214,6 +217,9 @@ public class FormaPago extends javax.swing.JFrame {
             }
         });
 
+        btnEfectivo.setBackground(new java.awt.Color(153, 255, 255));
+        btnEfectivo.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        btnEfectivo.setForeground(new java.awt.Color(0, 102, 153));
         btnEfectivo.setText("Efectivo");
         btnEfectivo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -221,6 +227,9 @@ public class FormaPago extends javax.swing.JFrame {
             }
         });
 
+        btnTarjeta.setBackground(new java.awt.Color(153, 255, 255));
+        btnTarjeta.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        btnTarjeta.setForeground(new java.awt.Color(0, 102, 153));
         btnTarjeta.setText("Tarjeta");
         btnTarjeta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -228,32 +237,33 @@ public class FormaPago extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel3.setText("Gracias por tu compra!");
-
-        javax.swing.GroupLayout pnlGraciasLayout = new javax.swing.GroupLayout(pnlGracias);
-        pnlGracias.setLayout(pnlGraciasLayout);
-        pnlGraciasLayout.setHorizontalGroup(
-            pnlGraciasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlGraciasLayout.createSequentialGroup()
-                .addGap(49, 49, 49)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(57, Short.MAX_VALUE))
-        );
-        pnlGraciasLayout.setVerticalGroup(
-            pnlGraciasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlGraciasLayout.createSequentialGroup()
-                .addGap(56, 56, 56)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(59, Short.MAX_VALUE))
-        );
-
+        jLabel4.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 153, 153));
         jLabel4.setText("Numero de Cuenta:");
 
+        jLabel6.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 153, 153));
         jLabel6.setText("cvv:");
 
+        jLabel7.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(0, 153, 153));
         jLabel7.setText("Fecha de Caducidad:");
 
+        txtNoCuenta.setBackground(new java.awt.Color(204, 255, 255));
+        txtNoCuenta.setForeground(new java.awt.Color(0, 102, 153));
+        txtNoCuenta.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(172, 222, 213)));
+
+        txtCvv.setBackground(new java.awt.Color(204, 255, 255));
+        txtCvv.setForeground(new java.awt.Color(0, 102, 153));
+        txtCvv.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(172, 222, 213)));
+
+        txtFCaducidad.setBackground(new java.awt.Color(204, 255, 255));
+        txtFCaducidad.setForeground(new java.awt.Color(0, 102, 153));
+        txtFCaducidad.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(172, 222, 213)));
+
+        btnFinalizar.setBackground(new java.awt.Color(153, 255, 255));
+        btnFinalizar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        btnFinalizar.setForeground(new java.awt.Color(59, 52, 85));
         btnFinalizar.setText("Finalizar");
         btnFinalizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -282,16 +292,19 @@ public class FormaPago extends javax.swing.JFrame {
                             .addComponent(jLabel4)
                             .addGap(45, 45, 45)
                             .addComponent(txtNoCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlTarjetaLayout.setVerticalGroup(
             pnlTarjetaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlTarjetaLayout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addGroup(pnlTarjetaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txtNoCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32)
+                .addGroup(pnlTarjetaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlTarjetaLayout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(34, 34, 34))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlTarjetaLayout.createSequentialGroup()
+                        .addComponent(txtNoCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(32, 32, 32)))
                 .addGroup(pnlTarjetaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtCvv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
@@ -309,18 +322,16 @@ public class FormaPago extends javax.swing.JFrame {
         pnlMetodoPagoLayout.setHorizontalGroup(
             pnlMetodoPagoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMetodoPagoLayout.createSequentialGroup()
-                .addGap(24, 24, 24)
                 .addGroup(pnlMetodoPagoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlMetodoPagoLayout.createSequentialGroup()
-                        .addGap(88, 88, 88)
+                        .addGap(24, 402, Short.MAX_VALUE)
+                        .addComponent(pnlTarjeta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlMetodoPagoLayout.createSequentialGroup()
+                        .addGap(130, 130, 130)
                         .addComponent(btnEfectivo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnTarjeta)
-                        .addGap(117, 117, 117))
-                    .addGroup(pnlMetodoPagoLayout.createSequentialGroup()
-                        .addComponent(pnlGracias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
-                        .addComponent(pnlTarjeta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(117, 117, 117)))
                 .addContainerGap())
         );
         pnlMetodoPagoLayout.setVerticalGroup(
@@ -330,27 +341,23 @@ public class FormaPago extends javax.swing.JFrame {
                 .addGroup(pnlMetodoPagoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEfectivo)
                     .addComponent(btnTarjeta))
-                .addGroup(pnlMetodoPagoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlMetodoPagoLayout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(pnlTarjeta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlMetodoPagoLayout.createSequentialGroup()
-                        .addGap(43, 43, 43)
-                        .addComponent(pnlGracias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(27, 27, 27)
+                .addComponent(pnlTarjeta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(52, Short.MAX_VALUE))
         );
 
         lblMonto.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        lblMonto.setForeground(new java.awt.Color(255, 255, 255));
+        lblMonto.setForeground(new java.awt.Color(0, 153, 153));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(315, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(144, 144, 144)
+                        .addGap(80, 80, 80)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2))
@@ -361,21 +368,18 @@ public class FormaPago extends javax.swing.JFrame {
                                 .addGap(55, 55, 55)
                                 .addComponent(btnContinuar))
                             .addComponent(lblMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(64, 64, 64)
-                        .addComponent(pnlMetodoPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(563, Short.MAX_VALUE))
+                    .addComponent(pnlMetodoPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(312, 312, 312))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
+                .addGap(108, 108, 108)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(39, 39, 39)
+                        .addGap(13, 13, 13)
                         .addComponent(jLabel2))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(lblMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(lblMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(58, 58, 58)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -383,15 +387,13 @@ public class FormaPago extends javax.swing.JFrame {
                     .addComponent(btnContinuar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pnlMetodoPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(231, Short.MAX_VALUE))
+                .addContainerGap(144, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
-        pnlGracias.setVisible(true);
-        pnlTarjeta.setVisible(false);
         pago.setNoCuenta(txtNoCuenta.getText());
         pago.setCvv(Integer.parseInt(txtCvv.getText()));
         try {
@@ -403,16 +405,19 @@ public class FormaPago extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Escribe la fecha en el formato: yyyy-MM-dd");
         }
         transaccionPago(1);
+        this.setVisible(false);
+        GraciasCompra gCompra = new GraciasCompra();
+        gCompra.setVisible(true);
     }//GEN-LAST:event_btnFinalizarActionPerformed
 
     private void btnEfectivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEfectivoActionPerformed
         transaccionPago(0); // Implica que pagará en efectivo
-        pnlGracias.setVisible(true);
-        pnlTarjeta.setVisible(false);
+        this.setVisible(false);
+        GraciasCompra gCompra = new GraciasCompra();
+        gCompra.setVisible(true);
     }//GEN-LAST:event_btnEfectivoActionPerformed
-
+    
     private void btnTarjetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTarjetaActionPerformed
-        pnlGracias.setVisible(false);
         pnlTarjeta.setVisible(true);
     }//GEN-LAST:event_btnTarjetaActionPerformed
 
@@ -462,12 +467,10 @@ public class FormaPago extends javax.swing.JFrame {
     private javax.swing.JButton btnTarjeta;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel lblMonto;
-    private javax.swing.JPanel pnlGracias;
     private javax.swing.JPanel pnlMetodoPago;
     private javax.swing.JPanel pnlTarjeta;
     private javax.swing.JTextField txtCvv;

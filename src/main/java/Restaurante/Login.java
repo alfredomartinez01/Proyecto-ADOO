@@ -11,6 +11,7 @@ public class Login extends javax.swing.JFrame {
     public static int ancho_pantalla = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width;
     public static int alto_pantalla = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
     public final static ImageIcon admin = new Imagen("admin.png").getImageIcon();
+    public final static ImageIcon logo = new Imagen("logo.jpg").getImageIcon();
     
     public Login() {
         initComponents();        
